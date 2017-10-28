@@ -45,6 +45,7 @@ namespace SignalRMaket
 		public void LogIn(string user, string pass)
 		{
             var пользователь = (new DBConnectionString()).Пользователь.FirstOrDefault(x => x.Логин == user);
+            //TODO добавить хэширование паролей
 		    if (пользователь != null && пользователь.Пароль == pass)
 		    {
 		        Users.ConnectUser(new WebUser(пользователь, cid));
@@ -63,7 +64,7 @@ namespace SignalRMaket
 				Clients.Caller.alertFuncCl("authorization required!");
 				return;
 			}
-			//Clients.All.alertFuncCl(string.Format("message from {0}:\n {1}", u._User.Login, mes));
+			Clients.All.alertFuncCl(string.Format("message from {0}:\n {1}", u._User.Имя, mes));
 		}
 
 	    
