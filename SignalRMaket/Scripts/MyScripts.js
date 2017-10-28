@@ -21,7 +21,7 @@ function logInCl() {
 
 function onSuccessfulLoginImpl() {
 	myHub.server.getHtmlSv('menu').done(function (html) {
-		replaceHtml('main', html)
+        replaceHtml('main', html);
 	});
 }
 

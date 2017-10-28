@@ -42,10 +42,10 @@ namespace SignalRMaket
 
 	public class WebUser
 	{
-		User AggregateObj;
+		private Пользователь AggregateObj;
 		public string ConnectionId { get; set; }
-		public User _User { get { return AggregateObj; } set { AggregateObj = value; } }
-		public WebUser(User u, string cid)
+		public Пользователь _User { get { return AggregateObj; } set { AggregateObj = value; } }
+		public WebUser(Пользователь u, string cid)
 		{
 			ConnectionId = cid;
 			AggregateObj = u;
