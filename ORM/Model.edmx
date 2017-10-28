@@ -1,0 +1,415 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Автомобиль">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Описание" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Доступность" Type="bit" Nullable="false" />
+          <Property Name="idМодель" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Стоимость" Type="decimal" Precision="7" Scale="2" Nullable="false" />
+          <Property Name="idВладелец" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Заказ">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="idПользователь" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="idАвтомобиль" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ДатаВремяНачалаАредны" Type="datetime" Nullable="false" />
+          <Property Name="ДатаВремяКонцаАренды" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Модель">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Марка" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Модель" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Отзыв">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="idПользователь" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="idАвтомобиль" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Текст" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Пользователь">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Логин" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Пароль" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Фамилия" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Имя" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Отчество" Type="nvarchar" MaxLength="50" />
+          <Property Name="Администратор" Type="bit" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Автомобиль_Модель">
+          <End Role="Модель" Type="Self.Модель" Multiplicity="1" />
+          <End Role="Автомобиль" Type="Self.Автомобиль" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Модель">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Автомобиль">
+              <PropertyRef Name="idМодель" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Автомобиль_Пользователь">
+          <End Role="Пользователь" Type="Self.Пользователь" Multiplicity="1" />
+          <End Role="Автомобиль" Type="Self.Автомобиль" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Пользователь">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Автомобиль">
+              <PropertyRef Name="idВладелец" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Заказ_Автомобиль">
+          <End Role="Автомобиль" Type="Self.Автомобиль" Multiplicity="1" />
+          <End Role="Заказ" Type="Self.Заказ" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Автомобиль">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Заказ">
+              <PropertyRef Name="idАвтомобиль" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Заказ_Пользователь">
+          <End Role="Пользователь" Type="Self.Пользователь" Multiplicity="1" />
+          <End Role="Заказ" Type="Self.Заказ" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Пользователь">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Заказ">
+              <PropertyRef Name="idПользователь" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Отзыв_Автомобиль">
+          <End Role="Автомобиль" Type="Self.Автомобиль" Multiplicity="1" />
+          <End Role="Отзыв" Type="Self.Отзыв" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Автомобиль">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Отзыв">
+              <PropertyRef Name="idАвтомобиль" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Отзыв_Пользователь">
+          <End Role="Пользователь" Type="Self.Пользователь" Multiplicity="1" />
+          <End Role="Отзыв" Type="Self.Отзыв" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Пользователь">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Отзыв">
+              <PropertyRef Name="idПользователь" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ModelStoreContainer">
+          <EntitySet Name="Автомобиль" EntityType="Self.Автомобиль" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Заказ" EntityType="Self.Заказ" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Модель" EntityType="Self.Модель" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Отзыв" EntityType="Self.Отзыв" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Пользователь" EntityType="Self.Пользователь" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Автомобиль_Модель" Association="Self.FK_Автомобиль_Модель">
+            <End Role="Модель" EntitySet="Модель" />
+            <End Role="Автомобиль" EntitySet="Автомобиль" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Автомобиль_Пользователь" Association="Self.FK_Автомобиль_Пользователь">
+            <End Role="Пользователь" EntitySet="Пользователь" />
+            <End Role="Автомобиль" EntitySet="Автомобиль" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Заказ_Автомобиль" Association="Self.FK_Заказ_Автомобиль">
+            <End Role="Автомобиль" EntitySet="Автомобиль" />
+            <End Role="Заказ" EntitySet="Заказ" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Заказ_Пользователь" Association="Self.FK_Заказ_Пользователь">
+            <End Role="Пользователь" EntitySet="Пользователь" />
+            <End Role="Заказ" EntitySet="Заказ" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Отзыв_Автомобиль" Association="Self.FK_Отзыв_Автомобиль">
+            <End Role="Автомобиль" EntitySet="Автомобиль" />
+            <End Role="Отзыв" EntitySet="Отзыв" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Отзыв_Пользователь" Association="Self.FK_Отзыв_Пользователь">
+            <End Role="Пользователь" EntitySet="Пользователь" />
+            <End Role="Отзыв" EntitySet="Отзыв" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Автомобиль">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Guid" Nullable="false" />
+          <Property Name="Описание" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Доступность" Type="Boolean" Nullable="false" />
+          <Property Name="idМодель" Type="Guid" Nullable="false" />
+          <Property Name="Стоимость" Type="Decimal" Precision="7" Scale="2" Nullable="false" />
+          <Property Name="idВладелец" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="Модель" Relationship="Self.FK_Автомобиль_Модель" FromRole="Автомобиль" ToRole="Модель" />
+          <NavigationProperty Name="Пользователь" Relationship="Self.FK_Автомобиль_Пользователь" FromRole="Автомобиль" ToRole="Пользователь" />
+          <NavigationProperty Name="Заказ" Relationship="Self.FK_Заказ_Автомобиль" FromRole="Автомобиль" ToRole="Заказ" />
+          <NavigationProperty Name="Отзыв" Relationship="Self.FK_Отзыв_Автомобиль" FromRole="Автомобиль" ToRole="Отзыв" />
+        </EntityType>
+        <EntityType Name="Заказ">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Guid" Nullable="false" />
+          <Property Name="idПользователь" Type="Guid" Nullable="false" />
+          <Property Name="idАвтомобиль" Type="Guid" Nullable="false" />
+          <Property Name="ДатаВремяНачалаАредны" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ДатаВремяКонцаАренды" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Автомобиль" Relationship="Self.FK_Заказ_Автомобиль" FromRole="Заказ" ToRole="Автомобиль" />
+          <NavigationProperty Name="Пользователь" Relationship="Self.FK_Заказ_Пользователь" FromRole="Заказ" ToRole="Пользователь" />
+        </EntityType>
+        <EntityType Name="Модель">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Guid" Nullable="false" />
+          <Property Name="Марка" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Модель1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Автомобиль" Relationship="Self.FK_Автомобиль_Модель" FromRole="Модель" ToRole="Автомобиль" />
+        </EntityType>
+        <EntityType Name="Отзыв">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Guid" Nullable="false" />
+          <Property Name="idПользователь" Type="Guid" Nullable="false" />
+          <Property Name="idАвтомобиль" Type="Guid" Nullable="false" />
+          <Property Name="Текст" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Автомобиль" Relationship="Self.FK_Отзыв_Автомобиль" FromRole="Отзыв" ToRole="Автомобиль" />
+          <NavigationProperty Name="Пользователь" Relationship="Self.FK_Отзыв_Пользователь" FromRole="Отзыв" ToRole="Пользователь" />
+        </EntityType>
+        <EntityType Name="Пользователь">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Guid" Nullable="false" />
+          <Property Name="Логин" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Пароль" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Фамилия" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Имя" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Отчество" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Администратор" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Автомобиль" Relationship="Self.FK_Автомобиль_Пользователь" FromRole="Пользователь" ToRole="Автомобиль" />
+          <NavigationProperty Name="Заказ" Relationship="Self.FK_Заказ_Пользователь" FromRole="Пользователь" ToRole="Заказ" />
+          <NavigationProperty Name="Отзыв" Relationship="Self.FK_Отзыв_Пользователь" FromRole="Пользователь" ToRole="Отзыв" />
+        </EntityType>
+        <Association Name="FK_Автомобиль_Модель">
+          <End Role="Модель" Type="Self.Модель" Multiplicity="1" />
+          <End Role="Автомобиль" Type="Self.Автомобиль" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Модель">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Автомобиль">
+              <PropertyRef Name="idМодель" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Автомобиль_Пользователь">
+          <End Role="Пользователь" Type="Self.Пользователь" Multiplicity="1" />
+          <End Role="Автомобиль" Type="Self.Автомобиль" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Пользователь">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Автомобиль">
+              <PropertyRef Name="idВладелец" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Заказ_Автомобиль">
+          <End Role="Автомобиль" Type="Self.Автомобиль" Multiplicity="1" />
+          <End Role="Заказ" Type="Self.Заказ" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Автомобиль">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Заказ">
+              <PropertyRef Name="idАвтомобиль" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Отзыв_Автомобиль">
+          <End Role="Автомобиль" Type="Self.Автомобиль" Multiplicity="1" />
+          <End Role="Отзыв" Type="Self.Отзыв" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Автомобиль">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Отзыв">
+              <PropertyRef Name="idАвтомобиль" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Заказ_Пользователь">
+          <End Role="Пользователь" Type="Self.Пользователь" Multiplicity="1" />
+          <End Role="Заказ" Type="Self.Заказ" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Пользователь">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Заказ">
+              <PropertyRef Name="idПользователь" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Отзыв_Пользователь">
+          <End Role="Пользователь" Type="Self.Пользователь" Multiplicity="1" />
+          <End Role="Отзыв" Type="Self.Отзыв" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Пользователь">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Отзыв">
+              <PropertyRef Name="idПользователь" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DBConnectionString" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Автомобиль" EntityType="Self.Автомобиль" />
+          <EntitySet Name="Заказ" EntityType="Self.Заказ" />
+          <EntitySet Name="Модель" EntityType="Self.Модель" />
+          <EntitySet Name="Отзыв" EntityType="Self.Отзыв" />
+          <EntitySet Name="Пользователь" EntityType="Self.Пользователь" />
+          <AssociationSet Name="FK_Автомобиль_Модель" Association="Self.FK_Автомобиль_Модель">
+            <End Role="Модель" EntitySet="Модель" />
+            <End Role="Автомобиль" EntitySet="Автомобиль" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Автомобиль_Пользователь" Association="Self.FK_Автомобиль_Пользователь">
+            <End Role="Пользователь" EntitySet="Пользователь" />
+            <End Role="Автомобиль" EntitySet="Автомобиль" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Заказ_Автомобиль" Association="Self.FK_Заказ_Автомобиль">
+            <End Role="Автомобиль" EntitySet="Автомобиль" />
+            <End Role="Заказ" EntitySet="Заказ" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Отзыв_Автомобиль" Association="Self.FK_Отзыв_Автомобиль">
+            <End Role="Автомобиль" EntitySet="Автомобиль" />
+            <End Role="Отзыв" EntitySet="Отзыв" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Заказ_Пользователь" Association="Self.FK_Заказ_Пользователь">
+            <End Role="Пользователь" EntitySet="Пользователь" />
+            <End Role="Заказ" EntitySet="Заказ" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Отзыв_Пользователь" Association="Self.FK_Отзыв_Пользователь">
+            <End Role="Пользователь" EntitySet="Пользователь" />
+            <End Role="Отзыв" EntitySet="Отзыв" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ModelStoreContainer" CdmEntityContainer="DBConnectionString">
+          <EntitySetMapping Name="Автомобиль">
+            <EntityTypeMapping TypeName="Model.Автомобиль">
+              <MappingFragment StoreEntitySet="Автомобиль">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="Описание" ColumnName="Описание" />
+                <ScalarProperty Name="Доступность" ColumnName="Доступность" />
+                <ScalarProperty Name="idМодель" ColumnName="idМодель" />
+                <ScalarProperty Name="Стоимость" ColumnName="Стоимость" />
+                <ScalarProperty Name="idВладелец" ColumnName="idВладелец" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Заказ">
+            <EntityTypeMapping TypeName="Model.Заказ">
+              <MappingFragment StoreEntitySet="Заказ">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="idПользователь" ColumnName="idПользователь" />
+                <ScalarProperty Name="idАвтомобиль" ColumnName="idАвтомобиль" />
+                <ScalarProperty Name="ДатаВремяНачалаАредны" ColumnName="ДатаВремяНачалаАредны" />
+                <ScalarProperty Name="ДатаВремяКонцаАренды" ColumnName="ДатаВремяКонцаАренды" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Модель">
+            <EntityTypeMapping TypeName="Model.Модель">
+              <MappingFragment StoreEntitySet="Модель">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="Марка" ColumnName="Марка" />
+                <ScalarProperty Name="Модель1" ColumnName="Модель" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Отзыв">
+            <EntityTypeMapping TypeName="Model.Отзыв">
+              <MappingFragment StoreEntitySet="Отзыв">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="idПользователь" ColumnName="idПользователь" />
+                <ScalarProperty Name="idАвтомобиль" ColumnName="idАвтомобиль" />
+                <ScalarProperty Name="Текст" ColumnName="Текст" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Пользователь">
+            <EntityTypeMapping TypeName="Model.Пользователь">
+              <MappingFragment StoreEntitySet="Пользователь">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="Логин" ColumnName="Логин" />
+                <ScalarProperty Name="Пароль" ColumnName="Пароль" />
+                <ScalarProperty Name="Фамилия" ColumnName="Фамилия" />
+                <ScalarProperty Name="Имя" ColumnName="Имя" />
+                <ScalarProperty Name="Отчество" ColumnName="Отчество" />
+                <ScalarProperty Name="Администратор" ColumnName="Администратор" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
