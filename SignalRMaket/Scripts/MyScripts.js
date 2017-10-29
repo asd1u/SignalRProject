@@ -21,7 +21,7 @@ function logInCl() {
 
 function onSuccessfulLoginImpl() {
 	myHub.server.getHtmlSv('menu').done(function (html) {
-		replaceHtml('main', html)
+        replaceHtml('main', html);
 	});
 }
 
@@ -38,8 +38,12 @@ function changeContent2() {
 	changeContent('cont2');
 }
 function changeContent3() {
-	changeContent('cont3');
+    changeContent('cont3');
 }
+function changeContent4() {
+    changeContent('showCars');
+}
+
 
 function alertAllCl() {
 	myHub.server.alertAllSv('hello');

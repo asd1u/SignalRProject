@@ -6,6 +6,9 @@ using System.Web;
 
 namespace SignalRMaket
 {
+    /// <summary>
+    /// Контейнер для Web User'ов
+    /// </summary>
 	public static class Users
 	{
 		static List<WebUser> activeUsers = new List<WebUser>();
@@ -40,12 +43,15 @@ namespace SignalRMaket
 		}
 	}
 
+    /// <summary>
+    /// Инкапсулирует Пользователя и его Connection Id (уникальный ключ сессии или типа того)
+    /// </summary>
 	public class WebUser
 	{
-		User AggregateObj;
+		private Пользователь AggregateObj;
 		public string ConnectionId { get; set; }
-		public User _User { get { return AggregateObj; } set { AggregateObj = value; } }
-		public WebUser(User u, string cid)
+		public Пользователь _User { get { return AggregateObj; } set { AggregateObj = value; } }
+		public WebUser(Пользователь u, string cid)
 		{
 			ConnectionId = cid;
 			AggregateObj = u;

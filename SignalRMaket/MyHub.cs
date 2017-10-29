@@ -44,15 +44,16 @@ namespace SignalRMaket
 		[HubMethodName("logInSv")]
 		public void LogIn(string user, string pass)
 		{
-			var u = User.LoadUser(user, pass);
-			if (u != null)
-			{
-				Users.ConnectUser(new WebUser(u, cid));
-				Clients.Caller.onSuccessfulLoginCl();
-			}
-			else
-				Clients.Caller.alertFuncCl("unknown user!");
-		}
+            var пользователь = (new DBConnectionString()).Пользователь.FirstOrDefault(x => x.Логин == user);
+            //TODO добавить хэширование паролей
+		    if (пользователь != null && пользователь.Пароль == pass)
+		    {
+		        Users.ConnectUser(new WebUser(пользователь, cid));
+		        Clients.Caller.onSuccessfulLoginCl();
+            }
+		    else
+		        Clients.Caller.alertFuncCl("unknown user!");
+        }
 
 		[HubMethodName("alertAllSv")]
 		public void AlertAll(string mes)
@@ -63,7 +64,9 @@ namespace SignalRMaket
 				Clients.Caller.alertFuncCl("authorization required!");
 				return;
 			}
-			Clients.All.alertFuncCl(string.Format("message from {0}:\n {1}", u._User.Login, mes));
+			Clients.All.alertFuncCl(string.Format("message from {0}:\n {1}", u._User.Имя, mes));
 		}
+
+	    
 	}
 }
