@@ -55,6 +55,13 @@ namespace SignalRMaket
 		        Clients.Caller.alertFuncCl("unknown user!");
         }
 
+	    public void RentCar(string carId)
+	    {
+	        Guid carGuid = new Guid(carId);
+	        var car = (new DBConnectionString()).Автомобиль.Find(carGuid);
+	        Clients.Caller.alertFuncCl($"Вы арендовали {car.Модель.Марка} {car.Модель.Модель1} за {car.Стоимость}");
+	    }
+
 		[HubMethodName("alertAllSv")]
 		public void AlertAll(string mes)
 		{

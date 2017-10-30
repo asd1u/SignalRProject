@@ -12,9 +12,9 @@ namespace ORM
         {
             if (id == "menu")
                 return @"<button id='btnGet1' type='button' onclick='changeContent1()'>Get first</button> 
-<button id='btnGet2' type='button' onclick='changeContent2()'>Get second</button>
-<button id='btnGet3' type='button' onclick='changeContent3()'>Get third</button>
-<button id='btnGet4' type='button' onclick='changeContent4()'>Show all cars</button> <span id='cont'></span> ";
+                    <button id='btnGet2' type='button' onclick='changeContent2()'>Get second</button>
+                    <button id='btnGet3' type='button' onclick='changeContent3()'>Get third</button>
+                    <button id='btnGet4' type='button' onclick='changeContent4()'>Show all cars</button> <span id='cont'></span> ";
             if (id == "cont1")
                 return @"<p /><button id='btnC1' type='button' onclick='alert(123);'>alert123</button>";
             if (id == "cont2")
@@ -23,13 +23,14 @@ namespace ORM
                 return @"<p /><button id='btnC3' type='button' onclick='location.reload();'>logout</button>";
             if (id == "showCars")
             {
+                const string quote = "\"";
                 string result = @"<div>";
                 var cars = (new DBConnectionString()).Автомобиль.ToArray();
                 foreach (var car in cars)
                 {
                     result += string.Format(
                         $@"<div>Автомобиль {car.Модель.Марка} {car.Модель.Модель1} от 
-                            {car.Пользователь.Имя} за {car.Стоимость} в час!</div><br>");
+                            {car.Пользователь.Имя} всего за {car.Стоимость} в час!</div><button id='{car.id}' type='button' onclick='rentCar({quote + car.id + quote})'>Арендовать сейчас</button><br>");
                 }
                 result += "</div>";
                 return result;

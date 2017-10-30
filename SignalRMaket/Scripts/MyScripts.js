@@ -48,3 +48,7 @@ function changeContent4() {
 function alertAllCl() {
 	myHub.server.alertAllSv('hello');
 }
+
+function rentCar(carId) {
+    myHub.server.rentCar(carId);
+}
