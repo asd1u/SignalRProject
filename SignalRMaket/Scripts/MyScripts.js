@@ -40,7 +40,6 @@ function changeContent(htmlTag) {
 	});
 }
 function reg() {
-    myHub.server.alertAllSv('hello');
     myHub.server.registr($('#tbLogin').val(), $('#tbPassword').val(), $('#tbName').val(), $('#tbFname').val(), $('#tbOname').val());
 }
 
