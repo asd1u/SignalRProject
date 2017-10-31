@@ -6,6 +6,8 @@ using System.Web;
 using Microsoft.AspNet.SignalR;
 using Microsoft.AspNet.SignalR.Hubs;
 using ORM;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace SignalRMaket
 {
@@ -48,7 +50,7 @@ namespace SignalRMaket
 		{
             var пользователь = (new DBConnectionString()).Пользователь.FirstOrDefault(x => x.Логин == user);
             //TODO добавить хэширование паролей
-		    if (пользователь != null && пользователь.Пароль == pass)
+		    if (пользователь != null && пользователь.Пароль == MD5Hash(pass))
 		    {
 		        Users.ConnectUser(new WebUser(пользователь, cid));
 		        Clients.Caller.onSuccessfulLoginCl();
@@ -64,13 +66,27 @@ namespace SignalRMaket
             if (пользователь == null )
             {
                 var connection = new DBConnectionString();
-                connection.Пользователь.Add(new Пользователь() { id = new Guid(), Логин = user, Пароль = pass, Имя = name, Фамилия = fname, Отчество = oname });
+                pass = MD5Hash(pass);
+                connection.Пользователь.Add(new Пользователь() { id = Guid.NewGuid(), Логин = user, Пароль = pass, Имя = name, Фамилия = fname, Отчество = oname });
                 connection.SaveChanges();
             }
             else
                 Clients.Caller.alertFuncCl("Логин занят");
 
             
+        }
+
+        public static string MD5Hash(string input)
+        {
+            StringBuilder hash = new StringBuilder();
+            MD5CryptoServiceProvider md5provider = new MD5CryptoServiceProvider();
+            byte[] bytes = md5provider.ComputeHash(new UTF8Encoding().GetBytes(input));
+
+            for (int i = 0; i < bytes.Length; i++)
+            {
+                hash.Append(bytes[i].ToString("x2"));
+            }
+            return hash.ToString();
         }
 
         public void RentCar(string carId)
