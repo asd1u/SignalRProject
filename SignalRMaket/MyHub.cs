@@ -29,7 +29,9 @@ namespace SignalRMaket
 			}
 		}
 
-		public override Task OnDisconnected(bool stopCalled)
+        
+
+        public override Task OnDisconnected(bool stopCalled)
 		{
 			Users.DisconnectUser(Users.UserByCid(cid));
 			return base.OnDisconnected(stopCalled);
@@ -55,7 +57,23 @@ namespace SignalRMaket
 		        Clients.Caller.alertFuncCl("unknown user!");
         }
 
-	    public void RentCar(string carId)
+        public void Registr(string user, string pass, string name , string fname, string oname)
+        {
+           
+            var пользователь = (new DBConnectionString()).Пользователь.FirstOrDefault(x => x.Логин == user);
+            if (пользователь == null )
+            {
+                var connection = new DBConnectionString();
+                connection.Пользователь.Add(new Пользователь() { id = new Guid(), Логин = user, Пароль = pass, Имя = name, Фамилия = fname, Отчество = oname });
+                connection.SaveChanges();
+            }
+            else
+                Clients.Caller.alertFuncCl("Логин занят");
+
+            
+        }
+
+        public void RentCar(string carId)
 	    {
 	        Guid carGuid = new Guid(carId);
 	        var car = (new DBConnectionString()).Автомобиль.Find(carGuid);
