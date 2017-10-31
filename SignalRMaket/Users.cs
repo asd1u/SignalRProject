@@ -9,7 +9,9 @@ namespace SignalRMaket
     /// <summary>
     /// Контейнер для Web User'ов
     /// </summary>
-	public static class Users
+    /// 
+
+    public static class Users
 	{
 		static List<WebUser> activeUsers = new List<WebUser>();
 
@@ -34,7 +36,7 @@ namespace SignalRMaket
 		}
 		public static bool DisconnectUser(WebUser wu)
 		{
-			return
+            return wu == null ? true :
 				activeUsers.Remove(wu) ||
 				(
 					((wu = UserByCid(wu.ConnectionId)) != null) &&

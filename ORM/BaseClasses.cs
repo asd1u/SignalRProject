@@ -15,6 +15,14 @@ namespace ORM
                     <button id='btnGet2' type='button' onclick='changeContent2()'>Get second</button>
                     <button id='btnGet3' type='button' onclick='changeContent3()'>Get third</button>
                     <button id='btnGet4' type='button' onclick='changeContent4()'>Show all cars</button> <span id='cont'></span> ";
+            if (id == "reg")
+                return @" <input id = 'tbLogin' type = 'text' name = 'login' placeholder = 'Логин' > <br>
+                          <input id = 'tbPassword' type = 'password' name = 'password' placeholder = 'Пароль' ><br>
+                          <input id = 'tbName' type = 'text' name = 'Name' placeholder = 'Имя' ><br>
+                          <input id = 'tbFname' type = 'text' name = 'Fname' placeholder = 'Фамилия' ><br>
+                          <input id = 'tbOname' type = 'text' name = 'Oname' placeholder = 'Отчество' ><br>
+                          <button id = 'btnReg' type = 'button' onclick='reg()' > Зарегестрироваться </ button >
+                          <button id = 'btnExit' type = 'button' onclick='exit()' > Выйти </ button >";
             if (id == "cont1")
                 return @"<p /><button id='btnC1' type='button' onclick='alert(123);'>alert123</button>";
             if (id == "cont2")
@@ -46,7 +54,7 @@ namespace ORM
 
         public static User LoadUser(string login, string pass)
         {
-            if (login == "qpIlIpp")
+            if (login == "asd")
             {
                 return new User() { Login = login, MD5Pass = pass };
             }

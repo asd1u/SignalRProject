@@ -12,13 +12,40 @@
     </script>
 </head>
 <body>
-    <span id="main">
+    <div class="main">
+        <span id="main">
+            Авторизация<br />
+            <div id="loginBlock">
+                <input id="tbLogin" type="text" name="login" placeholder="Логин">
+
+            </div>
+            <div id="PassBlock">
+                <div id="header"></div>
+                <input id="tbPassword" type="password" name="password" placeholder="Пароль">
+            </div>
+            <div id="Button">
+                <div id="header"></div>
+                <button id="btnLogin" type="button">Войти</button>
+                <button id="btnRegistr" type="button">Регистрация</button>
+            </div>
+        </span>
+    </div>
+
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <!--Ссылка на библиотеку SignalR -->
+    <script src="~/Scripts/jquery.signalR-2.2.0.min.js"></script>
+    <!--Ссылка на автоматически сгенерированный скрипт хаба SignalR -->
+    <script src="~/signalr/hubs"></script>
+    <script src="~/Scripts/util.js"></script>
+
+    <!--<span id="main">
         <input id="tbLogin" type="text" name="login" placeholder="Логин">
         <input id="tbPassword" type="password" name="password" placeholder="Пароль">
         <button id="btnLogin" type="button">Log In</button>
+        <button id="btnRegistr" type="button">Registr</button>
     </span>
     <span>
 
-    </span>
+    </span>-->
 </body>
 </html>

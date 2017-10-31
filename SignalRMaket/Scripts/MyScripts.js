@@ -7,8 +7,10 @@ function Initialize() {
 }
 
 function hubStarted() {
+    
 	$('#btnLogin').click(logInCl);
-	$('#tbLogin').val('qpIlIpp');
+    $('#tbLogin').val('asd');
+    $('#btnRegistr').click(Registr);
 }
 
 function replaceHtml(id, html) {
@@ -17,6 +19,13 @@ function replaceHtml(id, html) {
 
 function logInCl() {
 	myHub.server.logInSv($('#tbLogin').val(), $('#tbPassword').val());
+}
+
+function Registr() {
+    myHub.server.getHtmlSv('reg').done(function (html) {
+    replaceHtml('main', html);
+    });
+
 }
 
 function onSuccessfulLoginImpl() {
@@ -30,7 +39,16 @@ function changeContent(htmlTag) {
 		replaceHtml('cont', html);
 	});
 }
+function reg() {
+    myHub.server.alertAllSv('hello');
+    myHub.server.registr($('#tbLogin').val(), $('#tbPassword').val(), $('#tbName').val(), $('#tbFname').val(), $('#tbOname').val());
+}
 
+function exit() {
+    myHub.server.getHtmlSv('menu').done(function (html) {
+        replaceHtml('reg', html);
+    });;
+}
 function changeContent1() {
 	changeContent('cont1');
 }
