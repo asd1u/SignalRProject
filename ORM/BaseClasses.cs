@@ -15,14 +15,23 @@ namespace ORM
                     <button id='btnGet2' type='button' onclick='changeContent2()'>Get second</button>
                     <button id='btnGet3' type='button' onclick='changeContent3()'>Get third</button>
                     <button id='btnGet4' type='button' onclick='changeContent4()'>Show all cars</button> <span id='cont'></span> ";
+            if (id == "showLogin")
+                return @"<div class='container'>
+
+      <form class='form-signin' role='form'>
+        <h2 class='form-signin-heading'>Вход</h2>
+        <input type = 'login' class='form-control' placeholder='Логин' required='' autofocus=''>
+        <input type = 'password' class='form-control' placeholder='Пароль' required=''>
+        <label class='checkbox'>
+          <input type = 'checkbox' value='remember-me'> Запомнить меня
+          </label>
+        <button class='btn btn-lg btn-primary btn-block' type='submit'>Войти</button>
+        <button class='btn btn-lg btn-primary' >Регистрация</button>
+      </form>
+
+    </div>";
             if (id == "reg")
-                return @" <input id = 'tbLogin' type = 'text' name = 'login' placeholder = 'Логин' > <br>
-                          <input id = 'tbPassword' type = 'password' name = 'password' placeholder = 'Пароль' ><br>
-                          <input id = 'tbName' type = 'text' name = 'Name' placeholder = 'Имя' ><br>
-                          <input id = 'tbFname' type = 'text' name = 'Fname' placeholder = 'Фамилия' ><br>
-                          <input id = 'tbOname' type = 'text' name = 'Oname' placeholder = 'Отчество' ><br>
-                          <button id = 'btnReg' type = 'button' onclick='reg()' > Зарегестрироваться </ button >
-                          <button id = 'btnExit' type = 'button' onclick='exit()' > Выйти </ button >";
+                return @"" ;
             if (id == "cont1")
                 return @"<p /><button id='btnC1' type='button' onclick='alert(123);'>alert123</button>";
             if (id == "cont2")
@@ -32,15 +41,15 @@ namespace ORM
             if (id == "showCars")
             {
                 const string quote = "\"";
-                string result = @"<div>";
-                var cars = (new DBConnectionString()).Автомобиль.ToArray();
+        string result = @"<div>";
+        var cars = (new DBConnectionString()).Автомобиль.ToArray();
                 foreach (var car in cars)
                 {
                     result += string.Format(
                         $@"<div>Автомобиль {car.Модель.Марка} {car.Модель.Модель1} от 
                             {car.Пользователь.Имя} всего за {car.Стоимость} в час!</div><button id='{car.id}' type='button' onclick='rentCar({quote + car.id + quote})'>Арендовать сейчас</button><br>");
-                }
-                result += "</div>";
+    }
+    result += "</div>";
                 return result;
             }
             return "";
@@ -48,18 +57,18 @@ namespace ORM
     }
 
     public class User
-    {
-        public string Login { get; set; }
-        public string MD5Pass { get; set; }
+{
+    public string Login { get; set; }
+    public string MD5Pass { get; set; }
 
-        public static User LoadUser(string login, string pass)
+    public static User LoadUser(string login, string pass)
+    {
+        if (login == "asd")
         {
-            if (login == "asd")
-            {
-                return new User() { Login = login, MD5Pass = pass };
-            }
-            return null;
+            return new User() { Login = login, MD5Pass = pass };
         }
+        return null;
     }
+}
 
 }

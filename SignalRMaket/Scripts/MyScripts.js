@@ -7,10 +7,7 @@ function Initialize() {
 }
 
 function hubStarted() {
-    
-	$('#btnLogin').click(logInCl);
-    $('#tbLogin').val('asd');
-    $('#btnRegistr').click(Registr);
+   
 }
 
 function replaceHtml(id, html) {
@@ -26,6 +23,12 @@ function Registr() {
     replaceHtml('main', html);
     });
 
+}
+
+function showLogin() {
+    myHub.server.getHtmlSv('showLogin').done(function (html) {
+        replaceHtml('main', html);
+    });
 }
 
 function onSuccessfulLoginImpl() {
