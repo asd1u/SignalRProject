@@ -2,47 +2,211 @@
 <html>
 <head>
     <title>SignalR using example by qpIlIpp</title>
-    <meta charset="utf-8" />
-    <script src="Scripts/jquery-1.6.4.min.js"></script>
+    <meta charset='utf-8' />
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.js'></script>
+    <!--<script src="Scripts/jquery-1.6.4.min.js"></script>-->
     <script src="Scripts/jquery.signalR-2.2.2.min.js"></script>
-    <script src="Scripts/MyScripts.js"></script>
-    <script src="signalr/hubs"></script>
-    <script type="text/javascript">
+    <script src='Scripts/MyScripts.js'></script>
+    <script src='signalr/hubs'></script>
+    <script type='text/javascript'>
         $(function () { Initialize(); });
     </script>
+    <link href='css/bootstrap.css' rel='stylesheet'>
+    <link rel='stylesheet' href='css/style1.css' />
+    <link rel='stylesheet' href='css/style.css' />
+    <link rel='shortcut icon' href='pic/cat.ico' type='image/x-icon'>
+    
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src='js/bootstrap.js'></script>
 </head>
 <body>
-    <div class="main">
-        <span id="main">
-            Авторизация<br />
-            <div id="loginBlock">
-                <input id="tbLogin" type="text" name="login" placeholder="Логин">
+    <!--Навигационное меню-->
+    <div class='navbar navbar-inverse navbar-fixed-top' role='navigation'>
+        <div class='container'>
+            <div class='navbar-header'>
+                <button type='button' class='navbar-toggle' data-toggle='collapse' data-target='.navbar-collapse'>
+                    <span class='sr-only'>Toggle navigation</span>
+                    <span class='icon-bar'></span>
+                    <span class='icon-bar'></span>
+                    <span class='icon-bar'></span>
+                    <span class='icon-bar'></span>
+                </button>
+                <a class='navbar-brand'>MEOWavto</a>
+            </div>
+            <div class='collapse navbar-collapse'>
+                <ul class='nav navbar-nav'>
+                    <!--<li><a class='nav-link js-scroll-trigger' href='' onclick="changeContent4()">Все автомобили</a></li>-->
+                    <button onclick="showCars()" class="btn-primary">Все автомобили</button>
+                    <li class='nav-item'>
+                        <a class='nav-link js-scroll-trigger' href='#note'>Отзывы</a>
+                    </li>
+                    <li><a href='#'>О нас</a></li>
+                    <li><a href='#'>Контакты</a></li>
+                </ul>
+                <ul class='nav navbar-nav navbar-right'>
+                    <li><button class="btn-primary" onclick="showLogin()">Вход</button></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div id='main'>
+        <div class='splash'>
+            <div class='container'>
+
+                <p>Аренда автомобилей в Перми</p>
 
             </div>
-            <div id="PassBlock">
-                <div id="header"></div>
-                <input id="tbPassword" type="password" name="password" placeholder="Пароль">
+        </div>
+
+        <div class='cars'>
+
+            <div class='page-header'>
+                <h1 class='text-right'>Наши автомобили</h1>
             </div>
-            <div id="Button">
-                <div id="header"></div>
-                <button id="btnLogin" type="button">Войти</button>
-                <button id="btnRegistr" type="button">Регистрация</button>
+            <div class='container marketing'>
+
+
+                <!-- Three columns of text below the carousel -->
+                <div class='rows'>
+                    <div class='col-lg-4'>
+                        <img class='img-fluid' data-src='pic/pic6.jpg/140x140' alt='200x200' src='pic/pic6.jpg' style='width: 300px; height: 200px;'>
+                        <div class='marka'>
+                            <p> Какая-то машинка  </p>
+                        </div>
+                        <p>5000 Руб./Сутки</p>
+
+
+
+                    </div><!-- /.col-lg-4 -->
+                    <div class='col-lg-4'>
+                        <img class='img-fluid' data-src='pic/pic7.jpg/140x140' alt='200x200' src='pic/pic7.jpg' style='width: 300px; height: 200px;'>
+                        <div class='marka'>
+                            <p> Какая-то машинка </p>
+                        </div>
+                        <p> 10000 Руб./Сутки</p>
+                    </div>
+
+                    <div class='col-lg-4'>
+                        <img class='img-fluid' data-src='pic/pic8.jpg/140x140' alt='200x200' src='pic/pic8.jpg' style='width: 300px; height: 200px;'>
+                        <div class='marka'>
+                            <p> Какая-то машинка  </p>
+                        </div>
+                        <p>13000 Руб./Сутки</p>
+                    </div>
+
+
+                    <!-- /.col-lg-4 -->
+                </div><!-- /.row -->
             </div>
-        </span>
+
+            <p><a class='btn btn-inverse btn-lg'  role='button'> Посмотреть все автомобили  →</a></p>
+
+
+
+        </div>
+
+
+
+
+        <div class='note'>
+            <div class='container marketing'>
+
+                <!-- Three columns of text below the carousel -->
+                <div class='rows'>
+                    <div class='col-lg-3'>
+                        <img class='img-circle' data-src='pic/pic4.jpg/140x140' alt='140x140' src='pic/pic3.jpg' style='width: 140px; height: 140px;'>
+                        <div class='name'> Зайка Заевна </div>
+                        <p>Все понравилось. Бак у машины был уже заправлен, машина исправна.  Залог вернули сразу. Также очень удобно, что можно расплачиваться кредитной картой.</p>
+                    </div><!-- /.col-lg-4 -->
+                    <div class='col-lg-3'>
+                        <img class='img-circle' data-src='holder.js/140x140' alt='140x140' src='pic/pic4.jpg' style='width: 140px; height: 140px;'>
+                        <div class='name'>Кот Котович</div>
+                        <p>Все очень круто! Всем советую, не пожалеете!</p>
+                    </div><!-- /.col-lg-4 -->
+                    <div class='col-lg-3'>
+                        <img class='img-circle' data-src='holder.js/140x140' alt='140x140' src='pic/pic5.jpg' style='width: 140px; height: 140px;'>
+                        <div class='name'>Маруся Маруса</div>
+                        <p> Всем рекомендую.  Менеджер внимательно и дружелюбно отнесся к моей проблеме, быстро помог подобрать наиболее выгодную для меня машину.</p>
+                    </div>
+                    <div class='col-lg-3'>
+                        <img class='img-circle' data-src='holder.js/140x140' alt='140x140' src='pic/anton.jpg' style='width: 140px; height: 140px;'>
+                        <div class='name'>Антон Петухов</div>
+                        <p> РЕКОМЕНДУЮ! Сервис супер, мужики работают хорошие, человеческое отношение.</p>
+                    </div>
+                </div>
+
+
+
+                <!-- /.col-lg-4 -->
+            </div><!-- /.row -->
+            <div class='but'>
+                <p><a class='btn btn-primary btn-lg' href=#'' role='button'> Посмотреть все отзывы  →</a></p>
+            </div>
+        </div>
+
+        <div class='sucsess'>
+            <div class='page-header'>
+                <h1>Все о компании</h1>
+            </div>
+            <div class='row'>
+                <div class='col-lg-6 ml-auto'>
+                    <img class='img-fluid' data-src='holder.js/140x140' alt='350x200' src='pic/office.jpg' style='width: 450px; height: 300px;'>
+                </div>
+
+                <div class='col-lg-5 ml-auto'>
+                    <p> ООО  'MEOWavto' является одной из крупнейших компаний Пермского края на рынке транспортных услуг. Начав свою деятельность в 2007 году, на сегодняшний день прочно удерживает лидирующие позиции, завоевав доверие многочисленных клиентов.  </p>
+                    <p>
+                        Мы предлагаем Вам широкий спектр транспортных услуг: аренда автомобилей без водителя; аренда легковых автомобилей с водителем;
+                        аренда автомобиля на свадьбу;
+                        грузовые перевозки;
+                        пассажирские перевозки ( аренда автобусов и микроавтобусов; трансфер (аэропорт 'Большое Савино', железнодорожный вокзал Пермь II);
+                        аренда спецтехники;
+                        услуги автосервиса.
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    
+
+    <!-- О нас -->
+    <div class='where'>
+        <div class='page-header'>
+            <h1 class='text-center'>Контакты</h1>
+        </div>
+        <div class='row'>
+            <div class='col-lg-5 ml-auto'>
+                <p> Оставить заявку можно любым удобным для Вас способом:</p>
+                <p>   через сайт; </p>
+                <p>   по e-mail: meow@gmail.ru; </p>
+                <p>   по тел. 8 800 555 55 35;</p>
+            </div>
+            <div class='col-lg ml-auto'>
+                <img class='img-fluid' data-src='holder.js/140x140' alt='350x200' src='pic/cars.jpg' style='width: 450px; height: 300px;'>
+            </div>
+        </div>
     </div>
 
-    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
-    <!--Ссылка на библиотеку SignalR -->
-    <script src="~/Scripts/jquery.signalR-2.2.0.min.js"></script>
-    <!--Ссылка на автоматически сгенерированный скрипт хаба SignalR -->
-    <script src="~/signalr/hubs"></script>
-    <script src="~/Scripts/util.js"></script>
 
-    <!--<span id="main">
-        <input id="tbLogin" type="text" name="login" placeholder="Логин">
-        <input id="tbPassword" type="password" name="password" placeholder="Пароль">
-        <button id="btnLogin" type="button">Log In</button>
-        <button id="btnRegistr" type="button">Registr</button>
+    <div class='footer'>
+        <p class='pull-right'><a>Вернуться наверх</a></p>
+        <p>© 2017 Company, Inc. MeowCat </p>
+    </div>
+
+    
+    </div>
+
+    <!--<script src='~/Scripts/jquery-1.10.2.min.js'></script>
+    <script src='~/Scripts/jquery.signalR-2.2.0.min.js'></script>
+    <script src='~/signalr/hubs'></script>
+    <script src='~/Scripts/util.js'></script>-->
+
+    <!--<span id='main'>
+        <input id='tbLogin' type='text' name='login' placeholder='Логин'>
+        <input id='tbPassword' type='password' name='password' placeholder='Пароль'>
+        <button id='btnLogin' type='button'>Log In</button>
+        <button id='btnRegistr' type='button'>Registr</button>
     </span>
     <span>
 
