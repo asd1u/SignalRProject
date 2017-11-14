@@ -1,0 +1,100 @@
+/* Отступ для меню */
+body
+{
+padding-top: 50px;
+}
+.navbar {
+    background-color: #000;
+    border-color: #fff;
+    font-weight:bold;
+    color: #fff;
+    font-size:15px;
+
+}
+
+
+
+.splash { 
+/* Отступ до содержимого splash */
+padding:11em 0 2em;
+background-image:url(../pic/back.jpg);
+/*Масштабирует изображение с сохранением пропорций так, чтобы его ширина или высота равнялась ширине или высоте блока.*/
+background-size:cover;
+/*Свойство background-attachment устанавливает, будет ли прокручиваться фоновое изображение вместе с содержимым элемента.Делает фоновое изображение элемента неподвижным. */
+background-attachment:fixed;
+/* Цвет текста */
+color:#000;
+/*выравнивание текста по центру */
+text-align:left;
+font-size: 25pt;
+    font-weight:700;
+}
+.note{
+    padding:3em 0 1em;
+    background-color: #F5F5F5;
+    color:#808080;
+    text-align:center;
+}
+.name{
+    padding: 10px;
+    color:#000;
+    font-size: 20pt;
+    font-weight:500;
+
+
+}
+.marka{
+   padding: 0.3em; 
+   color:#808080;
+   font-size: 13pt;  
+}
+.cars{
+   padding:3em 5em 3em;
+   background-color: #101010;
+   color:#fff;
+    font-size: 15pt;
+   
+}
+.but{
+    padding:1em 0 1em;
+}
+.sucsess
+{
+   padding:3em 5em 1em;
+   text-indent: 40px;
+   background-color: #4169E1;
+   color:#DCDCDC;
+}
+.page-header{
+   color:#fff; 
+}
+.where
+{
+    
+    padding:3em 5em 1em;
+   background-color: #000;
+   color:#fff;
+   text-align:center;
+
+}
+.row
+{
+
+    padding-left: 120px;
+    padding: 4em 0 3em;
+
+}
+.footer{
+    text-align:center;
+    background-color: #fff;
+    color:#000;
+    padding: 10px;
+    padding-left: 150px;
+
+}
+article {
+display:block;
+padding: 4em 0 3em;
+border-bottom: 1px solid rgba(0,0,0,0.05);
+background-color: #e5f9eb;
+}
