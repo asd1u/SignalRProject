@@ -31,6 +31,12 @@ function showLogin() {
     });
 }
 
+function showCars() {
+    myHub.server.getHtmlSv('showCars').done(function (html) {
+        replaceHtml('main', html);
+    });
+}
+
 function onSuccessfulLoginImpl() {
 	myHub.server.getHtmlSv('menu').done(function (html) {
         replaceHtml('main', html);

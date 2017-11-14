@@ -31,7 +31,7 @@ namespace ORM
 
     </div>";
             if (id == "reg")
-                return @"" ;
+                return @"";
             if (id == "cont1")
                 return @"<p /><button id='btnC1' type='button' onclick='alert(123);'>alert123</button>";
             if (id == "cont2")
@@ -41,15 +41,15 @@ namespace ORM
             if (id == "showCars")
             {
                 const string quote = "\"";
-        string result = @"<div>";
-        var cars = (new DBConnectionString()).Автомобиль.ToArray();
+                string result = @"<div>";
+                var cars = (new DBConnectionString()).Автомобиль.ToArray();
                 foreach (var car in cars)
                 {
                     result += string.Format(
                         $@"<div>Автомобиль {car.Модель.Марка} {car.Модель.Модель1} от 
                             {car.Пользователь.Имя} всего за {car.Стоимость} в час!</div><button id='{car.id}' type='button' onclick='rentCar({quote + car.id + quote})'>Арендовать сейчас</button><br>");
-    }
-    result += "</div>";
+                }
+                result += "</div>";
                 return result;
             }
             return "";
@@ -57,18 +57,18 @@ namespace ORM
     }
 
     public class User
-{
-    public string Login { get; set; }
-    public string MD5Pass { get; set; }
-
-    public static User LoadUser(string login, string pass)
     {
-        if (login == "asd")
+        public string Login { get; set; }
+        public string MD5Pass { get; set; }
+
+        public static User LoadUser(string login, string pass)
         {
-            return new User() { Login = login, MD5Pass = pass };
+            if (login == "asd")
+            {
+                return new User() { Login = login, MD5Pass = pass };
+            }
+            return null;
         }
-        return null;
     }
-}
 
 }
