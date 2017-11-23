@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Автомобиль">
           <Key>
             <PropertyRef Name="id" />
@@ -39,9 +39,9 @@
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="idПользователь" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="idАвтомобиль" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="Текст" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Текст" Type="nvarchar(max)" />
+          <Property Name="Рейтинг" Type="int" Nullable="false" />
+          <Property Name="idЗаказ" Type="uniqueidentifier" Nullable="false" />
         </EntityType>
         <EntityType Name="Пользователь">
           <Key>
@@ -103,30 +103,49 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Отзыв_Автомобиль">
-          <End Role="Автомобиль" Type="Self.Автомобиль" Multiplicity="1" />
+        <Association Name="FK_Отзыв_Заказ">
+          <End Role="Заказ" Type="Self.Заказ" Multiplicity="1" />
           <End Role="Отзыв" Type="Self.Отзыв" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Автомобиль">
+            <Principal Role="Заказ">
               <PropertyRef Name="id" />
             </Principal>
             <Dependent Role="Отзыв">
-              <PropertyRef Name="idАвтомобиль" />
+              <PropertyRef Name="idЗаказ" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Отзыв_Пользователь">
-          <End Role="Пользователь" Type="Self.Пользователь" Multiplicity="1" />
-          <End Role="Отзыв" Type="Self.Отзыв" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Пользователь">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Отзыв">
-              <PropertyRef Name="idПользователь" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
+        <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
+        <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="version" Type="int" Mode="In" />
+          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_creatediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="version" Type="int" Mode="In" />
+          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_dropdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_helpdiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <EntityContainer Name="ModelStoreContainer">
           <EntitySet Name="Автомобиль" EntityType="Self.Автомобиль" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Заказ" EntityType="Self.Заказ" Schema="dbo" store:Type="Tables" />
@@ -149,17 +168,12 @@
             <End Role="Пользователь" EntitySet="Пользователь" />
             <End Role="Заказ" EntitySet="Заказ" />
           </AssociationSet>
-          <AssociationSet Name="FK_Отзыв_Автомобиль" Association="Self.FK_Отзыв_Автомобиль">
-            <End Role="Автомобиль" EntitySet="Автомобиль" />
-            <End Role="Отзыв" EntitySet="Отзыв" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Отзыв_Пользователь" Association="Self.FK_Отзыв_Пользователь">
-            <End Role="Пользователь" EntitySet="Пользователь" />
+          <AssociationSet Name="FK_Отзыв_Заказ" Association="Self.FK_Отзыв_Заказ">
+            <End Role="Заказ" EntitySet="Заказ" />
             <End Role="Отзыв" EntitySet="Отзыв" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -176,7 +190,6 @@
           <NavigationProperty Name="Модель" Relationship="Self.FK_Автомобиль_Модель" FromRole="Автомобиль" ToRole="Модель" />
           <NavigationProperty Name="Пользователь" Relationship="Self.FK_Автомобиль_Пользователь" FromRole="Автомобиль" ToRole="Пользователь" />
           <NavigationProperty Name="Заказ" Relationship="Self.FK_Заказ_Автомобиль" FromRole="Автомобиль" ToRole="Заказ" />
-          <NavigationProperty Name="Отзыв" Relationship="Self.FK_Отзыв_Автомобиль" FromRole="Автомобиль" ToRole="Отзыв" />
         </EntityType>
         <EntityType Name="Заказ">
           <Key>
@@ -189,6 +202,7 @@
           <Property Name="ДатаВремяКонцаАренды" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="Автомобиль" Relationship="Self.FK_Заказ_Автомобиль" FromRole="Заказ" ToRole="Автомобиль" />
           <NavigationProperty Name="Пользователь" Relationship="Self.FK_Заказ_Пользователь" FromRole="Заказ" ToRole="Пользователь" />
+          <NavigationProperty Name="Отзыв" Relationship="Model.FK_Отзыв_Заказ" FromRole="Заказ" ToRole="Отзыв" />
         </EntityType>
         <EntityType Name="Модель">
           <Key>
@@ -204,11 +218,10 @@
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="Guid" Nullable="false" />
-          <Property Name="idПользователь" Type="Guid" Nullable="false" />
-          <Property Name="idАвтомобиль" Type="Guid" Nullable="false" />
-          <Property Name="Текст" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Автомобиль" Relationship="Self.FK_Отзыв_Автомобиль" FromRole="Отзыв" ToRole="Автомобиль" />
-          <NavigationProperty Name="Пользователь" Relationship="Self.FK_Отзыв_Пользователь" FromRole="Отзыв" ToRole="Пользователь" />
+          <Property Name="Текст" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Рейтинг" Type="Int32" Nullable="false" />
+          <Property Name="idЗаказ" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="Заказ" Relationship="Model.FK_Отзыв_Заказ" FromRole="Отзыв" ToRole="Заказ" />
         </EntityType>
         <EntityType Name="Пользователь">
           <Key>
@@ -223,7 +236,6 @@
           <Property Name="Администратор" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Автомобиль" Relationship="Self.FK_Автомобиль_Пользователь" FromRole="Пользователь" ToRole="Автомобиль" />
           <NavigationProperty Name="Заказ" Relationship="Self.FK_Заказ_Пользователь" FromRole="Пользователь" ToRole="Заказ" />
-          <NavigationProperty Name="Отзыв" Relationship="Self.FK_Отзыв_Пользователь" FromRole="Пользователь" ToRole="Отзыв" />
         </EntityType>
         <Association Name="FK_Автомобиль_Модель">
           <End Role="Модель" Type="Self.Модель" Multiplicity="1" />
@@ -261,18 +273,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Отзыв_Автомобиль">
-          <End Role="Автомобиль" Type="Self.Автомобиль" Multiplicity="1" />
-          <End Role="Отзыв" Type="Self.Отзыв" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Автомобиль">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Отзыв">
-              <PropertyRef Name="idАвтомобиль" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Заказ_Пользователь">
           <End Role="Пользователь" Type="Self.Пользователь" Multiplicity="1" />
           <End Role="Заказ" Type="Self.Заказ" Multiplicity="*" />
@@ -281,18 +281,6 @@
               <PropertyRef Name="id" />
             </Principal>
             <Dependent Role="Заказ">
-              <PropertyRef Name="idПользователь" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Отзыв_Пользователь">
-          <End Role="Пользователь" Type="Self.Пользователь" Multiplicity="1" />
-          <End Role="Отзыв" Type="Self.Отзыв" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Пользователь">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Отзыв">
               <PropertyRef Name="idПользователь" />
             </Dependent>
           </ReferentialConstraint>
@@ -315,19 +303,68 @@
             <End Role="Автомобиль" EntitySet="Автомобиль" />
             <End Role="Заказ" EntitySet="Заказ" />
           </AssociationSet>
-          <AssociationSet Name="FK_Отзыв_Автомобиль" Association="Self.FK_Отзыв_Автомобиль">
-            <End Role="Автомобиль" EntitySet="Автомобиль" />
-            <End Role="Отзыв" EntitySet="Отзыв" />
-          </AssociationSet>
           <AssociationSet Name="FK_Заказ_Пользователь" Association="Self.FK_Заказ_Пользователь">
             <End Role="Пользователь" EntitySet="Пользователь" />
             <End Role="Заказ" EntitySet="Заказ" />
           </AssociationSet>
-          <AssociationSet Name="FK_Отзыв_Пользователь" Association="Self.FK_Отзыв_Пользователь">
-            <End Role="Пользователь" EntitySet="Пользователь" />
+          <AssociationSet Name="FK_Отзыв_Заказ" Association="Model.FK_Отзыв_Заказ">
+            <End Role="Заказ" EntitySet="Заказ" />
             <End Role="Отзыв" EntitySet="Отзыв" />
           </AssociationSet>
+          <FunctionImport Name="sp_alterdiagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="version" Mode="In" Type="Int32" />
+            <Parameter Name="definition" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="sp_creatediagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="version" Mode="In" Type="Int32" />
+            <Parameter Name="definition" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="sp_dropdiagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(Model.sp_helpdiagramdefinition_Result)">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(Model.sp_helpdiagrams_Result)">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_renamediagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="new_diagramname" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_upgraddiagrams" />
         </EntityContainer>
+        <Association Name="FK_Отзыв_Заказ">
+          <End Type="Model.Заказ" Role="Заказ" Multiplicity="1" />
+          <End Type="Model.Отзыв" Role="Отзыв" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Заказ">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Отзыв">
+              <PropertyRef Name="idЗаказ" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <ComplexType Name="sp_helpdiagramdefinition_Result">
+          <Property Type="Int32" Name="version" Nullable="true" />
+          <Property Type="Binary" Name="definition" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_helpdiagrams_Result">
+          <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
+          <Property Type="Int32" Name="OwnerID" Nullable="false" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -369,9 +406,9 @@
           <EntitySetMapping Name="Отзыв">
             <EntityTypeMapping TypeName="Model.Отзыв">
               <MappingFragment StoreEntitySet="Отзыв">
+                <ScalarProperty Name="idЗаказ" ColumnName="idЗаказ" />
+                <ScalarProperty Name="Рейтинг" ColumnName="Рейтинг" />
                 <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="idПользователь" ColumnName="idПользователь" />
-                <ScalarProperty Name="idАвтомобиль" ColumnName="idАвтомобиль" />
                 <ScalarProperty Name="Текст" ColumnName="Текст" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -389,6 +426,30 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="Model.Store.sp_alterdiagram" />
+          <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="Model.Store.sp_creatediagram" />
+          <FunctionImportMapping FunctionImportName="sp_dropdiagram" FunctionName="Model.Store.sp_dropdiagram" />
+          <FunctionImportMapping FunctionImportName="sp_helpdiagramdefinition" FunctionName="Model.Store.sp_helpdiagramdefinition">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Model.sp_helpdiagramdefinition_Result">
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_helpdiagrams" FunctionName="Model.Store.sp_helpdiagrams">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Model.sp_helpdiagrams_Result">
+                <ScalarProperty Name="Database" ColumnName="Database" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Owner" ColumnName="Owner" />
+                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="Model.Store.sp_renamediagram" />
+          <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="Model.Store.sp_upgraddiagrams" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
