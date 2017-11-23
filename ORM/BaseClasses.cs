@@ -20,12 +20,12 @@ namespace ORM
 
       <form class='form-signin' role='form'>
         <h2 class='form-signin-heading'>Вход</h2>
-        <input type = 'login' class='form-control' placeholder='Логин' required='' autofocus=''>
-        <input type = 'password' class='form-control' placeholder='Пароль' required=''>
+        <input id = 'tbLogin' type = 'login' class='form-control' placeholder='Логин' required='' autofocus=''>
+        <input id = 'tbPassword' type = 'password' class='form-control' placeholder='Пароль' required=''>
         <label class='checkbox'>
           <input type = 'checkbox' value='remember-me'> Запомнить меня
           </label>
-        <button class='btn btn-lg btn-primary btn-block' type='submit'>Войти</button>
+        <button class='btn btn-lg btn-primary btn-block' onclick='showLogin()'>Войти</button>
         <button class='btn btn-lg btn-primary' >Регистрация</button>
       </form>
 
