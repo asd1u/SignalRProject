@@ -12,13 +12,14 @@
     <script type='text/javascript'>
         $(function () { Initialize(); });
     </script>
-    <link href='css/bootstrap.css' rel='stylesheet'>
-    <link rel='stylesheet' href='css/style1.css' />
     <link rel='stylesheet' href='css/style.css' />
+    <link href='css/bootstrap.css' rel='stylesheet'>
     <link rel='shortcut icon' href='pic/cat.ico' type='image/x-icon'>
     
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src='js/bootstrap.js'></script>
+
+    
 </head>
 <body>
     <!--Навигационное меню-->
@@ -32,21 +33,22 @@
                     <span class='icon-bar'></span>
                     <span class='icon-bar'></span>
                 </button>
-                <a class='navbar-brand'>MEOWavto</a>
+                <a class='navbar-brand'>
+                    <li><a class='nav-link js-scroll-trigger' onclick="showMain()">MEOWavto</a></li>
+                </a>
             </div>
             <div class='collapse navbar-collapse'>
                 <ul class='nav navbar-nav'>
                     <!--<li><a class='nav-link js-scroll-trigger' href='' onclick="changeContent4()">Все автомобили</a></li>-->
                     <button onclick="showCars()" class="btn-primary">Все автомобили</button>
-                    <li class='nav-item'>
-                        <a class='nav-link js-scroll-trigger' href='#note'>Отзывы</a>
-                    </li>
-                    <li><a href='#'>О нас</a></li>
-                    <li><a href='#'>Контакты</a></li>
+                    <button  onclick="showOnas()" class="btn-primary">О нас</button>
+                    <button onclick="showContact()" class="btn-primary">Контакты</button>
                 </ul>
-                <ul class='nav navbar-nav navbar-right'>
-                    <li><button class="btn-primary" onclick="showLogin()">Вход</button></li>
-                </ul>
+                    <ul class='nav navbar-nav navbar-right'>
+                        <div id="buttonlogin">
+                            <li><button class="btn-primary" onclick="showLogin()">Вход</button></li>
+                        </div>
+                   </ul> 
             </div>
         </div>
     </div>
@@ -109,21 +111,18 @@
 
 
 
-        <div class='note'>
-            <div class='container marketing'>
-
-                <!-- Three columns of text below the carousel -->
+        <!--<div class='note'>
                 <div class='rows'>
                     <div class='col-lg-3'>
                         <img class='img-circle' data-src='pic/pic4.jpg/140x140' alt='140x140' src='pic/pic3.jpg' style='width: 140px; height: 140px;'>
                         <div class='name'> Зайка Заевна </div>
                         <p>Все понравилось. Бак у машины был уже заправлен, машина исправна.  Залог вернули сразу. Также очень удобно, что можно расплачиваться кредитной картой.</p>
-                    </div><!-- /.col-lg-4 -->
+                    </div>
                     <div class='col-lg-3'>
                         <img class='img-circle' data-src='holder.js/140x140' alt='140x140' src='pic/pic4.jpg' style='width: 140px; height: 140px;'>
                         <div class='name'>Кот Котович</div>
                         <p>Все очень круто! Всем советую, не пожалеете!</p>
-                    </div><!-- /.col-lg-4 -->
+                    </div>
                     <div class='col-lg-3'>
                         <img class='img-circle' data-src='holder.js/140x140' alt='140x140' src='pic/pic5.jpg' style='width: 140px; height: 140px;'>
                         <div class='name'>Маруся Маруса</div>
@@ -138,14 +137,14 @@
 
 
 
-                <!-- /.col-lg-4 -->
-            </div><!-- /.row -->
+                
+            </div>
             <div class='but'>
                 <p><a class='btn btn-primary btn-lg' href=#'' role='button'> Посмотреть все отзывы  →</a></p>
             </div>
-        </div>
+        </div>-->
 
-        <div class='sucsess'>
+        <div class='sucsess' >
             <div class='page-header'>
                 <h1>Все о компании</h1>
             </div>
@@ -170,7 +169,7 @@
         </div>
     
 
-    <!-- О нас -->
+    <!-- Контакты -->
     <div class='where'>
         <div class='page-header'>
             <h1 class='text-center'>Контакты</h1>
@@ -190,7 +189,6 @@
 
 
     <div class='footer'>
-        <p class='pull-right'><a>Вернуться наверх</a></p>
         <p>© 2017 Company, Inc. MeowCat </p>
     </div>
 
