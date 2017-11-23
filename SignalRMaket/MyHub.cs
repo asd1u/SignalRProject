@@ -50,13 +50,19 @@ namespace SignalRMaket
 		{
             var пользователь = (new DBConnectionString()).Пользователь.FirstOrDefault(x => x.Логин == user);
             //TODO добавить хэширование паролей
-		    if (пользователь != null && пользователь.Пароль == MD5Hash(pass))
-		    {
-		        Users.ConnectUser(new WebUser(пользователь, cid));
-		        Clients.Caller.onSuccessfulLoginCl();
+            if (пользователь != null)
+            {
+                if (пользователь.Пароль == MD5Hash(pass))
+                {
+                    Users.ConnectUser(new WebUser(пользователь, cid));
+                    Clients.Caller.onSuccessfulLoginCl();
+                }
+                else
+                    Clients.Caller.alertFuncCl("Неверно введены данные");
+
             }
-		    else
-		        Clients.Caller.alertFuncCl("unknown user!");
+            else
+                Clients.Caller.alertFuncCl("Введите логин");
         }
 
         public void Registr(string user, string pass, string name , string fname, string oname)

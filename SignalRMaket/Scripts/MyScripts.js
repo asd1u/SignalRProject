@@ -38,9 +38,32 @@ function showCars() {
 }
 
 function onSuccessfulLoginImpl() {
+
+    myHub.server.getHtmlSv('user').done(function (html) {
+        replaceHtml('buttonlogin', html);
+    });
 	myHub.server.getHtmlSv('menu').done(function (html) {
         replaceHtml('main', html);
-	});
+    });
+}
+function showMain() {
+    myHub.server.getHtmlSv('menu').done(function (html) {
+        replaceHtml('main', html);
+    });
+}
+
+
+function showOnas() {
+    myHub.server.getHtmlSv('Onas').done(function (html) {
+        replaceHtml('main', html);
+    });
+}
+
+
+function showContact() {
+    myHub.server.getHtmlSv('contact').done(function (html) {
+        replaceHtml('main', html);
+    });
 }
 
 function changeContent(htmlTag) {
@@ -57,19 +80,6 @@ function exit() {
         replaceHtml('reg', html);
     });;
 }
-function changeContent1() {
-	changeContent('cont1');
-}
-function changeContent2() {
-	changeContent('cont2');
-}
-function changeContent3() {
-    changeContent('cont3');
-}
-function changeContent4() {
-    changeContent('showCars');
-}
-
 
 function alertAllCl() {
 	myHub.server.alertAllSv('hello');
