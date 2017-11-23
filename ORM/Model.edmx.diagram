@@ -13,9 +13,8 @@
         <AssociationConnector Association="Model.FK_Автомобиль_Модель" ManuallyRouted="false" />
         <AssociationConnector Association="Model.FK_Автомобиль_Пользователь" ManuallyRouted="false" />
         <AssociationConnector Association="Model.FK_Заказ_Автомобиль" ManuallyRouted="false" />
-        <AssociationConnector Association="Model.FK_Отзыв_Автомобиль" ManuallyRouted="false" />
         <AssociationConnector Association="Model.FK_Заказ_Пользователь" ManuallyRouted="false" />
-        <AssociationConnector Association="Model.FK_Отзыв_Пользователь" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_Отзыв_Заказ" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
