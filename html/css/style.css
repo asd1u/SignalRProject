@@ -92,9 +92,69 @@ font-size: 25pt;
     padding-left: 150px;
 
 }
-article {
-display:block;
-padding: 4em 0 3em;
-border-bottom: 1px solid rgba(0,0,0,0.05);
-background-color: #e5f9eb;
+
+.containerr{
+  width: 300px;
+  padding: 10px;
+  margin: auto; 
+  text-align:center;
+}
+.log {
+  max-width: 330px;
+  padding: 15px;
+  margin: 0 auto;
+}
+.log .form-signin-heading,
+.log .checkbox {
+  margin-bottom: 10px;
+}
+.log .checkbox {
+  font-weight: normal;
+}
+.log .form-control {
+  position: relative;
+  height: auto;
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+  padding: 10px;
+  font-size: 16px;
+}
+.log .form-control:focus {
+  z-index: 2;
+}
+.log input[type="email"] {
+  margin-bottom: -1px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.log input[type="password"] {
+  margin-bottom: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+.navbar {
+    background-color: #000;
+    border-color: #fff;
+    font-weight:bold;
+    color: #fff;
+    font-size:15px;
+}
+.reg{
+  font-size:15px;
+  width: 300px;
+  padding: 10px;
+  margin: auto; 
+
+}
+.car{
+  padding:1em 5em 1em;
+   text-indent: 50px;
+   color:#000;
+}
+.price{
+  color:#000;
+  font-weight:600;
+  font-size:23px;
+  padding-left: 0px;
 }

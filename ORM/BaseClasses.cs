@@ -16,19 +16,18 @@ namespace ORM
                     <button id='btnGet3' type='button' onclick='changeContent3()'>Get third</button>
                     <button id='btnGet4' type='button' onclick='changeContent4()'>Show all cars</button> <span id='cont'></span> ";
             if (id == "showLogin")
-                return @"<div class='container'>
+                return @"<div class='containerr'>
 
-      <form class='form-signin' role='form'>
-        <h2 class='form-signin-heading'>Вход</h2>
-        <input type = 'login' class='form-control' placeholder='Логин' required='' autofocus=''>
-        <input type = 'password' class='form-control' placeholder='Пароль' required=''>
+      <form id='log'>
+        <h2>Вход</h2>
+        <input type='login' class='form-control' placeholder='Логин' required='' autofocus=''>
+        <input type='password' class='form-control' placeholder='Пароль' required=''>
         <label class='checkbox'>
-          <input type = 'checkbox' value='remember-me'> Запомнить меня
-          </label>
-        <button class='btn btn-lg btn-primary btn-block' type='submit'>Войти</button>
-        <button class='btn btn-lg btn-primary' >Регистрация</button>
+          <input type='checkbox' value='remember-me'> Запомнить меня
+        </label>
+        <button class='btn btn-lg btn-primary btn-block'>Войти</button> 
       </form>
-
+      <button class='btn btn-lg btn-primary btn-block'>Регистрация</button>    
     </div>";
             if (id == "reg")
                 return @"";
