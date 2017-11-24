@@ -66,6 +66,12 @@ function showContact() {
     });
 }
 
+function showReg() {
+    myHub.server.getHtmlSv('showReg').done(function (html) {
+        replaceHtml('main', html);
+    });
+}
+
 function changeContent(htmlTag) {
 	myHub.server.getHtmlSv(htmlTag).done(function (html) {
 		replaceHtml('cont', html);
