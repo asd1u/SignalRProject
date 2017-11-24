@@ -19,7 +19,6 @@ namespace ORM
         {
             this.Автомобиль = new HashSet<Автомобиль>();
             this.Заказ = new HashSet<Заказ>();
-            this.Отзыв = new HashSet<Отзыв>();
         }
     
         public System.Guid id { get; set; }
@@ -34,7 +33,5 @@ namespace ORM
         public virtual ICollection<Автомобиль> Автомобиль { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Заказ> Заказ { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Отзыв> Отзыв { get; set; }
     }
 }

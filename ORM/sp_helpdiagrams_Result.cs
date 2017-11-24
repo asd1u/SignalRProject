@@ -10,15 +10,13 @@
 namespace ORM
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class Отзыв
+    public partial class sp_helpdiagrams_Result
     {
-        public System.Guid id { get; set; }
-        public string Текст { get; set; }
-        public int Рейтинг { get; set; }
-        public System.Guid idЗаказ { get; set; }
-    
-        public virtual Заказ Заказ { get; set; }
+        public string Database { get; set; }
+        public string Name { get; set; }
+        public int ID { get; set; }
+        public string Owner { get; set; }
+        public int OwnerID { get; set; }
     }
 }
