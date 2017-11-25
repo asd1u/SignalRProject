@@ -56,7 +56,7 @@ namespace ORM
                 </div><!-- /.row -->
             </div>
 
-            <p><a class='btn btn-inverse btn-lg'  role='button'> Посмотреть все автомобили  →</a></p>
+            <p><a class='btn btn-inverse btn-lg' onclick='showCars()' role='button'> Посмотреть все автомобили  →</a></p>
 
 
 
@@ -114,13 +114,12 @@ namespace ORM
 ";
             if (id == "showLogin")
                 return @"<div class='containerr'>   
-                            <form id = 'log' '>
+           
                                  <h2> Вход </h2>
                                   <input id='tbLogin' type = 'login' class='form-control' placeholder='Логин' required='' autofocus=''>
                                   <input id='tbPassword' type = 'password' class='form-control' placeholder='Пароль' required=''>
-                                <button class='btn btn-lg btn-primary btn-block' onclick='logInCl(); return false;' >Войти</button> 
-                            </form>
-                        <button class='btn btn-lg btn-primary btn-block onclick='reg()'>Регистрация</button>    
+                                <button class='btn btn-lg btn-primary btn-block' onclick='logInCl()'>Войти</button> 
+                                <button class='btn btn-lg btn-primary btn-block' onclick='showReg()'>Регистрация</button>    
                         </div> ";
             if (id == "Onas")
                 return @"<div class='sucsess' >
@@ -171,22 +170,20 @@ namespace ORM
     <div class='footer'>
         <p>© 2017 Company, Inc. MeowCat </p>
     </div>";
-            if (id == "reg")
+            if (id == "showReg")
                 return @"<div class='reg'>
-<form id = 'regis'>
-<h2> Регистрация </h2>
-<input id = 'tbLogin' type = 'login' class='form-control' name = 'login' placeholder = 'Логин' required='' autofocus=''> 
-<input id = 'tbPassword' type = 'password' class='form-control' name = 'password' placeholder = 'Пароль' required='' >
-<input id = 'tbName' type = 'text' class='form-control' name = 'Name' placeholder = 'Имя' required='' >
-<input id = 'tbFname' type = 'text' class='form-control' name = 'Fname' placeholder = 'Фамилия' required='' > 
-<input id = 'tbOname' type = 'text' class='form-control' name = 'Oname' placeholder = 'Отчество' required='' > 
-<br>
-<button class='btn btn-lg btn-primary btn-block' id = 'btnReg' onclick='reg(); return false;' > Зарегистрироваться </ button > 
-</form>
-<button class='btn btn-lg btn-primary btn-block' id = 'btnExit' onclick='showMain()' > Выйти </ button >
-</div>";
-            if (id == "cont3")
-                return @"<p /><button id='btnC3' type='button' onclick='location.reload();'>logout</button>";
+                            <form id = 'regis'>
+                            <h2> Регистрация </h2>
+                            <input id = 'tbLogin' type = 'login' class='form-control' name = 'login' placeholder = 'Логин' required='' autofocus=''> 
+                            <input id = 'tbPassword' type = 'password' class='form-control' name = 'password' placeholder = 'Пароль' required='' >
+                            <input id = 'tbName' type = 'text' class='form-control' name = 'Name' placeholder = 'Имя' required='' >
+                            <input id = 'tbFname' type = 'text' class='form-control' name = 'Fname' placeholder = 'Фамилия' required='' > 
+                            <input id = 'tbOname' type = 'text' class='form-control' name = 'Oname' placeholder = 'Отчество' required='' > 
+                            <br>
+                            <button class='btn btn-lg btn-primary btn-block' id = 'btnReg' onclick='reg(); return false;' > Зарегистрироваться </ button > 
+                            </form>
+                            <button class='btn btn-lg btn-primary btn-block' id = 'btnExit' onclick='showLogin()' > Войти в систему </ button >
+                         </div>";
             if (id == "showCars")
             {
                 const string quote = "\"";
