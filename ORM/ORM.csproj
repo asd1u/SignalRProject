@@ -73,6 +73,9 @@
     <Compile Include="sp_helpdiagrams_Result.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="sysdiagrams.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
     <Compile Include="Автомобиль.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>

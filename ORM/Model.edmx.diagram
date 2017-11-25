@@ -15,6 +15,7 @@
         <AssociationConnector Association="Model.FK_Заказ_Автомобиль" ManuallyRouted="false" />
         <AssociationConnector Association="Model.FK_Заказ_Пользователь" ManuallyRouted="false" />
         <AssociationConnector Association="Model.FK_Отзыв_Заказ" />
+        <EntityTypeShape EntityType="Model.sysdiagrams" Width="1.5" PointX="7.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -26,6 +26,7 @@ namespace ORM
         public System.Guid idМодель { get; set; }
         public decimal Стоимость { get; set; }
         public System.Guid idВладелец { get; set; }
+        public string Фото { get; set; }
     
         public virtual Модель Модель { get; set; }
         public virtual Пользователь Пользователь { get; set; }
