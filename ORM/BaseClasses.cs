@@ -186,16 +186,42 @@ namespace ORM
                          </div>";
             if (id == "showCars")
             {
+                //const string quote = "\"";
+                //string result = @"<div>";
+                //var cars = (new DBConnectionString()).Автомобиль.ToArray();
+                //foreach (var car in cars)
+                //{
+                //    result += string.Format(
+                //        $@"<div>Автомобиль {car.Модель.Марка} {car.Модель.Модель1} от 
+                //            {car.Пользователь.Имя} всего за {car.Стоимость} в час!</div><button id='{car.id}' type='button' onclick='rentCar({quote + car.id + quote})'>Арендовать сейчас</button><br>");
+                //}
+                //result += "</div>";
+                //return result;
                 const string quote = "\"";
-                string result = @"<div>";
+                string result = @"
+<div class='allcarsmenu'>
+    <table class='table table-bordered table-hover'>
+<thead>
+ <tr>
+ <th></th>
+ <th> </th>
+ <th></th>
+ <th></th>
+ </tr>
+ </thead>
+ <tbody>";
                 var cars = (new DBConnectionString()).Автомобиль.ToArray();
                 foreach (var car in cars)
                 {
                     result += string.Format(
-                        $@"<div>Автомобиль {car.Модель.Марка} {car.Модель.Модель1} от 
-                            {car.Пользователь.Имя} всего за {car.Стоимость} в час!</div><button id='{car.id}' type='button' onclick='rentCar({quote + car.id + quote})'>Арендовать сейчас</button><br>");
+                        $@" <tr>
+ <td><img class='img-fluid' src='data:image/jpeg; base64,{car.Фото}' alt='200x200' style='width: 300px; height: 200px;'></td>
+ <td>{car.Модель.Марка} {car.Модель.Модель1}</td>
+ <td>{car.Стоимость} руб/час</td>
+ <td> <button type='button' class= 'btn btn-primary' onclick='rentCar({quote + car.id + quote})'>Забронировать </button></td>
+ </tr>");
                 }
-                result += "</div>";
+                result += "</table></div>";
                 return result;
             }
             return "";
