@@ -196,82 +196,36 @@ namespace ORM
 
             if (id == "menupolzSdan")
             {
-                //const string quote = "\"";
-                //string result = @"<div>";
-                //var cars = (new DBConnectionString()).Автомобиль.ToArray();
-                //foreach (var car in cars)
-                //{
-                //    result += string.Format(
-                //        $@"<div>Автомобиль {car.Модель.Марка} {car.Модель.Модель1} от 
-                //            {car.Пользователь.Имя} всего за {car.Стоимость} в час!</div><button id='{car.id}' type='button' onclick='rentCar({quote + car.id + quote})'>Арендовать сейчас</button><br>");
-                //}
-                //result += "</div>";
-                //return result;
                 const string quote = "\"";
-                string result = @"<a href='#myModal' class='btn btn-primary' data-toggle='modal'>Добавить автомобиль</a>
-    <div id='myModal' class='modal fade'>
-        <div class='modal-dialog'>
-            <div class='modal-content'>
-                <div class='modal-header'>
-                    <button type='button' class='close' data-dismiss='modal' aria-hidden='true'>×</button>
-                    <h4 class='modal-title'>Добавить новый автомобиль</h4>
-                </div>
-
-
-                <div class='modal-body'>
-                    <label> Модель: </label>
-                    <br>
-                    <select class='selectpicker1'>
-                        <option>Лада приора</option>
-                        <option>Форд фокус</option>
-                    </select>
-                    <br>
-                    <label class> Описание: </label> <br>
-                    <textarea name='Descr' cols='50' rows='10'></textarea> <br>
-                    <label> Стоимость: </label> <br>
-                    <input type='text' name='price'> <br>
-                    <label> Фотография: </label> <br>
-                    <input type='file' name='photo' multiple accept='image/*,image/jpeg'> <br>
-                </div>
-                <div class='modal-footer'>
-                    <button type='button' class='btn btn-default' data-dismiss='modal'>Закрыть</button>
-                    <button type='button' class='btn btn-primary' data-dismiss='modal'>Добавить</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <button onclick='' class='btn btn-primary'>Удалить автомобиль</button>
-    <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.js'></script>
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src='js/bootstrap.js'></script>
-
-<div class='allcarsmenu'>
-    <table class='table table-bordered table-hover'>
-<thead>
- <tr>
- <th></th>
- <th> </th>
- <th></th>
- <th></th>
- </tr>
- </thead>
- <tbody>";
+                string result = @"
+                            <div class='allcarsmenu'>
+                                <table class='table table-bordered table-hover'>
+                            <thead>
+                             <tr>
+                             <th></th>
+                             <th> </th>
+                             <th></th>
+                             <th></th>
+                             </tr>
+                             </thead>
+                             <tbody>";
                 var cars = (new DBConnectionString()).Автомобиль.ToArray();
                 foreach (var car in cars)
                 {
                     result += string.Format(
                         $@" <tr>
- <td><img class='img-fluid' src='data:image/jpeg; base64,{car.Фото}' alt='200x200' style='width: 300px; height: 200px;'></td>
- <td>{car.Модель.Марка} {car.Модель.Модель1}</td>
- <td>{car.Стоимость} руб/час</td>
- <td> <button type='button' class= 'btn btn-primary' onclick='rentCar({quote + car.id + quote})'>Забронировать </button></td>
- </tr>");
+                         <td><img class='img-fluid' src='data:image/jpeg; base64,{car.Фото}' alt='200x200' style='width: 300px; height: 200px;'></td>
+                         <td>{car.Модель.Марка} {car.Модель.Модель1}</td>
+                         <td>{car.Стоимость} руб/час</td>
+                         <td> <button type='button' class= 'btn btn-primary' onclick='rentCar({quote + car.id + quote})'>Забронировать </button>
+                              <button type='button' class= 'btn btn-primary' onclick='delCar({quote + car.id + quote})'>Удалить </button></td>
+                         </tr>");
                 }
                 result += "</table></div>";
                 return result;
             }
-            return "";
 
+  
 
             if (id == "showCars")
             {

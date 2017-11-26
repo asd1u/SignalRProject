@@ -1,26 +1,26 @@
 ﻿var myHub;
 function Initialize() {
-    myHub = $.connection.myHub;
-    myHub.client.alertFuncCl = function (mes) { alert(mes) };
-    myHub.client.onSuccessfulLoginCl = onSuccessfulLoginImpl;
-    $.connection.hub.start().done(hubStarted);
+	myHub = $.connection.myHub;
+	myHub.client.alertFuncCl = function (mes) { alert(mes) };
+	myHub.client.onSuccessfulLoginCl = onSuccessfulLoginImpl;
+	$.connection.hub.start().done(hubStarted);
 }
 
 function hubStarted() {
-
+   
 }
 
 function replaceHtml(id, html) {
-    $('#' + id).empty().append(html);
+	$('#' + id).empty().append(html);
 }
 
 function logInCl() {
-    myHub.server.logInSv($('#tbLogin').val(), $('#tbPassword').val());
+	myHub.server.logInSv($('#tbLogin').val(), $('#tbPassword').val());
 }
 
 function Registr() {
     myHub.server.getHtmlSv('reg').done(function (html) {
-        replaceHtml('main', html);
+    replaceHtml('main', html);
     });
 
 }
@@ -42,12 +42,20 @@ function onSuccessfulLoginImpl() {
     myHub.server.getHtmlSv('user').done(function (html) {
         replaceHtml('buttonlogin', html);
     });
+
+	myHub.server.getHtmlSv('menu').done(function (html) {
+        replaceHtml('main', html);
+    });
+    
+}
+function showMain() {
     myHub.server.getHtmlSv('menu').done(function (html) {
         replaceHtml('main', html);
     });
 }
-function showMain() {
-    myHub.server.getHtmlSv('menu').done(function (html) {
+
+function showMenupolzSdan() {
+    myHub.server.getHtmlSv('menupolzSdan').done(function (html) {
         replaceHtml('main', html);
     });
 }
@@ -73,9 +81,9 @@ function showReg() {
 }
 
 function changeContent(htmlTag) {
-    myHub.server.getHtmlSv(htmlTag).done(function (html) {
-        replaceHtml('cont', html);
-    });
+	myHub.server.getHtmlSv(htmlTag).done(function (html) {
+		replaceHtml('cont', html);
+	});
 }
 function reg() {
     myHub.server.registr($('#tbLogin').val(), $('#tbPassword').val(), $('#tbName').val(), $('#tbFname').val(), $('#tbOname').val());
@@ -88,9 +96,13 @@ function exit() {
 }
 
 function alertAllCl() {
-    myHub.server.alertAllSv('hello');
+	myHub.server.alertAllSv('hello');
 }
 
 function rentCar(carId) {
     myHub.server.rentCar(carId);
+}
+
+function delCar(carId) {
+    myHub.server.deltCar(carId);
 }

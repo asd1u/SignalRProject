@@ -123,7 +123,17 @@ namespace SignalRMaket
         {
             Guid carGuid = new Guid(carId);
             var car = (new DBConnectionString()).Автомобиль.Find(carGuid);
-            Clients.Caller.alertFuncCl($"Вы арендовали {car.Модель.Марка} {car.Модель.Модель1} за {car.Стоимость}");
+            
+        }
+
+        public void DeltCar(string carId)
+        {
+            Guid carGuid = new Guid(carId);
+           var connection = new DBConnectionString();
+            var car = (new DBConnectionString()).Автомобиль.Find(carGuid);
+            connection.Автомобиль.Remove(car);
+            connection.SaveChanges();
+            Clients.Caller.showMenupolzSdan();
         }
 
         [HubMethodName("alertAllSv")]
