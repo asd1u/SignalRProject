@@ -193,29 +193,22 @@ namespace ORM
                             </form>
                             <button class='btn btn-lg btn-primary btn-block' id = 'btnExit' onclick='showLogin()' > Войти в систему </ button >
                          </div>";
+
             if (id == "menupolzSdan")
-                return @"<div class='allcars'>
-        <table class='table table-bordered table-hover'>
-            <thead>
-                <tr>
-                    <th>Модель</th>
-                    <th>Стоимость</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Лада приора</td>
-                    <td>2500</td>
-                </tr>
-                <tr>
-                    <td>Форд фокус</td>
-                    <td> 3000 </td>
-                </tr>
-
-    </div>
-
-
-    <a href='#myModal' class='btn btn-primary' data-toggle='modal'>Добавить автомобиль</a>
+            {
+                //const string quote = "\"";
+                //string result = @"<div>";
+                //var cars = (new DBConnectionString()).Автомобиль.ToArray();
+                //foreach (var car in cars)
+                //{
+                //    result += string.Format(
+                //        $@"<div>Автомобиль {car.Модель.Марка} {car.Модель.Модель1} от 
+                //            {car.Пользователь.Имя} всего за {car.Стоимость} в час!</div><button id='{car.id}' type='button' onclick='rentCar({quote + car.id + quote})'>Арендовать сейчас</button><br>");
+                //}
+                //result += "</div>";
+                //return result;
+                const string quote = "\"";
+                string result = @"<a href='#myModal' class='btn btn-primary' data-toggle='modal'>Добавить автомобиль</a>
     <div id='myModal' class='modal fade'>
         <div class='modal-dialog'>
             <div class='modal-content'>
@@ -250,7 +243,36 @@ namespace ORM
     <button onclick='' class='btn btn-primary'>Удалить автомобиль</button>
     <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.js'></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src='js/bootstrap.js'></script>";
+    <script src='js/bootstrap.js'></script>
+
+<div class='allcarsmenu'>
+    <table class='table table-bordered table-hover'>
+<thead>
+ <tr>
+ <th></th>
+ <th> </th>
+ <th></th>
+ <th></th>
+ </tr>
+ </thead>
+ <tbody>";
+                var cars = (new DBConnectionString()).Автомобиль.ToArray();
+                foreach (var car in cars)
+                {
+                    result += string.Format(
+                        $@" <tr>
+ <td><img class='img-fluid' src='data:image/jpeg; base64,{car.Фото}' alt='200x200' style='width: 300px; height: 200px;'></td>
+ <td>{car.Модель.Марка} {car.Модель.Модель1}</td>
+ <td>{car.Стоимость} руб/час</td>
+ <td> <button type='button' class= 'btn btn-primary' onclick='rentCar({quote + car.id + quote})'>Забронировать </button></td>
+ </tr>");
+                }
+                result += "</table></div>";
+                return result;
+            }
+            return "";
+
+
             if (id == "showCars")
             {
                 const string quote = "\"";
