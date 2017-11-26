@@ -11,7 +11,16 @@ namespace ORM
         public static string getString(string id)
         {
             if (id == "user")
-                return "<p>Вы уже вошли</p>";
+                return @"<ul class='nav navbar-nav'>
+                    <li>
+                        <li class='dropdown'>
+              <a class='dropdown-toggle' data-toggle='dropdown'>Мой аккаунт<b class='caret'></b></a>
+              <ul class='dropdown-menu'>
+                <li> <button onclick = 'showMenupolzSdan()' class='btn-link'>Мои сданные в аренду автомобили</button></li>
+                <li> <button onclick = 'showMenupolzZakaz()' class='btn-link'>Мои заказы</button></li>
+              </ul>
+            </li>
+                    </li>";
             if (id == "menu")
                 return @" <div class='splash'>
                         <div class='container'>
@@ -184,6 +193,64 @@ namespace ORM
                             </form>
                             <button class='btn btn-lg btn-primary btn-block' id = 'btnExit' onclick='showLogin()' > Войти в систему </ button >
                          </div>";
+            if (id == "menupolzSdan")
+                return @"<div class='allcars'>
+        <table class='table table-bordered table-hover'>
+            <thead>
+                <tr>
+                    <th>Модель</th>
+                    <th>Стоимость</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Лада приора</td>
+                    <td>2500</td>
+                </tr>
+                <tr>
+                    <td>Форд фокус</td>
+                    <td> 3000 </td>
+                </tr>
+
+    </div>
+
+
+    <a href='#myModal' class='btn btn-primary' data-toggle='modal'>Добавить автомобиль</a>
+    <div id='myModal' class='modal fade'>
+        <div class='modal-dialog'>
+            <div class='modal-content'>
+                <div class='modal-header'>
+                    <button type='button' class='close' data-dismiss='modal' aria-hidden='true'>×</button>
+                    <h4 class='modal-title'>Добавить новый автомобиль</h4>
+                </div>
+
+
+                <div class='modal-body'>
+                    <label> Модель: </label>
+                    <br>
+                    <select class='selectpicker1'>
+                        <option>Лада приора</option>
+                        <option>Форд фокус</option>
+                    </select>
+                    <br>
+                    <label class> Описание: </label> <br>
+                    <textarea name='Descr' cols='50' rows='10'></textarea> <br>
+                    <label> Стоимость: </label> <br>
+                    <input type='text' name='price'> <br>
+                    <label> Фотография: </label> <br>
+                    <input type='file' name='photo' multiple accept='image/*,image/jpeg'> <br>
+                </div>
+                <div class='modal-footer'>
+                    <button type='button' class='btn btn-default' data-dismiss='modal'>Закрыть</button>
+                    <button type='button' class='btn btn-primary' data-dismiss='modal'>Добавить</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <button onclick='' class='btn btn-primary'>Удалить автомобиль</button>
+    <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.js'></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src='js/bootstrap.js'></script>";
             if (id == "showCars")
             {
                 const string quote = "\"";

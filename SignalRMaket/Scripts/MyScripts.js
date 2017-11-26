@@ -42,12 +42,20 @@ function onSuccessfulLoginImpl() {
     myHub.server.getHtmlSv('user').done(function (html) {
         replaceHtml('buttonlogin', html);
     });
+
 	myHub.server.getHtmlSv('menu').done(function (html) {
         replaceHtml('main', html);
     });
+    
 }
 function showMain() {
     myHub.server.getHtmlSv('menu').done(function (html) {
+        replaceHtml('main', html);
+    });
+}
+
+function showMenupolzSdan() {
+    myHub.server.getHtmlSv('menupolzSdan').done(function (html) {
         replaceHtml('main', html);
     });
 }
