@@ -3,13 +3,20 @@ body
 {
 padding-top: 50px;
 padding-bottom: 40px;
- background-color: #DCDCDC;!impotant
+ background-color: #eee !important;
 }
 .navbar {
-    background-color: #000;
-    border-color: #fff;
+    background-color: #000 !important;
+    border-color: #fff !important; 
     color: #fff;
+    
     font-size:17px!important;
+
+}
+#label{
+  color:#fff;
+   font-size:20px;
+   font-weight:700;
 
 }
 .splash { 
@@ -97,14 +104,14 @@ border-bottom: 1px solid rgba(0,0,0,0.05);
 background-color: #e5f9eb;
 }
 
-.container1{
+.containerr{
   width: 300px;
   padding: 10px;
   margin: auto; 
   text-align:center;
 }
 .log {
-  max-width: 330px;
+  max-width: 330px; 
   padding: 15px;
   margin: 0 auto;
 }

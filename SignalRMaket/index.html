@@ -14,11 +14,15 @@
     </script>
     <link rel='stylesheet' href='css/style.css' />
     <link href='css/bootstrap.css' rel='stylesheet'>
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    
     <link rel='shortcut icon' href='pic/cat.ico' type='image/x-icon'>
     
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src='js/bootstrap.js'></script>
-
+    
+    
+    
     
 </head>
 <body>
@@ -33,12 +37,11 @@
                     <span class='icon-bar'></span>
                     <span class='icon-bar'></span>
                 </button>
-                <div class='navbar-brand'>
-                    <button onclick="showMain()" class="btn-link btn-lg">MEOWavto</button>
-                </div>
+                
             </div>
             <div class='collapse navbar-collapse'>
                 <ul class='nav navbar-nav'>
+                    <li><button onclick="showMain()" class="btn-link btn-lg" id="label">MEOWavto</button></li>
                     <!--<li><a class='nav-link js-scroll-trigger' href='' onclick="changeContent4()">Все автомобили</a></li>-->
                     <li>
                         <button onclick="showCars()" class="btn-link btn-lg">Все автомобили</button>
@@ -50,12 +53,13 @@
                         <button onclick="showContact()" class="btn-link btn-lg">Контакты</button>
                     </li>
                 </ul>
-                    <ul class='nav navbar-nav navbar-right'>
-                        <li>
-                            <div id="buttonlogin">
-                               <button class="btn-link btn-lg" onclick="showLogin()">Вход</button> </div>
-                        </li>
-                   </ul> 
+                <ul class='nav navbar-nav navbar-right'>
+                    <li>
+                        <div id="buttonlogin">
+                            <button class="btn-link btn-lg" onclick="showLogin()">Вход</button>
+                        </div>
+                    </li>
+                </ul>
             </div>
         </div>
     </div>
@@ -216,5 +220,6 @@
     <span>
 
     </span>-->
+    
 </body>
 </html>
