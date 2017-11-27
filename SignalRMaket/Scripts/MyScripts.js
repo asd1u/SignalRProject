@@ -1,8 +1,10 @@
 ﻿var myHub;
 function Initialize() {
-	myHub = $.connection.myHub;
-	myHub.client.alertFuncCl = function (mes) { alert(mes) };
-	myHub.client.onSuccessfulLoginCl = onSuccessfulLoginImpl;
+    myHub = $.connection.myHub;
+    myHub.client.alertFuncCl = function (mes) { alert(mes) };
+    myHub.client.onSuccessfulLoginCl = onSuccessfulLoginImpl;
+    myHub.client.showMenupolzSdan = function () { showMenupolzSdan() };
+    myHub.client.showMenupolzZakaz = function () { showMenupolzZakaz() };
 	$.connection.hub.start().done(hubStarted);
 }
 
@@ -55,11 +57,20 @@ function showMain() {
 }
 
 function showMenupolzSdan() {
-    myHub.server.getHtmlSv('menupolzSdan').done(function (html) {
+    myHub.server.getHtmlSvPolz('menupolzSdan').done(function (html) {
         replaceHtml('main', html);
     });
 }
 
+function showMenupolzZakaz() {
+    myHub.server.getHtmlSvPolz('menupolzZakaz').done(function (html) {
+        replaceHtml('main', html);
+    });
+}
+function addAuto() {
+    myHub.server.addauto( $('#tbmodel').val(), $('#tbOpis').val(), $('#tbStoim').val(), $('#tbFile').val());
+   
+}
 
 function showOnas() {
     myHub.server.getHtmlSv('Onas').done(function (html) {
@@ -90,9 +101,12 @@ function reg() {
 }
 
 function exit() {
-    myHub.server.getHtmlSv('menu').done(function (html) {
-        replaceHtml('reg', html);
-    });;
+    location.reload(true);
+
+  //  myHub.server.OnDisconnected(true);
+  //  myHub.server.getHtmlSv('user2').done(function (html) {
+    //    replaceHtml('buttonlogin', html);
+    //})
 }
 
 function alertAllCl() {
@@ -105,4 +119,13 @@ function rentCar(carId) {
 
 function delCar(carId) {
     myHub.server.deltCar(carId);
+}
+
+function Otziv(carId, zakId) {
+    $('#idAuto').text(carId);
+    $('#idZak').text(zakId);
+}
+
+function saveOtziv(carId , zakId) {
+    myHub.server.saveOtziv(carId, zakId, $('#tbrait').val(), $('#tbText').val());
 }
