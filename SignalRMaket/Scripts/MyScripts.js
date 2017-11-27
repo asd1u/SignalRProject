@@ -1,8 +1,10 @@
 ﻿var myHub;
 function Initialize() {
-	myHub = $.connection.myHub;
-	myHub.client.alertFuncCl = function (mes) { alert(mes) };
-	myHub.client.onSuccessfulLoginCl = onSuccessfulLoginImpl;
+    myHub = $.connection.myHub;
+    myHub.client.alertFuncCl = function (mes) { alert(mes) };
+    myHub.client.onSuccessfulLoginCl = onSuccessfulLoginImpl;
+    myHub.client.showMenupolzSdan = function () { showMenupolzSdan() };
+    myHub.client.showMenupolzZakaz = function () { showMenupolzZakaz() };
 	$.connection.hub.start().done(hubStarted);
 }
 
@@ -42,9 +44,11 @@ function onSuccessfulLoginImpl() {
     myHub.server.getHtmlSv('user').done(function (html) {
         replaceHtml('buttonlogin', html);
     });
+
 	myHub.server.getHtmlSv('menu').done(function (html) {
         replaceHtml('main', html);
     });
+    
 }
 function showMain() {
     myHub.server.getHtmlSv('menu').done(function (html) {
@@ -52,6 +56,21 @@ function showMain() {
     });
 }
 
+function showMenupolzSdan() {
+    myHub.server.getHtmlSvPolz('menupolzSdan').done(function (html) {
+        replaceHtml('main', html);
+    });
+}
+
+function showMenupolzZakaz() {
+    myHub.server.getHtmlSvPolz('menupolzZakaz').done(function (html) {
+        replaceHtml('main', html);
+    });
+}
+function addAuto() {
+    myHub.server.addauto( $('#tbmodel').val(), $('#tbOpis').val(), $('#tbStoim').val(), $('#tbFile').val());
+   
+}
 
 function showOnas() {
     myHub.server.getHtmlSv('Onas').done(function (html) {
@@ -82,9 +101,7 @@ function reg() {
 }
 
 function exit() {
-    myHub.server.getHtmlSv('menu').done(function (html) {
-        replaceHtml('reg', html);
-    });
+    location.reload(true);
 }
 
 function alertAllCl() {
@@ -92,11 +109,26 @@ function alertAllCl() {
 }
 
 function rentCar(carId) {
-    myHub.server.rentCar(carId, $('#hourSelector').val());
+  myHub.server.rentCar(carId, $('#hourSelector').val());
 }
+
+function delCar(carId) {
+    myHub.server.deltCar(carId);
+}
+
+function Otziv(carId, zakId) {
+    $('#idAuto').text(carId);
+    $('#idZak').text(zakId);
+}
+
+function saveOtziv(carId , zakId) {
+    myHub.server.saveOtziv(carId, zakId, $('#tbrait').val(), $('#tbText').val());
+}
+    
 
 function showCar(carId) {
     myHub.server.getHtmlWithIdSv('showCar',carId).done(function (html) {
         replaceHtml('main', html);
     });
+
 }

@@ -39,16 +39,40 @@ namespace SignalRMaket
             return base.OnDisconnected(stopCalled);
         }
 
+        //[HubMethodName("OnDisconnected")]
+        //public override System.Threading.Tasks.Task OnDisconnected(bool stopCalled)
+        //{
+        //    var connection = new DBConnectionString();
+        //    var item = connection.Пользователь.FirstOrDefault(x => x.id == Users.UserByCid(cid)._User.id);
+        //    if (item != null)
+        //    {
+        //        //сonnection.Пользователь.Remove(item);
+        //        var id = Users.UserByCid(cid)._User.id;
+        //        Clients.All.onUserDisconnected(id, item.Логин);
+        //    }
+
+        //    return base.OnDisconnected(stopCalled);
+        //}
+
         [HubMethodName("getHtmlSv")]
         public string GetHtml(string tag)
         {
             return HtmlGetter.getString(tag);
         }
+
+
+        [HubMethodName("getHtmlSvPolz")]
+        public string getStringVladelec(string tag)
+        {
+            return HtmlGetter.getStringVladelec(tag, Users.UserByCid(cid)._User);
+        }
+        
         [HubMethodName("getHtmlWithIdSv")]
         public string GetHtmlWithId(string tag, string guid)
         {
             return HtmlGetter.getStringWithId(tag, guid);
         }
+        
         [HubMethodName("logInSv")]
         public void LogIn(string user, string pass)
         {
@@ -99,10 +123,10 @@ namespace SignalRMaket
                         connection.SaveChanges();
                         Clients.Caller.alertFuncCl("Регистрация прошла успешна! Войдите в систему.");
 
-                        }
+                    }
 
                 }
-                
+
             }
             else
                 Clients.Caller.alertFuncCl("Логин занят");
@@ -125,6 +149,8 @@ namespace SignalRMaket
 
         public void RentCar(string carId, int hours)
         {
+            Guid carGuid = new Guid(carId);
+            var car = (new DBConnectionString()).Автомобиль.Find(carGuid);
             if (Users.UserByCid(cid) == null)
             {
                 Clients.Caller.alertFuncCl("Авторизуйся, пёс");
@@ -145,6 +171,40 @@ namespace SignalRMaket
                 }
             }
         }
+
+
+           public void saveOtziv(Guid carId, Guid zakId, int rait, string Text)
+        {
+            var connection = new DBConnectionString();
+            connection.Отзыв.Add(new Отзыв() { id = Guid.NewGuid(), Рейтинг = rait, Текст = Text, idЗаказ = zakId });
+            connection.SaveChanges();
+
+        }
+
+
+        public void Addauto(string model, string opis, decimal stoim, string file)
+        {
+            model = model.Trim();
+            var connection = new DBConnectionString();
+            var models = connection.Модель.AsEnumerable().Select(x => Tuple.Create(x.Марка + " " + x.Модель1, x.id)).ToArray();
+            var mod = models.Single(x => x.Item1 == model).Item2;
+            connection.Автомобиль.Add(new Автомобиль() { id = Guid.NewGuid(), Доступность = true, Описание = opis , Стоимость = stoim, Фото = file , idМодель = mod , idВладелец = Users.UserByCid(cid)._User.id});
+            connection.SaveChanges();
+            Clients.Caller.showMenupolzSdan();
+            
+        }
+
+        public void DeltCar(string carId)
+        {
+            var connection = new DBConnectionString();
+            var car = connection.Автомобиль.Single(o => o.id.ToString() == carId);
+            connection.Автомобиль.Remove(car);
+            connection.SaveChanges();
+            //  Clients.CallerState.showMenupolzSdan();
+
+            Clients.Caller.showMenupolzSdan();
+        }
+
 
         [HubMethodName("alertAllSv")]
         public void AlertAll(string mes)
