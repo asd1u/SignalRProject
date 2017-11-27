@@ -149,8 +149,6 @@ namespace SignalRMaket
 
         public void RentCar(string carId, int hours)
         {
-            Guid carGuid = new Guid(carId);
-            var car = (new DBConnectionString()).Автомобиль.Find(carGuid);
             if (Users.UserByCid(cid) == null)
             {
                 Clients.Caller.alertFuncCl("Авторизуйся, пёс");

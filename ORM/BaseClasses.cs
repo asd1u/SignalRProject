@@ -270,7 +270,7 @@ var cars = (new DBConnectionString()).Модель.ToArray();
                          <td><img class='img-fluid' src='data:image/jpeg; base64,{car.Фото}' alt='200x200' style='width: 300px; height: 200px;'></td>
                          <td>{car.Модель.Марка} {car.Модель.Модель1}</td>
                          <td>{car.Стоимость} руб/час</td>
-                         <td> <button type='button' class= 'btn btn-primary' onclick='rentCar({quote + car.id + quote})'>Забронировать </button></td>
+                         <td> <button type='button' class= 'btn btn-primary' onclick='showCar({quote + car.id + quote})'>Забронировать </button></td>
                          </tr>");
                 }
                 result += "</table></div>";
@@ -370,8 +370,8 @@ var cars = (new DBConnectionString()).Модель.ToArray();
                              <button type = 'button' class= 'btn btn-primary' onclick='readCar({quote + car.id + quote})'>Редактировать</button></td></tr> ");
                     }
                 }
-                    result += @"</tbody></table></div>";
-                
+                result += @"</tbody></table></div>";
+
                 return result;
             }
 
@@ -397,8 +397,8 @@ var cars = (new DBConnectionString()).Модель.ToArray();
                 var cars = (new DBConnectionString()).Автомобиль.ToArray();
                 var reiting = (new DBConnectionString()).Отзыв.ToArray();
                 var zakaz = (new DBConnectionString()).Заказ.ToArray();
-                double summ =0 ;
-                int count =0 ;
+                double summ = 0;
+                int count = 0;
                 foreach (var zak in zakaz)
                 {
                     if (zak.idПользователь == user.id)
@@ -410,7 +410,7 @@ var cars = (new DBConnectionString()).Модель.ToArray();
                          <td>{zak.Автомобиль.Стоимость} руб/час</td>
                          <td>{zak.ДатаВремяНачалаАредны} </td>
                          <td>{((zak.ДатаВремяКонцаАренды - zak.ДатаВремяНачалаАредны).Hours)} </td>
-                         <td>{((zak.ДатаВремяКонцаАренды - zak.ДатаВремяНачалаАредны).Hours)*zak.Автомобиль.Стоимость} </td>
+                         <td>{((zak.ДатаВремяКонцаАренды - zak.ДатаВремяНачалаАредны).Hours) * zak.Автомобиль.Стоимость} </td>
                           ");
                         foreach (var car in cars)
                         {
@@ -420,8 +420,8 @@ var cars = (new DBConnectionString()).Модель.ToArray();
                             {
                                 foreach (var reit in reiting)
                                 {
-                                        summ = summ + reit.Рейтинг;
-                                        count++;
+                                    summ = summ + reit.Рейтинг;
+                                    count++;
                                 }
                                 if (count != 0)
                                     summ = summ / count;
@@ -463,6 +463,8 @@ var cars = (new DBConnectionString()).Модель.ToArray();
 
                 return result;
             }
+            return "";
+        }
 
         public static string getStringWithId(string id, string strGuid)
         {
