@@ -84,7 +84,7 @@ function reg() {
 function exit() {
     myHub.server.getHtmlSv('menu').done(function (html) {
         replaceHtml('reg', html);
-    });;
+    });
 }
 
 function alertAllCl() {
@@ -92,5 +92,11 @@ function alertAllCl() {
 }
 
 function rentCar(carId) {
-    myHub.server.rentCar(carId);
+    myHub.server.rentCar(carId, $('#hourSelector').val());
+}
+
+function showCar(carId) {
+    myHub.server.getHtmlWithIdSv('showCar',carId).done(function (html) {
+        replaceHtml('main', html);
+    });
 }

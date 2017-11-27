@@ -186,17 +186,6 @@ namespace ORM
                          </div>";
             if (id == "showCars")
             {
-                //const string quote = "\"";
-                //string result = @"<div>";
-                //var cars = (new DBConnectionString()).Автомобиль.ToArray();
-                //foreach (var car in cars)
-                //{
-                //    result += string.Format(
-                //        $@"<div>Автомобиль {car.Модель.Марка} {car.Модель.Модель1} от 
-                //            {car.Пользователь.Имя} всего за {car.Стоимость} в час!</div><button id='{car.id}' type='button' onclick='rentCar({quote + car.id + quote})'>Арендовать сейчас</button><br>");
-                //}
-                //result += "</div>";
-                //return result;
                 const string quote = "\"";
                 string result = @"
 <div class='allcarsmenu'>
@@ -218,7 +207,7 @@ namespace ORM
  <td><img class='img-fluid' src='data:image/jpeg; base64,{car.Фото}' alt='200x200' style='width: 300px; height: 200px;'></td>
  <td>{car.Модель.Марка} {car.Модель.Модель1}</td>
  <td>{car.Стоимость} руб/час</td>
- <td> <button type='button' class= 'btn btn-primary' onclick='rentCar({quote + car.id + quote})'>Забронировать </button></td>
+ <td> <button type='button' class= 'btn btn-primary' onclick='showCar({quote + car.id + quote})'>Забронировать </button></td>
  </tr>");
                 }
                 result += "</table></div>";
@@ -226,8 +215,86 @@ namespace ORM
             }
             return "";
         }
-    }
+        public static string getStringWithId(string id, string strGuid)
+        {
+            if (id == "showCar" && strGuid != null)
+            {
+                var guid = new Guid(strGuid);
+                var car = new DBConnectionString().Автомобиль.FirstOrDefault(x => x.id == guid);
+                const string quote = "\"";
+                if (car != null)
+                {
+                    return $@"
+<div class='car'>
+        <h1>{car.Модель.Марка} {car.Модель.Модель1}</h1>
+        <br>
+        <div class='row'>
+            <div class='col-lg-6 ml-auto'>
+                <img class='img-rounded' src='data:image/jpeg; base64,{car.Фото}' alt='350x200' style='width: 450px; height: 300px;'>
+                <div class='rating'>
+                    <p>Рейтинг:</p>
+                    <div class='stars starrr' data-rating='5' enabled='false' readonly='true'></div>
+                </div>
+                <div class='price'>
+                    <p> Цена за день: </p>
+                    <p> {car.Стоимость} руб./день </p>
+                </div>
+            </div>
 
+            <div class='col-lg-5 ml-auto'>
+                <p>
+                    {car.Описание}
+                </p>
+                <br>
+
+                <div class='order'>
+                    <label>Дата и время начала: </label>
+                    <div class='input-group' id='datetimepicker2'>
+                        <input type='text' class='form-control'>
+                        <span class='input-group-addon'>
+                            <span class='glyphicon glyphicon-calendar'></span>
+                        </span>
+                    </div>
+                    <br>
+                    <label>Количество часов: </label>
+                    <select id='hourSelector' class='selectpicker'>
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                        <option>6</option>
+                        <option>7</option>
+                        <option>8</option>
+                        <option>9</option>
+                        <option>10</option>
+                        <option>11</option>
+                        <option>12</option>
+                        <option>13</option>
+                        <option>14</option>
+                        <option>15</option>
+                        <option>16</option>
+                        <option>17</option>
+                        <option>18</option>
+                        <option>19</option>
+                        <option>20</option>
+                    </select>
+
+                    <br> <br>
+                    <button class='btn btn-lg btn-primary' id='btnreg' onclick='rentCar({quote + car.id + quote})'> Забронировать </button>
+                    <button class='btn btn-lg btn-primary' id='btnback' onclick=''> Назад </button>
+                </div>
+            </div>
+        </div>
+
+
+    </div>";
+
+                }
+            }
+            return "";
+        }
+    }
     public class User
     {
         public string Login { get; set; }

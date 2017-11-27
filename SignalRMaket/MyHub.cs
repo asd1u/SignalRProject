@@ -44,7 +44,11 @@ namespace SignalRMaket
         {
             return HtmlGetter.getString(tag);
         }
-
+        [HubMethodName("getHtmlWithIdSv")]
+        public string GetHtmlWithId(string tag, string guid)
+        {
+            return HtmlGetter.getStringWithId(tag, guid);
+        }
         [HubMethodName("logInSv")]
         public void LogIn(string user, string pass)
         {
@@ -119,11 +123,27 @@ namespace SignalRMaket
             return hash.ToString();
         }
 
-        public void RentCar(string carId)
+        public void RentCar(string carId, int hours)
         {
-            Guid carGuid = new Guid(carId);
-            var car = (new DBConnectionString()).Автомобиль.Find(carGuid);
-            Clients.Caller.alertFuncCl($"Вы арендовали {car.Модель.Марка} {car.Модель.Модель1} за {car.Стоимость}");
+            if (Users.UserByCid(cid) == null)
+            {
+                Clients.Caller.alertFuncCl("Авторизуйся, пёс");
+            }
+            else
+            {
+                Guid carGuid = new Guid(carId);
+                var connection = new DBConnectionString();
+                var car = connection.Автомобиль.Find(carGuid);
+                if (!car.Доступность)
+                    Clients.Caller.alertFuncCl("Машина занята");
+                else
+                {
+                    Schedule.RentCar(carGuid, hours);
+                    car.Доступность = false;
+                    connection.SaveChanges();
+                    Clients.Caller.alertFuncCl($"Вы арендовали {car.Модель.Марка} {car.Модель.Модель1} за {car.Стоимость}");
+                }
+            }
         }
 
         [HubMethodName("alertAllSv")]
