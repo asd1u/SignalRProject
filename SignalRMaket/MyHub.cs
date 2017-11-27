@@ -72,7 +72,13 @@ namespace SignalRMaket
         {
             return HtmlGetter.getStringWithId(tag, guid);
         }
-        
+
+        [HubMethodName("getHtmlFilterCars")]
+        public string GetHtmlFilterCars(string tag, string dostupnost, int? min, int? max)
+        {
+            return HtmlGetter.GetFilteredString(tag, dostupnost, min, max);
+        }
+
         [HubMethodName("logInSv")]
         public void LogIn(string user, string pass)
         {
@@ -164,6 +170,7 @@ namespace SignalRMaket
                 {
                     Schedule.RentCar(carGuid, hours);
                     car.Доступность = false;
+                    connection.Заказ.Add(new Заказ() { id = Guid.NewGuid(), idАвтомобиль = car.id, idПользователь = Users.UserByCid(cid)._User.id, ДатаВремяНачалаАредны = DateTime.Now, ДатаВремяКонцаАренды = DateTime.Now.AddHours(hours) });
                     connection.SaveChanges();
                     Clients.Caller.alertFuncCl($"Вы арендовали {car.Модель.Марка} {car.Модель.Модель1} за {car.Стоимость}");
                 }

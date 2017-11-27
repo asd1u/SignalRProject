@@ -1,22 +1,15 @@
-﻿/* Отступ для меню */
+/* Отступ для меню */
 body
 {
 padding-top: 50px;
 padding-bottom: 40px;
- background-color: #eee !important;
+ background-color: #DCDCDC;
 }
 .navbar {
-    background-color: #000 !important;
-    border-color: #fff !important; 
+    background-color: #000;
+    border-color: #fff;
     color: #fff;
-    
     font-size:17px!important;
-
-}
-#label{
-  color:#fff;
-   font-size:20px;
-   font-weight:700;
 
 }
 .splash { 
@@ -111,7 +104,7 @@ background-color: #e5f9eb;
   text-align:center;
 }
 .log {
-  max-width: 330px; 
+  max-width: 330px;
   padding: 15px;
   margin: 0 auto;
 }
@@ -184,9 +177,7 @@ background-color: #e5f9eb;
   margin: auto; 
   padding-top: 50px;
 }
-.table{
-  background-color: #FFF;
-}
+
 .car{
   padding:1em 5em 1em;
 
@@ -241,3 +232,44 @@ background-color: #e5f9eb;
     font-size: 24px;
     color: #d17581;
 }
+.filter{
+    border-radius: 20px;
+    background-color: #fff;
+    padding:10px;
+    border-spacing: 0;
+  border: 1px solid;
+  border-color: #808080;
+  font-size: 15px;
+  
+}
+.namefil{
+    text-indent: 15px;
+}
+
+
+#menuallcars{
+   
+  padding-top: 50px;
+  padding-bottom: 40px;
+  font-size: 17px;
+  vertical-align: bottom;
+}
+#dost{
+  padding-left: 10px;
+}
+.table{
+  vertical-align: middle;
+}
+.pricecar
+{
+  font-size:17px;
+  font-weight:700;
+}
+.namecar
+{
+  font-size:22px;
+  font-weight:800;
+  color:#0000CD;
+}
+
+
