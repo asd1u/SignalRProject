@@ -134,13 +134,13 @@ namespace ORM
                     {
                         result += string.Format(
                            $@"<div class='col-lg-4'>
-                            <img class='img-circle' data-src='pic/pic4.jpg/140x140' alt='140x140' src='data:image/jpeg; base64,{car.Фото}' style='width: 140px; height: 140px;'>
+                            <img class='img-fluid' data-src='pic/pic4.jpg/140x140' alt='140x140' src='data:image/jpeg; base64,{car.Фото}' style='width: 140px; height: 140px;'>
                             <div class='marka'>
                                 <p> { car.Модель.Марка } { car.Модель.Модель1 }</p>
                             </div> 
                             <p> {car.Стоимость} Руб./час</p>
                         </div>");
-                        
+
                     }
                     i++;
                 }
@@ -299,7 +299,7 @@ namespace ORM
 
 
 
-           
+
             if (id == "showCars")
             {
                 const string quote = "\"";
@@ -307,6 +307,120 @@ namespace ORM
                                 <div class='allcarsmenu'>
                 <div class='col-lg-3'>
                 <div class='filter'>
+                <div class='namefil'><h4 class='form-check-label'>
+                          <input type = 'checkbox'  id = 'sort' class='form-check-input'>
+                      Сортировать по рейтингу
+                    </h4></div>
+                <div class='namefil'>
+                    <h4 class='form-check-label'>
+                        <input type = 'checkbox' id='dost' class='form-check-input'>
+                        Показать только доступные для аренды
+                    </h4>
+                </div>
+                <div class='namefil'><h4>Марка:</h4></div>
+                <ul class='list-group'>
+                    <li class='list-group-item'>
+                        <label class='form-check-label'>
+                            <input type = 'checkbox' class='form-check-input'>
+                            Lada
+                        </label>
+                    </li>
+                    <li class='list-group-item'>
+                        <label class='form-check-label'>
+                            <input type = 'checkbox' class='form-check-input'>
+                            Ford
+                        </label>
+                    </li>
+                    <li class='list-group-item'>
+                        <label class='form-check-label'>
+                            <input type = 'checkbox' class='form-check-input'>
+                            Ferrari
+                        </label>
+                    </li>
+                </ul>
+                <div class='namefil'><h4>Цена:</h4></div>
+                <div class='col-xs-6'>
+                    <label for='from'>MIN:</label>
+                    <input class='form-control' id='minPrice' type='number' placeholder='' step='100' min='0'>
+                </div>
+                <div class='col-xs-6'>
+                    <label for='from'>MAX:</label>
+                    <input class='form-control' id='maxPrice' type='number' placeholder='' step='100' min='1000'>
+                </div>
+
+                <br> <br><br> <br>
+                <button class=' btn btn-primary btn-lg btn-block' onclick='filterCars()'>Применить</button>
+            </div>
+
+        </div>
+                                    <div class='col-lg-9'>
+                <div id='allcars' class='allcarsmenu'>
+                <table class='table table-striped '>
+                    <thead>   
+                        <tr>
+                            <td>Фотография</td>
+                            <td>Модель</td>
+                            <td>Стоимость</td>
+                            <td>Рейтинг</td>
+                            <td>Доступность</td>
+                            <td></td>
+                            </tr>  
+                    </thead>
+                    <tbody>";
+                var cars = (new DBConnectionString()).Автомобиль.ToArray();
+                var zakaz = (new DBConnectionString()).Заказ.ToArray();
+                var otziv = (new DBConnectionString()).Отзыв.ToArray();
+                double summ = 0;
+                int count = 0;
+                foreach (var car in cars)
+                {
+                    var dostup = car.Доступность ? "Доступна" : "Недоступна";
+                    result += string.Format(
+                                            $@" <tr>
+                         <td><img class='img-fluid' src='data:image/jpeg; base64,{car.Фото}' alt='200x200' style='width: 300px; height: 200px;'></td>
+                         <td><div class='namecar'>{car.Модель.Марка} {car.Модель.Модель1}</div></td>
+                         <td><div id = 'inStoim' class='pricecar'>{car.Стоимость} руб/час</div></td>");
+
+                    summ = 0;
+                    count = 0;
+                    foreach (var zak in zakaz)
+                    {
+                        if (zak.idАвтомобиль == car.id)
+                        {
+                            foreach (var otz in otziv)
+                            {
+                                if (otz.id == zak.id)
+                                {
+                                    summ += otz.Рейтинг;
+                                    count++;
+                                }
+                            }
+                        }
+                    }
+                    if (count == 0)
+                        summ = 0;
+                    else
+                        summ = summ / (double)count;
+
+                    result += string.Format($@" <td>{summ}</td><td>{dostup}</td>
+                         <td> <button type='button' class= 'btn btn-primary' onclick='showCar({quote + car.id + quote})'>Забронировать </button></td>
+                         </tr>");
+                }
+                result += "</tbody></table></div></div>";
+                return result;
+            }
+
+            if (id == "showCarsAdmin")
+            {
+                const string quote = "\"";
+                string result = @"
+                                <div class='allcarsmenu'>
+                <div class='col-lg-3'>
+                <div class='filter'>
+                <div class='namefil'><h4 class='form-check-label'>
+                          <input type = 'checkbox'  id = 'sort' class='form-check-input'>
+                      Сортировать по рейтингу
+                    </h4></div>
                 <div class='namefil'>
                     <h4 class='form-check-label'>
                         <input type = 'checkbox' id='dost' class='form-check-input'>
@@ -353,7 +467,15 @@ namespace ORM
                 <div id='allcars' class='allcarsmenu'>
                 <table class='table table-striped '>
                     <thead>
-                        <tr></tr>
+                        <tr>
+                            <td>Фотография</td>
+                            <td>Модель</td>
+                            <td>Стоимость</td>
+                            <td>Доступность</td>
+                            <td>Владелец</td>
+                            <td></td>
+
+                    </tr>
                     </thead>
                     <tbody>";
                 var cars = (new DBConnectionString()).Автомобиль.ToArray();
@@ -361,15 +483,52 @@ namespace ORM
                 {
                     var dostup = car.Доступность ? "Доступна" : "Недоступна";
                     result += string.Format(
-                                            $@" <tr>
+                                            $@" 
+                            <tr>
                          <td><img class='img-fluid' src='data:image/jpeg; base64,{car.Фото}' alt='200x200' style='width: 300px; height: 200px;'></td>
-                         <td><div class='namecar'>{car.Модель.Марка} {car.Модель.Модель1}</div></td>
-                         <td><div class='pricecar'>{car.Стоимость} руб/час</div></td>
+                         <td><div  class='namecar'>{car.Модель.Марка} {car.Модель.Модель1}</div></td>
+                         <td><div  class='pricecar'>{car.Стоимость} руб/час</div></td>
                          <td>{dostup}</td>
-                         <td> <button type='button' class= 'btn btn-primary' onclick='showCar({quote + car.id + quote})'>Забронировать </button></td>
-                         </tr>");
+                         <td>{car.Пользователь.Логин}</td>
+                         <td> 
+                            <button type = 'button' class= 'btn btn-primary' onclick='delCar({quote + car.id + quote}, {quote + false + quote})'>Удалить</button>
+                             <a href = '#changAuto1' onclick='readCarSaveAdmin({quote + car.id + quote},{quote + car.Модель.Марка + quote},
+                               {quote + car.Модель.Модель1 + quote},{quote + car.Описание + quote},{quote + car.Стоимость + quote})' 
+                                type = 'button' class= 'btn btn-primary' data-toggle='modal' '>Редактировать</button></a> </td>  </tr>");
                 }
                 result += "</tbody></table></div></div>";
+                result += @"<div id = 'changAuto1' class='modal fade'>
+<div class='modal-dialog'>
+            <div class='modal-content'>
+                <div class='modal-header'>
+                    <button type = 'button' class='close' data-dismiss='modal' aria-hidden='true'>×</button>
+                    <h4 class='modal-title' >Изменение данных о автомобиле</h4>
+                </div>
+
+
+                <div class='modal-body'>
+                <label > Марка: </label> <input id = 'inModel1' border = '0' type='label' disabled ></input >
+                    <br>
+                    <input id = 'carId1' hidden = ''>
+                    <input id = 'inMod1' hidden = ''>
+                    <input id = 'inMark1' hidden = ''>
+                     ";
+
+                result += $@"<br>
+                        <label class> Описание: </label> <br>          
+                    <textarea id = 'inOpis1' name = 'Descr' cols='50' rows='10'></textarea> <br>
+                    <label> Стоимость: </label> <br>
+                    <input id = 'inStoim1' type = 'text' name='price'>  <label> рублей\час </label><br>
+                    <label> Фотография: </label> <br>
+                    <input  type = 'file' name='photo' multiple accept = 'image/*,image/jpeg'> <br>
+  
+                  </div>
+  
+                  <div class='modal-footer'>
+                    <button onclick='changAutoAdmin({quote + false + quote})' type = 'button' class='btn btn-primary' data-dismiss='modal' >Сохранить изменения</button>
+                </div>
+            </div>
+        </div>";
                 return result;
             }
 
@@ -392,7 +551,7 @@ namespace ORM
                 <li> <button onclick = 'showMenupolzZakaz()' class='btn-link'>Мои заказы</button></li>";
 
                 if (user.Администратор == true)
-                    result += @"<li> <button onclick = 'showMenuAllAuto()' class='btn-link'>Все автомобили</button></li>
+                    result += @"<li> <button onclick = 'showCarsAdmin()' class='btn-link'>Все автомобили</button></li>
                 <li> <button onclick = 'showMenuTablpolz()' class='btn-link'>Пользователи</button></li>";
                 result += @"</ul>
                             </li></li><li>
@@ -485,10 +644,10 @@ namespace ORM
                         var dostup = car.Доступность ? "Свободна" : "Занято";
                         result += string.Format($@"<td>{summ}</td> 
                          <td>{car.Описание}</td> 
-                         <td><button type = 'button' class= 'btn btn-primary' onclick='delCar({quote + car.id + quote})'>Удалить</button>
+                         <td><button type = 'button' class= 'btn btn-primary' onclick='delCar({quote + car.id + quote}, {quote + true + quote})'>Удалить</button>
                              <a href = '#changAuto' onclick='readCarSave({quote + car.id + quote},{quote + car.Модель.Марка + quote},{quote + car.Модель.Модель1 + quote},{quote + car.Описание + quote},{quote + car.Стоимость + quote})' type = 'button' class= 'btn btn-primary' data-toggle='modal' '>Редактировать</button></a> </tr> "
                     );
-    }
+                    }
                 }
                 result += $@"</tbody></table></div>
 <div id='changAuto' class='modal fade'>
@@ -501,16 +660,16 @@ namespace ORM
 
 
                 <div class='modal-body'>
-                <label > Марка: </label> <input type='text' id = 'inModel' disabled >  </input >
+                <label > Марка: </label> <input  id = 'inModel' border = '0' type='label' disabled ></input >
                     <br>
                     <input id = 'carId' hidden = ''>
                     <input id = 'inMod' hidden = ''>
                     <input id = 'inMark' hidden = ''>
                      ";
- 
-               
-            
-                result += @"<br>
+
+
+
+                result += $@"<br>
                         <label class> Описание: </label> <br>          
                     <textarea id = 'inOpis' name = 'Descr' cols='50' rows='10'></textarea> <br>
                     <label> Стоимость: </label> <br>
@@ -521,7 +680,7 @@ namespace ORM
                   </div>
   
                   <div class='modal-footer'>
-                    <button onclick='changAuto()' type = 'button' class='btn btn-primary' data-dismiss='modal' >Сохранить изменения</button>
+                    <button onclick='changAuto({quote + true + quote})' type = 'button' class='btn btn-primary' data-dismiss='modal' >Сохранить изменения</button>
                 </div>
             </div>
         </div>";
@@ -711,19 +870,64 @@ namespace ORM
             return "";
         }
 
-        public static string GetFilteredString(string tag, string dostupnost, int? min, int? max)
+        public class MyClass
+        {
+            public Guid MyGu { get; set; }
+            public Double MyD { get; set; }
+        }
+
+
+        public static string GetFilteredString(string tag, string dostupnost, string reiting, int? min, int? max)
         {
             const string quote = "\"";
             string result = @"
                 <table class='table table-striped '>
                     <thead>
-                        <tr></tr>
+                        <td>Фотография</td>
+                            <td>Модель</td>
+                            <td>Стоимость</td>
+                            <td>Рейтинг</td>
+                            <td>Доступность</td>
+                            <td></td>
                     </thead>
                     <tbody>";
             var cars = (new DBConnectionString()).Автомобиль.ToArray();
+            var zakaz = (new DBConnectionString()).Заказ.ToArray();
+            var otziv = (new DBConnectionString()).Отзыв.ToArray();
+            var list = new List<MyClass>();
+            var list2 = new List<MyClass>();
             if (dostupnost == "True")
             {
                 cars = cars.Where(x => x.Доступность).ToArray();
+            }
+            if (reiting == "True")
+            {
+                foreach (var carr in cars)
+                {
+                    double summ = 0;
+                    int count = 0;
+                    foreach (var zak in zakaz)
+                    {
+                        if (zak.idАвтомобиль == carr.id)
+                        {
+                            foreach (var otz in otziv)
+                            {
+                                if (otz.id == zak.id)
+                                {
+                                    summ += otz.Рейтинг;
+                                    count++;
+                                }
+                            }
+                        }
+                    }
+                    if (count == 0)
+                        list.Add(new MyClass { MyGu = carr.id, MyD = 0 });
+                    else
+                        list.Add(new MyClass { MyGu = carr.id, MyD = summ / (double)count });
+                }
+
+                list2 = list.OrderBy(x => x.MyD).ThenBy(x => x.MyGu).ToList();
+
             }
             if (min != null)
             {
@@ -733,35 +937,77 @@ namespace ORM
             {
                 cars = cars.Where(x => x.Стоимость <= max).ToArray();
             }
-            foreach (var car in cars)
+
+            if (reiting == "True")
             {
-                var dostup = car.Доступность ? "Доступна" : "Недоступна";
-                result += string.Format(
-                                $@" <tr>
+                for (int j = list2.Count() - 1; j >= 0; j--)
+                {
+                    foreach (var car in cars)
+                    {
+                        if (car.id == list2[j].MyGu)
+                        {
+                            var dostup = car.Доступность ? "Доступна" : "Недоступна";
+                            result += string.Format(
+                                            $@" <tr>
                          <td><img class='img-fluid' src='data:image/jpeg; base64,{car.Фото}' alt='200x200' style='width: 300px; height: 200px;'></td>
                          <td><div class='namecar'>{car.Модель.Марка} {car.Модель.Модель1}</div></td>
                          <td><div class='pricecar'>{car.Стоимость} руб/час</div></td>
+                         <td>{list2[j].MyD}</td>
                          <td>{dostup}</td>
                          <td> <button type='button' class= 'btn btn-primary' onclick='showCar({quote + car.id + quote})'>Забронировать </button></td>
                          </tr>");
+                        }
+                    }
+
+
+                }
+            }
+
+            else
+            {
+                foreach (var car in cars)
+                {
+                    for (int j = list2.Count() - 1; j >= 0; j--)
+                    {
+                        if(car.id == list2[j].MyGu)
+                        {
+                            var dostup = car.Доступность ? "Доступна" : "Недоступна";
+                            result += string.Format(
+                                            $@" <tr>
+                         <td><img class='img-fluid' src='data:image/jpeg; base64,{car.Фото}' alt='200x200' style='width: 300px; height: 200px;'></td>
+                         <td><div class='namecar'>{car.Модель.Марка} {car.Модель.Модель1}</div></td>
+                         <td><div class='pricecar'>{car.Стоимость} руб/час</div></td>
+                        <td>{list2[j].MyD}</td>
+                         <td>{dostup}</td>
+                         <td> <button type='button' class= 'btn btn-primary' onclick='showCar({quote + car.id + quote})'>Забронировать </button></td>
+                         </tr>");
+                        }
+                    }
+                }
+
+
+
+
+
+
             }
             result += "</tbody></table>";
             return result;
         }
     }
-    public class User
-    {
-        public string Login { get; set; }
-        public string MD5Pass { get; set; }
-
-        public static User LoadUser(string login, string pass)
+        public class User
         {
-            if (login == "asd")
-            {
-                return new User() { Login = login, MD5Pass = pass };
-            }
-            return null;
-        }
-    }
+            public string Login { get; set; }
+            public string MD5Pass { get; set; }
 
-}
+            public static User LoadUser(string login, string pass)
+            {
+                if (login == "asd")
+                {
+                    return new User() { Login = login, MD5Pass = pass };
+                }
+                return null;
+            }
+        }
+
+    }
