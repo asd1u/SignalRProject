@@ -15,7 +15,8 @@ namespace ORM
                 const string quote = "\"";
                 string result = @"
                                 <div class='allpeople'>
-                                    <table class='table table-bordered table-hover'>
+                                    <h3> Все пользователи </h3>
+                                    <table id = 'tablepeople' class='table table-bordered table-hover table-striped'>
                                 <thead>
                                  <tr>
                                  <th>Логин</th>
@@ -405,7 +406,7 @@ namespace ORM
             {
                 const string quote = "\"";
                 string result = @"
-<a href='#myModal' class='btn btn-primary' data-toggle='modal'>Добавить автомобиль</a>
+<a href='#myModal' class='btn btn-primary btn-lg'  data-toggle='modal'>Добавить автомобиль</a>
     <div id = 'myModal' class='modal fade'>
             <div class='modal-dialog'>
                 <div class='modal-content'>
@@ -445,12 +446,13 @@ namespace ORM
         </div>
 </div>
                               <div class='allcars'>
-                                <table class='table table-bordered table-hover'>
+                                <h3> Все мои автомобили </h4>
+                                <table id = 'tablereview' class='table table-bordered table-hover table-striped'>
                             <thead>
                              <tr>
                              <th>Фотография</th>
                              <th>Модель</th>
-                             <th>Стоиомость</th>
+                             <th>Стоимость</th>
                              <th>Рейтинг</th>
                              <th>Описание</th>
                              <th></th>
@@ -534,7 +536,8 @@ namespace ORM
                 const string quote = "\"";
                 string result = @"
                               <div class='allcars'>
-                                <table class='table table-bordered table-hover'>
+                                <h3>Заказы:</h3>
+                                <table id = 'tableotz' class='table table-bordered table-hover table-striped'>
                             <thead>
                              <tr>
                              <th>Фотография</th>
