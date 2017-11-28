@@ -7,7 +7,8 @@ function Initialize() {
     myHub.client.showMenupolzZakaz = function () { showMenupolzZakaz() };
     myHub.client.showMenuTablpolz = function () { showMenuTablpolz() };
     myHub.client.showMenuAllAuto = function () { showMenuAllAuto() };
-	$.connection.hub.start().done(hubStarted);
+    $.connection.hub.start().done(hubStarted);
+  
 }
 
 function hubStarted() {
