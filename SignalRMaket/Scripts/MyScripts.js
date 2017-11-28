@@ -193,7 +193,7 @@ function filterCars() {
 
 function changeStyle() {    
     if ($('#styleLink').attr('href') === 'css/style.css')
-        $('#styleLink').attr('href', 'css/style.css');
+        $('#styleLink').attr('href', 'css/stylenew.css');
     else
         $('#styleLink').attr('href', 'css/style.css');
 }
