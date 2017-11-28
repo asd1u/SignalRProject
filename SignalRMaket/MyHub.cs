@@ -74,9 +74,9 @@ namespace SignalRMaket
         }
 
         [HubMethodName("getHtmlFilterCars")]
-        public string GetHtmlFilterCars(string tag, string dostupnost, int? min, int? max)
+        public string GetHtmlFilterCars(string tag, string dostupnost, string reiting ,int? min, int? max)
         {
-            return HtmlGetter.GetFilteredString(tag, dostupnost, min, max);
+            return HtmlGetter.GetFilteredString(tag, dostupnost, reiting, min, max);
         }
 
         [HubMethodName("logInSv")]

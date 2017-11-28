@@ -229,7 +229,7 @@ function showCar(carId) {
 }
 //Приминение фильтров на странице с автомобилями
 function filterCars() {
-    myHub.server.getHtmlFilterCars('', $('#dost').is(':checked'), $('#minPrice').val(), $('#maxPrice').val()).done(function (html) {
+    myHub.server.getHtmlFilterCars('', $('#dost').is(':checked'), $('#sort').is(':checked'), $('#minPrice').val(), $('#maxPrice').val()).done(function (html) {
         replaceHtml('allcars', html);
     });
 } 
