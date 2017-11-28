@@ -33,14 +33,14 @@ namespace SignalRMaket
             {
                 if(rentedCar.Item2 < DateTime.Now)
                 {
-                    var connection = new DBConnectionString();
-                    var car = connection.Автомобиль.FirstOrDefault(x => x.id == rentedCar.Item1);
+                    var conn = new DBConnectionString();
+                    var car = conn.Автомобиль.FirstOrDefault(x => x.id == rentedCar.Item1);
                     if(car != null)
                     {
                         car.Доступность = true;
                     }
                     rentedCars.Remove(rentedCar);
-                    connection.SaveChangesAsync();
+                    conn.SaveChangesAsync();
                 }
             }
         }
