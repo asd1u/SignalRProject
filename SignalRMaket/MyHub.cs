@@ -128,7 +128,6 @@ namespace SignalRMaket
                         connection.Пользователь.Add(new Пользователь() { id = Guid.NewGuid(), Логин = user, Пароль = pass, Имя = name, Фамилия = fname, Отчество = oname });
                         connection.SaveChanges();
                         Clients.Caller.alertFuncCl("Регистрация прошла успешна! Войдите в систему.");
-
                     }
 
                 }
@@ -205,6 +204,20 @@ namespace SignalRMaket
             Clients.Caller.showMenuTablpolz();
         }
 
+        public void CngAuto(Guid id, string marka, string model, string opis, decimal stoim, string file)
+        {
+            var connection = new DBConnectionString();
+            var car= connection.Автомобиль.Single(o => o.id == id);
+           // var models = connection.Модель.Single(x => x.Марка == marka && x.Модель1 == model);
+            //car.idМодель = models.id;
+            car.Описание = opis;
+            car.Стоимость = stoim/100;
+            car.Фото = file;
+            connection.SaveChanges();
+            Clients.Caller.showMenupolzSdan();
+        }
+
+        
         public void Addauto(string model, string opis, decimal stoim, string file)
         {
             model = model.Trim();

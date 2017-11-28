@@ -1,5 +1,5 @@
 ﻿var myHub;
-function Initialize() {
+function Initialize() {  
     myHub = $.connection.myHub;
     myHub.client.alertFuncCl = function (mes) { alert(mes) };
     myHub.client.onSuccessfulLoginCl = onSuccessfulLoginImpl;
@@ -7,13 +7,17 @@ function Initialize() {
     myHub.client.showMenupolzZakaz = function () { showMenupolzZakaz() };
     myHub.client.showMenuTablpolz = function () { showMenuTablpolz() };
     myHub.client.showMenuAllAuto = function () { showMenuAllAuto() };
-    $.connection.hub.start().done(hubStarted);
-  
+    $.connection.hub.start().done(hubStarted).done(function () {
+        myHub.server.getHtmlSv('menu').done(function (html) {
+            replaceHtml('main', html);
+        });
+    });
 }
 
 function hubStarted() {
    
 }
+
 
 function replaceHtml(id, html) {
 	$('#' + id).empty().append(html);
@@ -153,6 +157,21 @@ function Profil(userId, userLogin, userName, userFname, userOname, userStatus)
         document.getElementById('inStatus').value = "Пользователь";
     
 }
+
+
+function readCarSave(carId, model, marka, opis, stoim)
+{
+    document.getElementById('carId').value = carId;
+    document.getElementById('inModel').value = model + " " + marka;
+    document.getElementById('inMod').value = model;
+    document.getElementById('inMark').value = marka;
+    document.getElementById('inOpis').value = opis;
+    document.getElementById('inStoim').value = stoim;
+    //document.getElementById('inFile').value = file;
+
+
+}
+
 function saveProfil() {
     myHub.server.sVP(
         $('#Userid').val(),
@@ -162,6 +181,15 @@ function saveProfil() {
         $('#inFname').val(),
         $('#inOname').val(),
         $('#inStatus').val() );
+}
+function changAuto() {
+    myHub.server.cngAuto(
+        $('#carId').val(),
+        $('#inMod').val(),
+        $('#inMark').val(),
+        $('#inOpis').val(),
+        $('#inStoim').val(),
+        $('#inFile').val(), );
 }
 
 function saveOtziv(carId , zakId) {

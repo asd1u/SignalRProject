@@ -14,7 +14,7 @@ namespace ORM
             {
                 const string quote = "\"";
                 string result = @"
-                                <div class='allcarsmenu'>
+                                <div class='allpeople'>
                                     <table class='table table-bordered table-hover'>
                                 <thead>
                                  <tr>
@@ -86,105 +86,142 @@ namespace ORM
             if (id == "user2")
                 return @"<div id='buttonlogin'><button class='btn-link btn-lg' onclick='showLogin()'>Вход</button></div>";
             if (id == "menu")
-                return @" <div class='splash'>
-                        <div class='container'>
-                         <p>Аренда автомобилей в Перми</p>
-                          </div>
-                          </div>
-                           <div class='cars'>
-                              <div class='page-header'>
-                                 <h1 class='text-right'>Наши автомобили</h1>
-                             </div>
-                          <div class='container marketing'>
-                <!-- Three columns of text below the carousel -->
-                <div class='rows'>
-                    <div class='col-lg-4'>
-                        <img class='img-fluid' data-src='pic/pic6.jpg/140x140' alt='200x200' src='pic/pic6.jpg' style='width: 300px; height: 200px;'>
-                        <div class='marka'>
-                            <p> Какая-то машинка  </p>
-                        </div>
-                        <p>5000 Руб./Сутки</p>
-
-
-
-                    </div><!-- /.col-lg-4 -->
-                    <div class='col-lg-4'>
-                        <img class='img-fluid' data-src='pic/pic7.jpg/140x140' alt='200x200' src='pic/pic7.jpg' style='width: 300px; height: 200px;'>
-                        <div class='marka'>
-                            <p> Какая-то машинка </p>
-                        </div>
-                        <p> 10000 Руб./Сутки</p>
-                    </div>
-
-                    <div class='col-lg-4'>
-                        <img class='img-fluid' data-src='pic/pic8.jpg/140x140' alt='200x200' src='pic/pic8.jpg' style='width: 300px; height: 200px;'>
-                        <div class='marka'>
-                            <p> Какая-то машинка  </p>
-                        </div>
-                        <p>13000 Руб./Сутки</p>
-                    </div>
-
-
-                    <!-- /.col-lg-4 -->
-                </div><!-- /.row -->
+            {
+                string result = string.Format($@"<div class='splash'>
+            <div class='container'>
+                <p>Аренда автомобилей в Перми</p>
             </div>
-
-            <p><a class='btn btn-inverse btn-lg' onclick='showCars()' role='button'> Посмотреть все автомобили  →</a></p>
-
-
-
         </div>
-
-        <div class='sucsess'>
+        <div class='cars'>
             <div class='page-header'>
-                <h1>Все о компании</h1>
+                <h1 class='text-right'>Наши автомобили</h1>
             </div>
-            <div class='row'>
-                <div class='col-lg-6 ml-auto'>
-                    <img class='img-fluid' data-src='holder.js/140x140' alt='350x200' src='pic/office.jpg' style='width: 450px; height: 300px;'>
-                </div>
+            <div class='container marketing'>
+                <div id='randomcars' class='rows'>");
+                //<div class='container marketing'>
+                //<!-- Three columns of text below the carousel -->
+                //<div class='rows'>
+                //    <div class='col-lg-4'>
+                //        <img class='img-fluid' data-src='pic/pic6.jpg/140x140' alt='200x200' src='pic/pic6.jpg' style='width: 300px; height: 200px;'>
+                //        <div class='marka'>
+                //            <p> Какая-то машинка  </p>
+                //        </div>
+                //        <p>5000 Руб./Сутки</p>"
 
-                <div class='col-lg-5 ml-auto'>
-                    <p> ООО  'MEOWavto' является одной из крупнейших компаний Пермского края на рынке транспортных услуг. Начав свою деятельность в 2007 году, на сегодняшний день прочно удерживает лидирующие позиции, завоевав доверие многочисленных клиентов.  </p>
-                    <p>
-                        Мы предлагаем Вам широкий спектр транспортных услуг: аренда автомобилей без водителя; аренда легковых автомобилей с водителем;
-                        аренда автомобиля на свадьбу;
-                        грузовые перевозки;
-                        пассажирские перевозки ( аренда автобусов и микроавтобусов; трансфер (аэропорт 'Большое Савино', железнодорожный вокзал Пермь II);
-                        аренда спецтехники;
-                        услуги автосервиса.
-                    </p>
-                </div>
-            </div>
 
-        </div>
+                var cars = (new DBConnectionString()).Автомобиль.ToArray();
+                int[] m_car = new int[cars.Count()];
+                int count = 0;
+                int max = 3;
+                if (cars.Count() < 3)
+                    max = cars.Count();
+
+                while (count < max)
+                {
+                    Random ch = new Random();
+                    int key = ch.Next(0, cars.Count());
+                    if (m_car[key] != 1)
+                    {
+                        m_car[key] = 1;
+                        count++;
+                    }
+
+                }
+                int i = 0;
+                foreach (var car in cars)
+                {
+                    if (m_car[i] == 1)
+                    {
+                        result += string.Format(
+                           $@"<div class='col-lg-4'>
+                            <img class='img-circle' data-src='pic/pic4.jpg/140x140' alt='140x140' src='data:image/jpeg; base64,{car.Фото}' style='width: 140px; height: 140px;'>
+                            <div class='marka'>
+                                <p> { car.Модель.Марка } { car.Модель.Модель1 }</p>
+                            </div> 
+                            <p> {car.Стоимость} Руб./час</p>
+                        </div>");
+                        
+                    }
+                    i++;
+                }
+                result += "</div></div>";
+                //        < div class='col-lg-4'>
+                //            <img class='img-fluid' data-src='pic/pic7.jpg/140x140' alt='200x200' src='pic/pic7.jpg' style='width: 300px; height: 200px;'>
+                //            <div class='marka'>
+                //                <p> Какая-то машинка</p>
+                //            </div>
+                //            <p> 10000 Руб./Сутки</p>
+                //        </div>
+
+                //        <div class='col-lg-4'>
+                //            <img class='img-fluid' data-src='pic/pic8.jpg/140x140' alt='200x200' src='pic/pic8.jpg' style='width: 300px; height: 200px;'>
+                //            <div class='marka'>
+                //                <p> Какая-то машинка</p>
+                //            </div>
+                //            <p>13000 Руб./Сутки</p>
+                //        </div>
+
+
+                //        <!-- /.col-lg-4 -->
+                //    </div><!-- /.row -->
+                //</div>
+
+                result += string.Format(
+                   $@"<p><a class='btn btn-inverse btn-lg' onclick='showCars()' role='button'> Посмотреть все автомобили  →</a></p>
+                   </div>
+                    <div class='sucsess'>
+                        <div class='page-header'>
+                            <h1>Все о компании</h1>
+                        </div>
+                        <div class='row'>
+                            <div class='col-lg-6 ml-auto'>
+                                <img class='img-fluid' data-src='holder.js/140x140' alt='350x200' src='pic/office.jpg' style='width: 450px; height: 300px;'>
+                            </div>
+
+                            <div class='col-lg-5 ml-auto'>
+                                <p> ООО  'MEOWavto' является одной из крупнейших компаний Пермского края на рынке транспортных услуг.Начав свою деятельность в 2007 году, на сегодняшний день прочно удерживает лидирующие позиции, завоевав доверие многочисленных клиентов.  </p>
+                                <p>
+
+                                   Мы предлагаем Вам широкий спектр транспортных услуг: аренда автомобилей без водителя; аренда легковых автомобилей с водителем;
+                                    аренда автомобиля на свадьбу;
+                                    грузовые перевозки;
+                                    пассажирские перевозки(аренда автобусов и микроавтобусов; трансфер(аэропорт 'Большое Савино', железнодорожный вокзал Пермь II);
+                                    аренда спецтехники;
+                                    услуги автосервиса.
+
+
+                                </p>
+                            </div>
+                        </div>
+
+                    </div>
     
 
-    <!-- О нас -->
-    <div class='where'>
-        <div class='page-header'>
-            <h1 class='text-center'>Контакты</h1>
-        </div>
-        <div class='row'>
-            <div class='col-lg-5 ml-auto'>
-                <p> Оставить заявку можно любым удобным для Вас способом:</p>
-                <p>   через сайт; </p>
-                <p>   по e-mail: meow@gmail.ru; </p>
-                <p>   по тел. 8 800 555 55 35;</p>
-            </div>
-            <div class='col-lg ml-auto'>
-                <img class='img-fluid' data-src='holder.js/140x140' alt='350x200' src='pic/cars.jpg' style='width: 450px; height: 300px;'>
-            </div>
-        </div>
-    </div>
+                <!-- О нас -->
+                <div class='where'>
+                    <div class='page-header'>
+                        <h1 class='text-center'>Контакты</h1>
+                    </div>
+                    <div class='row'>
+                        <div class='col-lg-5 ml-auto'>
+                            <p> Оставить заявку можно любым удобным для Вас способом:</p>
+                            <p>   через сайт; </p>
+                            <p>   по e-mail: meow @gmail.ru; </p>
+                            <p>   по тел. 8 800 555 55 35;</p>
+                        </div>
+                        <div class='col-lg ml-auto'>
+                            <img class='img-fluid' data-src='holder.js/140x140' alt='350x200' src='pic/cars.jpg' style='width: 450px; height: 300px;'>
+                        </div>
+                    </div>
+                </div>
 
 
-    <div class='footer'>
-        <p class='pull-right'><a>Вернуться наверх</a></p>
-        <p>© 2017 Company, Inc. MeowCat </p>
-    </div>
-
-";
+                <div class='footer'>
+                    <p class='pull-right'><a>Вернуться наверх</a></p>
+                    <p>© 2017 Company, Inc.MeowCat</p>
+                </div>");
+                return result;
+            }
             if (id == "showLogin")
                 return @"<div class='containerr'>   
            
@@ -262,49 +299,7 @@ namespace ORM
 
 
 
-            if (id == "menupolzArenda")
-            {
-
-                string result = @"
-        <div class='modal-dialog'>
-            <div class='modal-content'>
-                <div class='modal-header'>
-                    <button type = 'button' class='close' data-dismiss='modal' aria-hidden='true'>×</button>
-                    <h4 class='modal-title' onclick='AddAuto()'>Добавить новый автомобиль</h4>
-                </div>
-
-
-                <div class='modal-body'>
-                <label> Марка: </label>
-                    <br>
-                    <select class='selectpicker1' id = 'tbmodel'> ";
-                var cars = (new DBConnectionString()).Модель.ToArray();
-                foreach (var car in cars)
-                {
-                    result += string.Format(
-                        $@"<option>
-                        {car.Марка} {car.Модель1} 
-                         </option>");
-                }
-                result += @"</select><br>";
-                result += @"<br>
-                        <label class> Описание: </label> <br>          
-                    <textarea id = 'tbOpis' name = 'Descr' cols='50' rows='10'></textarea> <br>
-                    <label> Стоимость: </label> <br>
-                    <input id = 'tbStoim' type = 'text' name='price'>  <label> рублей\час </label><br>
-                    <label> Фотография: </label> <br>
-                    <input id = 'tbFile' type = 'file' name='photo' multiple accept = 'image/*,image/jpeg'> <br>
-  
-                  </div>
-  
-                  <div class='modal-footer'>
-                    <button onclick='addAuto()' type = 'button' class='btn btn-primary' data-dismiss='modal' >Добавить</button>
-                </div>
-            </div>
-        </div>";
-
-                return result;
-            }
+           
             if (id == "showCars")
             {
                 const string quote = "\"";
@@ -366,7 +361,7 @@ namespace ORM
                 {
                     var dostup = car.Доступность ? "Доступна" : "Недоступна";
                     result += string.Format(
-                        $@" <tr>
+                                            $@" <tr>
                          <td><img class='img-fluid' src='data:image/jpeg; base64,{car.Фото}' alt='200x200' style='width: 300px; height: 200px;'></td>
                          <td><div class='namecar'>{car.Модель.Марка} {car.Модель.Модель1}</div></td>
                          <td><div class='pricecar'>{car.Стоимость} руб/час</div></td>
@@ -377,9 +372,9 @@ namespace ORM
                 result += "</tbody></table></div></div>";
                 return result;
             }
-            
+
             //if (id == "") {}
- 
+
             return "";
         }
 
@@ -399,7 +394,7 @@ namespace ORM
                 if (user.Администратор == true)
                     result += @"<li> <button onclick = 'showMenuAllAuto()' class='btn-link'>Все автомобили</button></li>
                 <li> <button onclick = 'showMenuTablpolz()' class='btn-link'>Пользователи</button></li>";
-                    result += @"</ul>
+                result += @"</ul>
                             </li></li><li>
                               <button onclick = 'exit()' class='btn-link btn-lg'>Выйти</button>
                         </li></div>";
@@ -421,7 +416,7 @@ namespace ORM
 
 
                 <div class='modal-body'>
-                <label> Марка: </label>
+                <label> Марка:  </label>
                     <br>
                     <select class='selectpicker1' id = 'tbmodel'> ";
                 var models = (new DBConnectionString()).Модель.ToArray();
@@ -449,7 +444,7 @@ namespace ORM
             </div>
         </div>
 </div>
-                              <div class='allcarsmenu'>
+                              <div class='allcars'>
                                 <table class='table table-bordered table-hover'>
                             <thead>
                              <tr>
@@ -457,7 +452,7 @@ namespace ORM
                              <th>Модель</th>
                              <th>Стоиомость</th>
                              <th>Рейтинг</th>
-                             <th>Доступность</th>
+                             <th>Описание</th>
                              <th></th>
                              </tr>
                              </thead>
@@ -489,12 +484,47 @@ namespace ORM
                             summ = summ / count;
                         var dostup = car.Доступность ? "Свободна" : "Занято";
                         result += string.Format($@"<td>{summ}</td> 
-                         <td>{dostup}</td> 
+                         <td>{car.Описание}</td> 
                          <td><button type = 'button' class= 'btn btn-primary' onclick='delCar({quote + car.id + quote})'>Удалить</button>
-                             <button type = 'button' class= 'btn btn-primary' onclick='readCar({quote + car.id + quote})'>Редактировать</button></td></tr> ");
-                    }
+                             <a href = '#changAuto' onclick='readCarSave({quote + car.id + quote},{quote + car.Модель.Марка + quote},{quote + car.Модель.Модель1 + quote},{quote + car.Описание + quote},{quote + car.Стоимость + quote})' type = 'button' class= 'btn btn-primary' data-toggle='modal' '>Редактировать</button></a> </tr> "
+                    );
+    }
                 }
-                result += @"</tbody></table></div>";
+                result += $@"</tbody></table></div>
+<div id='changAuto' class='modal fade'>
+<div class='modal-dialog'>
+            <div class='modal-content'>
+                <div class='modal-header'>
+                    <button type = 'button' class='close' data-dismiss='modal' aria-hidden='true'>×</button>
+                    <h4 class='modal-title' >Изменение данных о автомобиле</h4>
+                </div>
+
+
+                <div class='modal-body'>
+                <label > Марка: </label> <input type='text' id = 'inModel' disabled >  </input >
+                    <br>
+                    <input id = 'carId' hidden = ''>
+                    <input id = 'inMod' hidden = ''>
+                    <input id = 'inMark' hidden = ''>
+                     ";
+ 
+               
+            
+                result += @"<br>
+                        <label class> Описание: </label> <br>          
+                    <textarea id = 'inOpis' name = 'Descr' cols='50' rows='10'></textarea> <br>
+                    <label> Стоимость: </label> <br>
+                    <input id = 'inStoim' type = 'text' name='price'>  <label> рублей\час </label><br>
+                    <label> Фотография: </label> <br>
+                    <input  type = 'file' name='photo' multiple accept = 'image/*,image/jpeg'> <br>
+  
+                  </div>
+  
+                  <div class='modal-footer'>
+                    <button onclick='changAuto()' type = 'button' class='btn btn-primary' data-dismiss='modal' >Сохранить изменения</button>
+                </div>
+            </div>
+        </div>";
 
                 return result;
             }
@@ -503,7 +533,7 @@ namespace ORM
             {
                 const string quote = "\"";
                 string result = @"
-                              <div class='allcarsmenu'>
+                              <div class='allcars'>
                                 <table class='table table-bordered table-hover'>
                             <thead>
                              <tr>
@@ -538,23 +568,23 @@ namespace ORM
                           ");
                         foreach (var car in cars)
                         {
-                          
+
                             if (car.id == zak.idАвтомобиль)
                             {
                                 foreach (var reit in reiting)
                                 {
-                                    if (reit.idЗаказ == zak.id )
+                                    if (reit.idЗаказ == zak.id)
                                     {
                                         flag = false;
                                         text = @"Вы оценили услугу в " + reit.Рейтинг + " из 5 баллов <br> И оставили свой отзыв : <br>" + reit.Текст;
                                     }
                                 }
                             }
-                            
+
                         }
-                        if( flag )
+                        if (flag)
                             result += string.Format($@"<td><a href='#review' onclick = 'Otziv({quote + zak.Автомобиль.id + quote},{quote + zak.id + quote} )' class='btn btn-primary' data-toggle='modal'>Оставить отзыв</a> </td></tr>");
-                         else
+                        else
                             result += string.Format($@"<td>{text}</td></tr> ");
                         flag = true;
                     }
@@ -691,11 +721,11 @@ namespace ORM
                     </thead>
                     <tbody>";
             var cars = (new DBConnectionString()).Автомобиль.ToArray();
-            if(dostupnost == "True")
+            if (dostupnost == "True")
             {
                 cars = cars.Where(x => x.Доступность).ToArray();
             }
-            if(min != null)
+            if (min != null)
             {
                 cars = cars.Where(x => x.Стоимость >= min).ToArray();
             }
