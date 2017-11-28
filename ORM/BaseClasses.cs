@@ -10,21 +10,8 @@ namespace ORM
     {
         public static string getString(string id)
         {
-            if (id == "user")
-                return @"<div id='buttonlogin'><ul class='nav navbar-nav'>
-                    <li>
-                        <li class='dropdown'>
-              <a class='dropdown-toggle' data-toggle='dropdown'>Мой аккаунт        <b class='caret'></b></a>
-              <ul class='dropdown-menu'>
-                <li> <button onclick = 'showMenupolzSdan()' class='btn-link'>Мои автомобили</button></li>
-                <li> <button onclick = 'showMenupolzZakaz()' class='btn-link'>Мои заказы</button></li>
-              </ul>
-            </li>
-                    </li>
-                <li>
-                        <button onclick='exit()' class='btn-link btn-lg'>Выйти</button>
-                        </li></div>
-    ";
+           
+
             if (id == "user2")
                 return @"<div id='buttonlogin'><button class='btn-link btn-lg' onclick='showLogin()'>Вход</button></div>";
             if (id == "menu")
@@ -287,11 +274,107 @@ var cars = (new DBConnectionString()).Модель.ToArray();
                 result += "</table></div>";
                 return result;
             }
+            if (id == "menuTablpolz")
+            {
+                const string quote = "\"";
+                string result = @"
+                                <div class='allcarsmenu'>
+                                    <table class='table table-bordered table-hover'>
+                                <thead>
+                                 <tr>
+                                 <th>Логин</th>
+                                 <th>Имя</th>
+                                 <th>Фамилия</th>
+                                 <th>Отчество</th>
+                                 <th>Статус</th>
+                                <th></th>
+                                 </tr>
+                                 </thead>
+                                 <tbody>";
+                var users = (new DBConnectionString()).Пользователь.ToArray();
+                foreach (var user in users)
+                {
+                    result += string.Format(
+                        $@" <tr>
+                         <td>{user.Логин}</td>
+                         <td>{user.Имя}</td>
+                         <td>{user.Фамилия}</td>
+                         <td>{user.Отчество}</td>");
+                    if (user.Администратор == true)
+                        result += string.Format("<td>Администратор</td>");
+                    else
+                        result += string.Format("<td>Пользователь</td>");
+
+                    result += string.Format($@"<td><button type = 'button' class= 'btn btn-primary' onclick='delPolz({quote + user.id + quote})'>Удалить</button>
+                             <a href='#change' onclick = 'Profil({quote + user.id + quote},{quote + user.Логин + quote},{quote + user.Имя + quote},{quote + user.Фамилия + quote},{quote + user.Отчество + quote},{quote + user.Администратор + quote})' class='btn btn-primary' data-toggle='modal'>Редактировать профиль</a>  
+                             </td></tr>");
+
+                }
+                result += $@"</tbody></table></div>
+                     <div id='change' class='modal fade'>
+                  <div class='modal-dialog'>
+                    <div class='modal-content'>
+                      <div class='modal-header'>
+                        <button type = 'button' class='close' data-dismiss='modal' aria-hidden='true'>×</button>
+                        <h4 class='modal-title'>Изменение данных о пользователе</h4>
+                      </div>
+
+    
+                          <div class='modal-body'>
+                                <input id = 'Userid' hidden = ''>
+                                <label> Логин: </label><br>
+                                <input id = 'inLogin' type = 'login' class='form-control' name = 'login' placeholder = 'Логин' required='' autofocus=''> 
+                                <label> Пароль: </label><br>
+                                <input id = 'inPassword' type = 'password' class='form-control' name = 'password' placeholder = 'Введите, чтобы изменить пароль'  required='' >
+                                <label> Имя: </label><br>
+                                <input id = 'inName' type = 'text' class='form-control'   name = 'Name' placeholder = 'Имя'  required='' >
+                                <label> Фамилия: </label><br>
+                                <input id = 'inFname' type = 'text' class='form-control' name = 'Fname' placeholder = 'Фамилия'  required='' > 
+                                <label> Отчество: </label><br>
+                                <input id = 'inOname' type = 'text' class='form-control' name = 'Oname' placeholder = 'Отчество'  required='' >
+                                <label> Статус: </label><br>
+                                <select class='selectpicker' id = 'inStatus'>
+                                    <option>Администратор</option>
+                                     <option>Пользователь</option>
+                                 </select>
+            
+                        </div>
+
+                          
+                <div class= 'modal-footer'>
+                        <button type = 'button' onclick = 'saveProfil()' class='btn btn-primary' data-dismiss='modal'>Сохранить изменения</button>
+                      </div>
+
+                </div></div></div> ";
+                return result;
+            }
+            //if (id == "") {}
+ 
             return "";
         }
 
         public static string getStringVladelec(string id, Пользователь user)
         {
+            if (id == "user")
+            {
+                string result = @"<div id='buttonlogin'><ul class='nav navbar-nav'>
+                    <li>
+                        <li class='dropdown'>
+              <a class='dropdown-toggle' data-toggle='dropdown'>Мой аккаунт        <b class='caret'></b></a>
+              <ul class='dropdown-menu'>
+                 <li> <button onclick = 'showMenupolzSdan()' class='btn-link'>Мои автомобили</button></li>
+                <li> <button onclick = 'showMenupolzZakaz()' class='btn-link'>Мои заказы</button></li>";
+
+                if (user.Администратор == true)
+                    result += @"<li> <button onclick = 'showMenuAllAuto()' class='btn-link'>Все автомобили</button></li>
+                <li> <button onclick = 'showMenuTablpolz()' class='btn-link'>Пользователи</button></li>";
+                    result += @"</ul>
+                            </li></li><li>
+                              <button onclick = 'exit()' class='btn-link btn-lg'>Выйти</button>
+                        </li></div>";
+                return result;
+            }
+
             if (id == "menupolzSdan")
             {
                 const string quote = "\"";
@@ -399,7 +482,6 @@ var cars = (new DBConnectionString()).Модель.ToArray();
                              <th>Дата начала заказа</th>
                              <th>Количество времени, час.</th>
                              <th>Итоговая сумма</th>
-                             <th>Рейтинг</th>
                              <th></th>
                              </tr>
                              </thead>
@@ -407,8 +489,9 @@ var cars = (new DBConnectionString()).Модель.ToArray();
                 var cars = (new DBConnectionString()).Автомобиль.ToArray();
                 var reiting = (new DBConnectionString()).Отзыв.ToArray();
                 var zakaz = (new DBConnectionString()).Заказ.ToArray();
-                double summ =0 ;
-                int count =0 ;
+                var connection = new DBConnectionString();
+                bool flag = true;
+                string text = "";
                 foreach (var zak in zakaz)
                 {
                     if (zak.idПользователь == user.id)
@@ -424,21 +507,25 @@ var cars = (new DBConnectionString()).Модель.ToArray();
                           ");
                         foreach (var car in cars)
                         {
-                            summ = 0;
-                            count = 0;
+                          
                             if (car.id == zak.idАвтомобиль)
                             {
                                 foreach (var reit in reiting)
                                 {
-                                        summ = summ + reit.Рейтинг;
-                                        count++;
+                                    if (reit.idЗаказ == zak.id )
+                                    {
+                                        flag = false;
+                                        text = @"Вы оценили услугу в " + reit.Рейтинг + " из 5 баллов <br> И оставили свой отзыв : <br>" + reit.Текст;
+                                    }
                                 }
-                                if (count != 0)
-                                    summ = summ / count;
                             }
+                            
                         }
-                        result += string.Format($@"<td>{summ}</td> 
-                         <td><a href='#review' onclick = 'Otziv({quote + zak.Автомобиль.id + quote},{quote + zak.id + quote} )' class='btn btn-primary' data-toggle='modal'>Оставить отзыв</a> </td></tr> ");
+                        if( flag )
+                            result += string.Format($@"<td><a href='#review' onclick = 'Otziv({quote + zak.Автомобиль.id + quote},{quote + zak.id + quote} )' class='btn btn-primary' data-toggle='modal'>Оставить отзыв</a> </td></tr>");
+                         else
+                            result += string.Format($@"<td>{text}</td></tr> ");
+                        flag = true;
                     }
                 }
                 result += $@"</tbody></table></div>

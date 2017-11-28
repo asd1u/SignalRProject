@@ -65,7 +65,7 @@ namespace SignalRMaket
         {
             return HtmlGetter.getStringVladelec(tag, Users.UserByCid(cid)._User);
         }
-        
+
 
         [HubMethodName("logInSv")]
         public void LogIn(string user, string pass)
@@ -149,14 +149,32 @@ namespace SignalRMaket
         }
 
 
-           public void saveOtziv(Guid carId, Guid zakId, int rait, string Text)
+        public void saveOtziv(Guid carId, Guid zakId, int rait, string Text)
         {
             var connection = new DBConnectionString();
             connection.Отзыв.Add(new Отзыв() { id = Guid.NewGuid(), Рейтинг = rait, Текст = Text, idЗаказ = zakId });
             connection.SaveChanges();
+            Clients.Caller.showMenupolzZakaz();
 
         }
 
+        public void SVP(Guid id, string Login, string Password, string Name , string Fname, string Oname, string Status)
+        {
+            var connection = new DBConnectionString();
+            var user = connection.Пользователь.Single(o => o.id == id);
+            user.Логин = Login;
+            if( Password != "")
+                user.Пароль = MD5Hash(Password);
+            user.Фамилия = Fname;
+            user.Отчество = Oname;
+            if (Status == "Администратор")
+                user.Администратор = true;
+            else
+                user.Администратор = false;
+
+            connection.SaveChanges();
+            Clients.Caller.showMenuTablpolz();
+        }
 
         public void Addauto(string model, string opis, decimal stoim, string file)
         {
@@ -164,15 +182,42 @@ namespace SignalRMaket
             var connection = new DBConnectionString();
             var models = connection.Модель.AsEnumerable().Select(x => Tuple.Create(x.Марка + " " + x.Модель1, x.id)).ToArray();
             var mod = models.Single(x => x.Item1 == model).Item2;
-            connection.Автомобиль.Add(new Автомобиль() { id = Guid.NewGuid(), Доступность = true, Описание = opis , Стоимость = stoim, Фото = file , idМодель = mod , idВладелец = Users.UserByCid(cid)._User.id});
+            connection.Автомобиль.Add(new Автомобиль() { id = Guid.NewGuid(), Доступность = true, Описание = opis, Стоимость = stoim, Фото = file, idМодель = mod, idВладелец = Users.UserByCid(cid)._User.id });
             connection.SaveChanges();
             Clients.Caller.showMenupolzSdan();
         }
 
-        public void DeltCar(string carId)
+        public void DeltCar(Guid carId)
         {
             var connection = new DBConnectionString();
-            var car = connection.Автомобиль.Single(o => o.id.ToString() == carId);
+            var zakaz = (new DBConnectionString()).Заказ.ToArray();
+            var otziv = (new DBConnectionString()).Отзыв.ToArray();
+            var car = connection.Автомобиль.Single(o => o.id == carId);
+            foreach (var zak in zakaz)
+            {
+                if (zak.idАвтомобиль == carId)
+                {
+                    foreach (var otz in otziv)
+                    {
+                        if (zak.id == otz.idЗаказ)
+                        {
+                            var itemOtz = connection.Отзыв.Single(o => o.id == otz.id);
+                            connection.Отзыв.Remove(itemOtz);
+                            try
+                            {
+                                var itemZakaz = connection.Заказ.Single(o => o.id == zak.id);
+                                connection.Заказ.Remove(itemZakaz);
+                            }
+                            catch { };
+                        }
+
+
+
+                    }
+                }
+
+
+            }
             connection.Автомобиль.Remove(car);
             connection.SaveChanges();
             //  Clients.CallerState.showMenupolzSdan();
@@ -180,6 +225,48 @@ namespace SignalRMaket
             Clients.Caller.showMenupolzSdan();
         }
 
+
+        public void DeltPolz(Guid userId)
+        {
+            var connection = new DBConnectionString();
+            var zakaz = (new DBConnectionString()).Заказ.ToArray();
+            var otziv = (new DBConnectionString()).Отзыв.ToArray();
+            var cars = (new DBConnectionString()).Автомобиль.ToArray();
+            var user = connection.Пользователь.Single(o => o.id == userId);
+            foreach (var car in cars)
+            {
+                if (car.idВладелец == userId)
+                {
+                    foreach (var zak in zakaz)
+                    {
+                        if (zak.idАвтомобиль == car.id)
+                        {
+                            foreach (var otz in otziv)
+                            {
+                                if (zak.id == otz.idЗаказ)
+                                {
+                                    var itemOtz = connection.Отзыв.Single(o => o.id == otz.id);
+                                    connection.Отзыв.Remove(itemOtz);
+                                    
+                                }
+                            }
+                            var itemZakaz = connection.Заказ.Single(o => o.id == zak.id);
+                            connection.Заказ.Remove(itemZakaz);
+                        }
+                        
+                    }
+
+                    var itemCar = connection.Автомобиль.Single(o => o.id == car.id);
+                    connection.Автомобиль.Remove(itemCar);
+
+                }
+
+                
+            }
+            connection.Пользователь.Remove(user);
+            connection.SaveChanges();
+            Clients.Caller.showMenuTablpolz();
+        }
 
         [HubMethodName("alertAllSv")]
         public void AlertAll(string mes)

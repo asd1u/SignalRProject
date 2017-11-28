@@ -5,6 +5,8 @@ function Initialize() {
     myHub.client.onSuccessfulLoginCl = onSuccessfulLoginImpl;
     myHub.client.showMenupolzSdan = function () { showMenupolzSdan() };
     myHub.client.showMenupolzZakaz = function () { showMenupolzZakaz() };
+    myHub.client.showMenuTablpolz = function () { showMenuTablpolz() };
+    myHub.client.showMenuAllAuto = function () { showMenuAllAuto() };
 	$.connection.hub.start().done(hubStarted);
 }
 
@@ -41,7 +43,7 @@ function showCars() {
 
 function onSuccessfulLoginImpl() {
 
-    myHub.server.getHtmlSv('user').done(function (html) {
+    myHub.server.getHtmlSvPolz('user').done(function (html) {
         replaceHtml('buttonlogin', html);
     });
 
@@ -61,9 +63,20 @@ function showMenupolzSdan() {
         replaceHtml('main', html);
     });
 }
+function showMenuAllAuto() {
+    myHub.server.getHtmlSv('showCars').done(function (html) {
+        replaceHtml('main', html);
+    });
+}
+
 
 function showMenupolzZakaz() {
     myHub.server.getHtmlSvPolz('menupolzZakaz').done(function (html) {
+        replaceHtml('main', html);
+    });
+}
+function showMenuTablpolz() {
+    myHub.server.getHtmlSv('menuTablpolz').done(function (html) {
         replaceHtml('main', html);
     });
 }
@@ -121,9 +134,38 @@ function delCar(carId) {
     myHub.server.deltCar(carId);
 }
 
+function delPolz(userId) {
+    myHub.server.deltPolz(userId);
+}
+
+
 function Otziv(carId, zakId) {
     $('#idAuto').text(carId);
     $('#idZak').text(zakId);
+}
+function Profil(userId, userLogin, userName, userFname, userOname, userStatus)
+{
+    document.getElementById('Userid').value = userId;
+    document.getElementById('inLogin').value = userLogin;
+    document.getElementById('inPassword').value = "";
+    document.getElementById('inName').value = userName;
+    document.getElementById('inFname').value = userFname;
+    document.getElementById('inOname').value = userOname;
+    if (userStatus)
+        document.getElementById('inStatus').value = "Администратор";
+    else
+        document.getElementById('inStatus').value = "Пользователь";
+    
+}
+function saveProfil() {
+    myHub.server.sVP(
+        $('#Userid').val(),
+        $('#inLogin').val(),
+        $('#inPassword').val(),
+        $('#inName').val(),
+        $('#inFname').val(),
+        $('#inOname').val(),
+        $('#inStatus').val() );
 }
 
 function saveOtziv(carId , zakId) {
