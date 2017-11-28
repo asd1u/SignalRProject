@@ -3,38 +3,39 @@ body
 {
 padding-top: 50px;
 padding-bottom: 40px;
- background-color: #eee!important;
+ background-color:  #D8BFD8!important;
 }
 .navbar {
-    background-color: #000!important;
-    border-color: #fff!important;
-    color: #fff;
+    background-color:  #800080 !important; 
+    border-color: #9932CC !important;
+    color: #fff!important;
     font-size:18px!important;
 
 }
-
+.navbar-nav > li > a {
+    color: #fff !important;}
 #change-color{
-background-color: #FF00FF;
+background-color: #000;
 }
 .splash { 
 /* Отступ до содержимого splash */
 padding:11em 0 2em;
-background-image:url(../pic/back.jpg);
+background-image:url(../pic/newback.jpg);
 /*Масштабирует изображение с сохранением пропорций так, чтобы его ширина или высота равнялась ширине или высоте блока.*/
 background-size:cover;
 /*Свойство background-attachment устанавливает, будет ли прокручиваться фоновое изображение вместе с содержимым элемента.Делает фоновое изображение элемента неподвижным. */
 background-attachment:fixed;
 /* Цвет текста */
-color:#000;
+color:#fff;
 /*выравнивание текста по центру */
-text-align:left;
+text-align:center;
 font-size: 25pt;
     font-weight:700;
 }
 .note{
     padding:3em 0 1em;
     background-color: #F5F5F5;
-    color:#808080;
+    color:#d17581;
     text-align:center;
 }
 .name{
@@ -47,13 +48,22 @@ font-size: 25pt;
 }
 .marka{
    padding: 0.3em; 
-   color:#808080;
+   color:#000;
    font-size: 13pt;  
+}
+.btn-inverse{
+  color:#000!important;
+}
+.btn-link{
+  color:#fff!important;
+}
+.btn-primary{
+  background-color:#800080!important;
 }
 .cars{
    padding:3em 5em 3em;
-   background-color: #101010;
-   color:#fff;
+   background-color: #800080;
+   color:#000!important;
     font-size: 15pt;
    
 }
@@ -64,8 +74,8 @@ font-size: 25pt;
 {
    padding:3em 5em 1em;
    text-indent: 40px;
-   background-color: #4169E0;
-   color:#DCDCDC;
+   background-color: #FFB6C1;
+   color:#000;
 }
 .page-header{
    color:#fff; 
@@ -74,7 +84,7 @@ font-size: 25pt;
 {
     
     padding:3em 5em 1em;
-   background-color: #000;
+   background-color: #BA55D3;
    color:#fff;
    text-align:center;
 
@@ -88,7 +98,7 @@ font-size: 25pt;
 }
 .footer{
     text-align:center;
-    background-color: #fff;
+    background-color: #D8BFD8;
     color:#000;
     padding: 10px;
     padding-left: 150px;
@@ -102,13 +112,13 @@ background-color: #e5f9eb;
 }
 
 .containerr{
-  width: 300px;
+  width: 300px!important;
   padding: 10px;
   margin: auto; 
   text-align:center;
 }
 .log {
-  max-width: 330px;
+  max-width: 330px!important;
   padding: 15px;
   margin: 0 auto;
 }
@@ -149,16 +159,13 @@ background-color: #e5f9eb;
   margin: auto; 
 
 }
-#brand{
-  color: #fff;
-  font-weight: bold;
-}
+
 .dropdown:hover .dropdown-menu {
   display: block;
   margin-top: 0;
 }
 .dropdown-menu{
-  background-color: #000!important;
+  background-color: #800080!important;
   color:#fff!important;
   text-align: center;
 }
@@ -185,7 +192,7 @@ background-color: #e5f9eb;
    color:#000;
 }
 .price{
-  color:#0000CD;
+  color:#C71585;
   font-weight:800;
   font-size:24px;
   padding-left: 0px;
@@ -196,7 +203,7 @@ background-color: #e5f9eb;
   font-size:20px;
   text-align: left;
   font-weight:800;
-  color: #000;
+  color: #FF1493;
   
 }
 .sum{
@@ -251,14 +258,17 @@ background-color: #e5f9eb;
     border-spacing: 0;
   border: 1px solid;
   border-color: #808080;
-
+  font-size: 15px;
   
 }
 .namefil{
     text-indent: 15px;
 }
 
-
+#brand{
+  color: #fff;
+  font-weight: bold;
+}
 .allcarsmenu{
    
   padding-top: 50px!important;
@@ -271,7 +281,6 @@ background-color: #e5f9eb;
 }
 .table{
   vertical-align: middle;
-  
 }
 .pricecar
 {
@@ -282,7 +291,7 @@ background-color: #e5f9eb;
 {
   font-size:22px;
   font-weight:800;
-  color:#0000CD;
+  color:#C71585;
 }
 .kolhours{
   text-align: center;

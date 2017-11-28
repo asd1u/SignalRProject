@@ -204,7 +204,7 @@ namespace SignalRMaket
             Clients.Caller.showMenuTablpolz();
         }
 
-        public void CngAuto(Guid id, string marka, string model, string opis, decimal stoim, string file)
+        public void CngAuto(Guid id, string marka, string model, string opis, decimal stoim, string file, bool typ)
         {
             var connection = new DBConnectionString();
             var car= connection.Автомобиль.Single(o => o.id == id);
@@ -214,7 +214,10 @@ namespace SignalRMaket
             car.Стоимость = stoim/100;
             car.Фото = file;
             connection.SaveChanges();
-            Clients.Caller.showMenupolzSdan();
+            if(typ)
+                Clients.Caller.showMenupolzSdan();
+            else
+                Clients.Caller.showCarsAdmin();
         }
 
         
@@ -230,7 +233,7 @@ namespace SignalRMaket
             
         }
 
-        public void DeltCar(Guid carId)
+        public void DeltCar(Guid carId, bool typ)
         {
             var connection = new DBConnectionString();
             var zakaz = (new DBConnectionString()).Заказ.ToArray();
@@ -265,7 +268,10 @@ namespace SignalRMaket
             connection.SaveChanges();
             //  Clients.CallerState.showMenupolzSdan();
 
-            Clients.Caller.showMenupolzSdan();
+            if(typ)
+                Clients.Caller.showMenupolzSdan();
+            else
+                Clients.Caller.showCarsAdmin();
         }
 
 

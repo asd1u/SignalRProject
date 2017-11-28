@@ -134,7 +134,7 @@ namespace ORM
                     {
                         result += string.Format(
                            $@"<div class='col-lg-4'>
-                            <img class='img-circle' data-src='pic/pic4.jpg/140x140' alt='140x140' src='data:image/jpeg; base64,{car.Фото}' style='width: 140px; height: 140px;'>
+                            <img class='img-fluid' data-src='pic/pic4.jpg/140x140' alt='140x140' src='data:image/jpeg; base64,{car.Фото}' style='width: 140px; height: 140px;'>
                             <div class='marka'>
                                 <p> { car.Модель.Марка } { car.Модель.Модель1 }</p>
                             </div> 
@@ -352,8 +352,8 @@ namespace ORM
                                     <div class='col-lg-9'>
                 <div id='allcars' class='allcarsmenu'>
                 <table class='table table-striped '>
-                    <thead>
-                        <tr></tr>
+                    <thead>   
+                        <tr></tr>  
                     </thead>
                     <tbody>";
                 var cars = (new DBConnectionString()).Автомобиль.ToArray();
@@ -364,12 +364,126 @@ namespace ORM
                                             $@" <tr>
                          <td><img class='img-fluid' src='data:image/jpeg; base64,{car.Фото}' alt='200x200' style='width: 300px; height: 200px;'></td>
                          <td><div class='namecar'>{car.Модель.Марка} {car.Модель.Модель1}</div></td>
-                         <td><div class='pricecar'>{car.Стоимость} руб/час</div></td>
+                         <td><div id = 'inStoim' class='pricecar'>{car.Стоимость} руб/час</div></td>
                          <td>{dostup}</td>
                          <td> <button type='button' class= 'btn btn-primary' onclick='showCar({quote + car.id + quote})'>Забронировать </button></td>
                          </tr>");
                 }
                 result += "</tbody></table></div></div>";
+                return result;
+            }
+
+            if (id == "showCarsAdmin")
+            {
+                const string quote = "\"";
+                string result = @"
+                                <div class='allcarsmenu'>
+                <div class='col-lg-3'>
+                <div class='filter'>
+                <div class='namefil'><h4 class='form-check-label'>
+                          <input type = 'checkbox'  id = 'sort' class='form-check-input'>
+                      Сортировать по рейтингу
+                    </h4></div>
+                <div class='namefil'>
+                    <h4 class='form-check-label'>
+                        <input type = 'checkbox' id='dost' class='form-check-input'>
+                        Показать только доступные для аренды
+                    </h4>
+                </div>
+                <div class='namefil'><h4>Марка:</h4></div>
+                <ul class='list-group'>
+                    <li class='list-group-item'>
+                        <label class='form-check-label'>
+                            <input type = 'checkbox' class='form-check-input'>
+                            Lada
+                        </label>
+                    </li>
+                    <li class='list-group-item'>
+                        <label class='form-check-label'>
+                            <input type = 'checkbox' class='form-check-input'>
+                            Ford
+                        </label>
+                    </li>
+                    <li class='list-group-item'>
+                        <label class='form-check-label'>
+                            <input type = 'checkbox' class='form-check-input'>
+                            Ferrari
+                        </label>
+                    </li>
+                </ul>
+                <div class='namefil'><h4>Цена:</h4></div>
+                <div class='col-xs-6'>
+                    <label for='from'>MIN:</label>
+                    <input class='form-control' id='minPrice' type='number' placeholder='' step='100' min='0'>
+                </div>
+                <div class='col-xs-6'>
+                    <label for='from'>MAX:</label>
+                    <input class='form-control' id='maxPrice' type='number' placeholder='' step='100' min='1000'>
+                </div>
+
+                <br> <br><br> <br>
+                <button class=' btn btn-primary btn-lg btn-block' onclick='filterCars()'>Применить</button>
+            </div>
+
+        </div>
+                                    <div class='col-lg-9'>
+                <div id='allcars' class='allcarsmenu'>
+                <table class='table table-striped '>
+                    <thead>
+                        <tr></tr>
+                    </thead>
+                    <tbody>";
+                var cars = (new DBConnectionString()).Автомобиль.ToArray();
+                foreach (var car in cars)
+                {
+                    var dostup = car.Доступность ? "Доступна" : "Недоступна";
+                    result += string.Format(
+                                            $@" 
+                            <tr>
+                         <td><img class='img-fluid' src='data:image/jpeg; base64,{car.Фото}' alt='200x200' style='width: 300px; height: 200px;'></td>
+                         <td><div  class='namecar'>{car.Модель.Марка} {car.Модель.Модель1}</div></td>
+                         <td><div  class='pricecar'>{car.Стоимость} руб/час</div></td>
+                         <td>{dostup}</td>
+                         <td>{car.Пользователь.Логин}</td>
+                         <td> 
+                            <button type = 'button' class= 'btn btn-primary' onclick='delCar({quote + car.id + quote}, {quote + false + quote})'>Удалить</button>
+                             <a href = '#changAuto1' onclick='readCarSaveAdmin({quote + car.id + quote},{quote + car.Модель.Марка + quote},
+                               {quote + car.Модель.Модель1 + quote},{quote + car.Описание + quote},{quote + car.Стоимость + quote})' 
+                                type = 'button' class= 'btn btn-primary' data-toggle='modal' '>Редактировать</button></a> </td>  </tr>");
+                }
+                result += "</tbody></table></div></div>";
+                result += @"<div id = 'changAuto1' class='modal fade'>
+<div class='modal-dialog'>
+            <div class='modal-content'>
+                <div class='modal-header'>
+                    <button type = 'button' class='close' data-dismiss='modal' aria-hidden='true'>×</button>
+                    <h4 class='modal-title' >Изменение данных о автомобиле</h4>
+                </div>
+
+
+                <div class='modal-body'>
+                <label > Марка: </label> <input id = 'inModel1' border = '0' type='label' disabled ></input >
+                    <br>
+                    <input id = 'carId1' hidden = ''>
+                    <input id = 'inMod1' hidden = ''>
+                    <input id = 'inMark1' hidden = ''>
+                     ";
+ 
+                result += $@"<br>
+                        <label class> Описание: </label> <br>          
+                    <textarea id = 'inOpis1' name = 'Descr' cols='50' rows='10'></textarea> <br>
+                    <label> Стоимость: </label> <br>
+                    <input id = 'inStoim1' type = 'text' name='price'>  <label> рублей\час </label><br>
+                    <label> Фотография: </label> <br>
+                    <input  type = 'file' name='photo' multiple accept = 'image/*,image/jpeg'> <br>
+  
+                  </div>
+  
+                  <div class='modal-footer'>
+                    <button onclick='changAutoAdmin({quote + false + quote})' type = 'button' class='btn btn-primary' data-dismiss='modal' >Сохранить изменения</button>
+                </div>
+            </div>
+        </div>";
                 return result;
             }
 
@@ -392,7 +506,7 @@ namespace ORM
                 <li> <button onclick = 'showMenupolzZakaz()' class='btn-link'>Мои заказы</button></li>";
 
                 if (user.Администратор == true)
-                    result += @"<li> <button onclick = 'showMenuAllAuto()' class='btn-link'>Все автомобили</button></li>
+                    result += @"<li> <button onclick = 'showCarsAdmin()' class='btn-link'>Все автомобили</button></li>
                 <li> <button onclick = 'showMenuTablpolz()' class='btn-link'>Пользователи</button></li>";
                 result += @"</ul>
                             </li></li><li>
@@ -482,10 +596,11 @@ namespace ORM
                         }
                         if (count != 0)
                             summ = summ / count;
+                        bool fg = false;
                         var dostup = car.Доступность ? "Свободна" : "Занято";
                         result += string.Format($@"<td>{summ}</td> 
                          <td>{car.Описание}</td> 
-                         <td><button type = 'button' class= 'btn btn-primary' onclick='delCar({quote + car.id + quote})'>Удалить</button>
+                         <td><button type = 'button' class= 'btn btn-primary' onclick='delCar({quote + car.id + quote}, {quote + true + quote})'>Удалить</button>
                              <a href = '#changAuto' onclick='readCarSave({quote + car.id + quote},{quote + car.Модель.Марка + quote},{quote + car.Модель.Модель1 + quote},{quote + car.Описание + quote},{quote + car.Стоимость + quote})' type = 'button' class= 'btn btn-primary' data-toggle='modal' '>Редактировать</button></a> </tr> "
                     );
     }
@@ -501,7 +616,7 @@ namespace ORM
 
 
                 <div class='modal-body'>
-                <label > Марка: </label> <input type='text' id = 'inModel' disabled >  </input >
+                <label > Марка: </label> <input  id = 'inModel' border = '0' type='label' disabled ></input >
                     <br>
                     <input id = 'carId' hidden = ''>
                     <input id = 'inMod' hidden = ''>
@@ -510,7 +625,7 @@ namespace ORM
  
                
             
-                result += @"<br>
+                result += $@"<br>
                         <label class> Описание: </label> <br>          
                     <textarea id = 'inOpis' name = 'Descr' cols='50' rows='10'></textarea> <br>
                     <label> Стоимость: </label> <br>
@@ -521,7 +636,7 @@ namespace ORM
                   </div>
   
                   <div class='modal-footer'>
-                    <button onclick='changAuto()' type = 'button' class='btn btn-primary' data-dismiss='modal' >Сохранить изменения</button>
+                    <button onclick='changAuto({quote + true + quote})' type = 'button' class='btn btn-primary' data-dismiss='modal' >Сохранить изменения</button>
                 </div>
             </div>
         </div>";
