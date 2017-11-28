@@ -14,7 +14,8 @@ namespace SignalRMaket
 			// For more information on how to configure your application, visit http://go.microsoft.com/fwlink/?LinkID=316888
 			app.MapSignalR();
 
-			//Точка входа тут
+            //Точка входа тут
+            Schedule.ScheduleInit();
 		}
 	}
 }

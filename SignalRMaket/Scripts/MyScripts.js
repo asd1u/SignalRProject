@@ -115,11 +115,6 @@ function reg() {
 
 function exit() {
     location.reload(true);
-
-  //  myHub.server.OnDisconnected(true);
-  //  myHub.server.getHtmlSv('user2').done(function (html) {
-    //    replaceHtml('buttonlogin', html);
-    //})
 }
 
 function alertAllCl() {
@@ -127,7 +122,7 @@ function alertAllCl() {
 }
 
 function rentCar(carId) {
-    myHub.server.rentCar(carId);
+  myHub.server.rentCar(carId, $('#hourSelector').val());
 }
 
 function delCar(carId) {
@@ -170,4 +165,12 @@ function saveProfil() {
 
 function saveOtziv(carId , zakId) {
     myHub.server.saveOtziv(carId, zakId, $('#tbrait').val(), $('#tbText').val());
+}
+    
+
+function showCar(carId) {
+    myHub.server.getHtmlWithIdSv('showCar',carId).done(function (html) {
+        replaceHtml('main', html);
+    });
+
 }

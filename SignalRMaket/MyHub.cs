@@ -60,13 +60,19 @@ namespace SignalRMaket
             return HtmlGetter.getString(tag);
         }
 
+
         [HubMethodName("getHtmlSvPolz")]
         public string getStringVladelec(string tag)
         {
             return HtmlGetter.getStringVladelec(tag, Users.UserByCid(cid)._User);
         }
-
-
+        
+        [HubMethodName("getHtmlWithIdSv")]
+        public string GetHtmlWithId(string tag, string guid)
+        {
+            return HtmlGetter.getStringWithId(tag, guid);
+        }
+        
         [HubMethodName("logInSv")]
         public void LogIn(string user, string pass)
         {
@@ -141,11 +147,29 @@ namespace SignalRMaket
             return hash.ToString();
         }
 
-        public void RentCar(string carId)
+        public void RentCar(string carId, int hours)
         {
             Guid carGuid = new Guid(carId);
             var car = (new DBConnectionString()).Автомобиль.Find(carGuid);
-
+            if (Users.UserByCid(cid) == null)
+            {
+                Clients.Caller.alertFuncCl("Авторизуйся, пёс");
+            }
+            else
+            {
+                Guid carGuid = new Guid(carId);
+                var connection = new DBConnectionString();
+                var car = connection.Автомобиль.Find(carGuid);
+                if (!car.Доступность)
+                    Clients.Caller.alertFuncCl("Машина занята");
+                else
+                {
+                    Schedule.RentCar(carGuid, hours);
+                    car.Доступность = false;
+                    connection.SaveChanges();
+                    Clients.Caller.alertFuncCl($"Вы арендовали {car.Модель.Марка} {car.Модель.Модель1} за {car.Стоимость}");
+                }
+            }
         }
 
 
@@ -185,6 +209,7 @@ namespace SignalRMaket
             connection.Автомобиль.Add(new Автомобиль() { id = Guid.NewGuid(), Доступность = true, Описание = opis, Стоимость = stoim, Фото = file, idМодель = mod, idВладелец = Users.UserByCid(cid)._User.id });
             connection.SaveChanges();
             Clients.Caller.showMenupolzSdan();
+            
         }
 
         public void DeltCar(Guid carId)
