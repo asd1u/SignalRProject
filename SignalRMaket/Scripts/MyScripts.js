@@ -86,8 +86,43 @@ function showMenuTablpolz() {
     });
 }
 function addAuto() {
-    myHub.server.addauto( $('#tbmodel').val(), $('#tbOpis').val(), $('#tbStoim').val(), $('#tbFile').val());
-   
+    //base64($("#tbFile"), function (data) {
+    //    console.log(data.base64)
+    //})
+    //var fileData;
+    //createImageBitmap($("#tbFile").prop("files")[0]).then(function (response) {
+    //    fileData = response });
+    
+
+    //url = URL.createObjectURL($("#tbFile").prop("files")[0])
+    //var xhr = new XMLHttpRequest;
+    //xhr.responseType = 'blob';
+
+    //xhr.onload = function () {
+    //    var recoveredBlob = xhr.response;
+
+    //    var reader = new FileReader;
+
+    //    reader.onload = function () {
+    //        var blobAsDataUrl = reader.result;
+    //        window.location = blobAsDataUrl;
+    //    };
+
+    //    reader.readAsDataURL(recoveredBlob);
+    //};
+
+    //xhr.open('GET', url);
+    //xhr.send();
+    createImageBitmap($("#tbFile").prop("files")[0]).then(function (response) {
+        var canvas = document.createElement("canvas")
+        canvas.width = response.width;
+        canvas.height = response.height;
+        var context = canvas.getContext("2d")
+        context.drawImage(response, 0, 0) // i assume that img.src is your blob url
+        var dataurl = canvas.toDataURL('image/jpeg', 0.1);
+
+        myHub.server.addAutoSv($('#tbmodel').val(), $('#tbOpis').val(), $('#tbStoim').val(), dataurl);
+    });
 }
 
 function showOnas() {
@@ -183,13 +218,24 @@ function saveProfil() {
         $('#inStatus').val() );
 }
 function changAuto() {
-    myHub.server.cngAuto(
-        $('#carId').val(),
-        $('#inMod').val(),
-        $('#inMark').val(),
-        $('#inOpis').val(),
-        $('#inStoim').val(),
-        $('#inFile').val(), );
+    //myHub.server.cngAuto(
+    //    $('#carId').val(),
+    //    $('#inMod').val(),
+    //    $('#inMark').val(),
+    //    $('#inOpis').val(),
+    //    $('#inStoim').val(),
+    //    $('#inFile').val(), );
+
+    createImageBitmap($("#inFile").prop("files")[0]).then(function (response) {
+        var canvas = document.createElement("canvas")
+        canvas.width = response.width;
+        canvas.height = response.height;
+        var context = canvas.getContext("2d")
+        context.drawImage(response, 0, 0) // i assume that img.src is your blob url
+        var dataurl = canvas.toDataURL('image/jpeg', 0.1);
+
+        myHub.server.cngAuto($('#carId').val(), $('#inMod').val(), $('#inMark').val(), $('#inOpis').val(), $('#inStoim').val(), dataurl);
+    });
 }
 
 function saveOtziv(carId , zakId) {
@@ -224,4 +270,60 @@ function changeStyle() {
         $('#styleLink').attr('href', 'css/stylenew.css');
     else
         $('#styleLink').attr('href', 'css/style.css');
+}
+
+//for sending pictures
+//$(document).ready(function () {
+//    $('#tbFile').change(function () {
+
+//        readURL(this);
+
+//    });
+
+//});
+//function readURL(input) {
+//    if (input.files && input.files[0]) {
+//        var reader = new FileReader();
+//        reader.onload = function (e) {
+
+//            $('#imagePreview').attr('src', e.target.result);
+//        }
+
+//        reader.readAsDataURL(input.files[0]);
+//    }
+//}
+
+//function saveimage() {
+//    var images = $('#tbFile').attr('src');
+//    var ImageSave = images.replace("data:image/jpeg;base64,", "");
+//    var submitval = JSON.stringify({ data: ImageSave });
+
+//    $.ajax({
+//        type: "POST",
+//        contentType: "application/json;charset=utf-8",
+//        datatype: "json",
+//        data: submitval,
+//        url: "your url",
+//        success: function (data) {
+//            //code for success
+//        }
+//    });
+//}
+
+function base64(file, callback) {
+    var coolFile = {};
+    function readerOnload(e) {
+        var base64 = btoa(e.target.result);
+        coolFile.base64 = base64;
+        callback(coolFile)
+    };
+
+    var reader = new FileReader();
+    reader.onload = readerOnload;
+
+    var file = file[0].files[0];
+    coolFile.filetype = file.type;
+    coolFile.size = file.size;
+    coolFile.filename = file.name;
+    reader.readAsBinaryString(file);
 }

@@ -8,6 +8,8 @@ using Microsoft.AspNet.SignalR.Hubs;
 using ORM;
 using System.Security.Cryptography;
 using System.Text;
+using System.Net;
+
 
 namespace SignalRMaket
 {
@@ -204,7 +206,7 @@ namespace SignalRMaket
             Clients.Caller.showMenuTablpolz();
         }
 
-        public void CngAuto(Guid id, string marka, string model, string opis, decimal stoim, string file)
+        public void CngAuto(Guid id, string marka, string model, string opis, decimal stoim, string uri)
         {
             var connection = new DBConnectionString();
             var car= connection.Автомобиль.Single(o => o.id == id);
@@ -212,19 +214,23 @@ namespace SignalRMaket
             //car.idМодель = models.id;
             car.Описание = opis;
             car.Стоимость = stoim/100;
-            car.Фото = file;
+            uri = uri.Replace("data:image/jpeg;base64,", "");
+            car.Фото = uri;
             connection.SaveChanges();
             Clients.Caller.showMenupolzSdan();
         }
 
-        
-        public void Addauto(string model, string opis, decimal stoim, string file)
+        [HubMethodName("addAutoSv")]
+        public void Addauto(string model, string opis, decimal stoim, string uri)
         {
+            //WebClient client = new WebClient();
+            uri = uri.Replace("data:image/jpeg;base64,", "");
+            //string fileString = client.DownloadString(new Uri(uri));
             model = model.Trim();
             var connection = new DBConnectionString();
             var models = connection.Модель.AsEnumerable().Select(x => Tuple.Create(x.Марка + " " + x.Модель1, x.id)).ToArray();
             var mod = models.Single(x => x.Item1 == model).Item2;
-            connection.Автомобиль.Add(new Автомобиль() { id = Guid.NewGuid(), Доступность = true, Описание = opis, Стоимость = stoim, Фото = file, idМодель = mod, idВладелец = Users.UserByCid(cid)._User.id });
+            connection.Автомобиль.Add(new Автомобиль() { id = Guid.NewGuid(), Доступность = true, Описание = opis, Стоимость = stoim, Фото = uri, idМодель = mod, idВладелец = Users.UserByCid(cid)._User.id });
             connection.SaveChanges();
             Clients.Caller.showMenupolzSdan();
             

@@ -435,7 +435,6 @@ namespace ORM
                     <input id = 'tbStoim' type = 'text' name='price'>  <label> рублей\час </label><br>
                     <label> Фотография: </label> <br>
                     <input id = 'tbFile' type = 'file' name='photo' multiple accept = 'image/*,image/jpeg'> <br>
-  
                   </div>
   
                   <div class='modal-footer'>
@@ -516,7 +515,7 @@ namespace ORM
                     <label> Стоимость: </label> <br>
                     <input id = 'inStoim' type = 'text' name='price'>  <label> рублей\час </label><br>
                     <label> Фотография: </label> <br>
-                    <input  type = 'file' name='photo' multiple accept = 'image/*,image/jpeg'> <br>
+                    <input id='inFile' type = 'file' name='photo' multiple accept = 'image/*,image/jpeg'> <br>
   
                   </div>
   
