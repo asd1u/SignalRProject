@@ -217,4 +217,11 @@ function filterCars() {
     myHub.server.getHtmlFilterCars('', $('#dost').is(':checked'), $('#minPrice').val(), $('#maxPrice').val()).done(function (html) {
         replaceHtml('allcars', html);
     });
-} 
+}
+
+function changeStyle() {    
+    if ($('#styleLink').attr('href') === 'css/style.css')
+        $('#styleLink').attr('href', 'css/stylenew.css');
+    else
+        $('#styleLink').attr('href', 'css/style.css');
+}
