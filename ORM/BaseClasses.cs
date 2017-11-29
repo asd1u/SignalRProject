@@ -112,7 +112,7 @@ namespace ORM
                 var cars = (new DBConnectionString()).Автомобиль.ToArray();
                 int[] m_car = new int[cars.Count()];
                 int count = 0;
-                int max = 3;
+                int max = 5;
                 if (cars.Count() < 3)
                     max = cars.Count();
 
@@ -317,27 +317,7 @@ namespace ORM
                         Показать только доступные для аренды
                     </h4>
                 </div>
-                <div class='namefil'><h4>Марка:</h4></div>
-                <ul class='list-group'>
-                    <li class='list-group-item'>
-                        <label class='form-check-label'>
-                            <input type = 'checkbox' class='form-check-input'>
-                            Lada
-                        </label>
-                    </li>
-                    <li class='list-group-item'>
-                        <label class='form-check-label'>
-                            <input type = 'checkbox' class='form-check-input'>
-                            Ford
-                        </label>
-                    </li>
-                    <li class='list-group-item'>
-                        <label class='form-check-label'>
-                            <input type = 'checkbox' class='form-check-input'>
-                            Ferrari
-                        </label>
-                    </li>
-                </ul>
+            
                 <div class='namefil'><h4>Цена:</h4></div>
                 <div class='col-xs-6'>
                     <label for='from'>MIN:</label>
@@ -427,27 +407,7 @@ namespace ORM
                         Показать только доступные для аренды
                     </h4>
                 </div>
-                <div class='namefil'><h4>Марка:</h4></div>
-                <ul class='list-group'>
-                    <li class='list-group-item'>
-                        <label class='form-check-label'>
-                            <input type = 'checkbox' class='form-check-input'>
-                            Lada
-                        </label>
-                    </li>
-                    <li class='list-group-item'>
-                        <label class='form-check-label'>
-                            <input type = 'checkbox' class='form-check-input'>
-                            Ford
-                        </label>
-                    </li>
-                    <li class='list-group-item'>
-                        <label class='form-check-label'>
-                            <input type = 'checkbox' class='form-check-input'>
-                            Ferrari
-                        </label>
-                    </li>
-                </ul>
+              
                 <div class='namefil'><h4>Цена:</h4></div>
                 <div class='col-xs-6'>
                     <label for='from'>MIN:</label>
@@ -763,14 +723,13 @@ namespace ORM
                         <textarea id = 'tbText' class='form-control animated' cols='50' id='new-review' name='comment' placeholder='Оставьте здесь свой отзыв...' rows='5'></textarea>
                         <br><input id = 'idAuto' hidden = ''><input id = 'idZak' hidden = ''>
                         <br><label> Оцените арендованный автомобиль</label> 
-                        <br><select class='selectpicker1' id = 'tbrait'>  
-                        </select><label> Балл</label> <br>
+                        <br><select id = 'tbrait'>  
                         <option>1</option>
                         <option>2</option>
                         <option>3</option>
                         <option>4</option>
                         <option>5</option>
-                    </select>
+                    </select> <label> Балл </label>
                       </div>
       <div class= 'modal-footer'>
         <button id='savereview' onclick = 'saveOtziv( $({quote}#idAuto{quote}).text(),$({quote}#idZak{quote}).text() )'  type = 'button' class='btn btn-primary' data-dismiss='modal'>Сохранить отзыв</button>
@@ -900,7 +859,7 @@ namespace ORM
             {
                 cars = cars.Where(x => x.Доступность).ToArray();
             }
-            if (reiting == "True")
+            if (true)
             {
                 foreach (var carr in cars)
                 {

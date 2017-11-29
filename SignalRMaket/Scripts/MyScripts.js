@@ -95,7 +95,7 @@ function showMenuTablpolz() {
 }
 //Добавление авто для аренды
 function addAuto() {
-    myHub.server.addauto( $('#tbmodel').val(), $('#tbOpis').val(), $('#tbStoim').val(), $('#tbFile').val());
+    myHub.server.addauto($('#tbmodel').val(), $('#tbOpis').val(), $('#tbStoim').val(), $('#tbFile').val());
    
 }
 //Показать информацию о фирме
@@ -156,7 +156,7 @@ function Profil(userId, userLogin, userName, userFname, userOname, userStatus)
     document.getElementById('inName').value = userName;
     document.getElementById('inFname').value = userFname;
     document.getElementById('inOname').value = userOname;
-    if (userStatus)
+    if (userStatus == "True")
         document.getElementById('inStatus').value = "Администратор";
     else
         document.getElementById('inStatus').value = "Пользователь"; 
