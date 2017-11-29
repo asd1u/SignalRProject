@@ -68,7 +68,7 @@ namespace SignalRMaket
         {
             return HtmlGetter.getStringVladelec(tag, Users.UserByCid(cid)._User);
         }
-        
+
         [HubMethodName("getHtmlWithIdSv")]
         public string GetHtmlWithId(string tag, string guid)
         {
@@ -76,7 +76,7 @@ namespace SignalRMaket
         }
 
         [HubMethodName("getHtmlFilterCars")]
-        public string GetHtmlFilterCars(string tag, string dostupnost, string reiting ,int? min, int? max)
+        public string GetHtmlFilterCars(string tag, string dostupnost, string reiting, int? min, int? max)
         {
             return HtmlGetter.GetFilteredString(tag, dostupnost, reiting, min, max);
         }
@@ -188,13 +188,14 @@ namespace SignalRMaket
 
         }
 
-        public void SVP(Guid id, string Login, string Password, string Name , string Fname, string Oname, string Status)
+        public void SVP(Guid id, string Login, string Password, string Name, string Fname, string Oname, string Status)
         {
             var connection = new DBConnectionString();
             var user = connection.Пользователь.Single(o => o.id == id);
             user.Логин = Login;
-            if( Password != "")
+            if (Password != "")
                 user.Пароль = MD5Hash(Password);
+            user.Имя = Name;
             user.Фамилия = Fname;
             user.Отчество = Oname;
             if (Status == "Администратор")
@@ -206,36 +207,76 @@ namespace SignalRMaket
             Clients.Caller.showMenuTablpolz();
         }
 
-        public void CngAuto(Guid id, string marka, string model, string opis, decimal stoim, string uri, bool typ)
+        public void CngAuto(Guid id, string marka, string model, string opis, string stoim2, string uri, bool typ)
         {
             var connection = new DBConnectionString();
-            var car= connection.Автомобиль.Single(o => o.id == id);
-           // var models = connection.Модель.Single(x => x.Марка == marka && x.Модель1 == model);
+            var car = connection.Автомобиль.Single(o => o.id == id);
+            // var models = connection.Модель.Single(x => x.Марка == marka && x.Модель1 == model);
             //car.idМодель = models.id;
             car.Описание = opis;
-            car.Стоимость = stoim/100;
-            uri = uri.Replace("data:image/jpeg;base64,", "");
-            car.Фото = uri;
-            connection.SaveChanges();
-            if(typ)
-                Clients.Caller.showMenupolzSdan();
+            decimal stoim = 0 ;
+            if (stoim2 == "")
+            {
+                Clients.Caller.alertFuncCl("Введите стоиомость автомобиля");
+            }
             else
-                Clients.Caller.showCarsAdmin();
+            {
+
+                    stoim = Decimal.Parse(stoim2);
+                    if (stoim  <= 0 || stoim  >= 100000)
+                    {
+
+                        Clients.Caller.alertFuncCl("Введите адекватную стоиомость автомобиля");
+                    }
+                    else
+                    {
+                        car.Стоимость = stoim ;
+                        car.Фото = uri.Replace("data:image/jpeg;base64,", "");
+                        connection.SaveChanges();
+                        if (typ)
+                            Clients.Caller.showMenupolzSdan();
+                        else
+                            Clients.Caller.showCarsAdmin();
+                    }
+               
+            }
         }
 
         [HubMethodName("addAutoSv")]
         public void Addauto(string model, string opis, decimal stoim, string uri)
         {
-            //WebClient client = new WebClient();
-            uri = uri.Replace("data:image/jpeg;base64,", "");
-            //string fileString = client.DownloadString(new Uri(uri));
-            model = model.Trim();
-            var connection = new DBConnectionString();
-            var models = connection.Модель.AsEnumerable().Select(x => Tuple.Create(x.Марка + " " + x.Модель1, x.id)).ToArray();
-            var mod = models.Single(x => x.Item1 == model).Item2;
-            connection.Автомобиль.Add(new Автомобиль() { id = Guid.NewGuid(), Доступность = true, Описание = opis, Стоимость = stoim, Фото = uri, idМодель = mod, idВладелец = Users.UserByCid(cid)._User.id });
-            connection.SaveChanges();
-            Clients.Caller.showMenupolzSdan();
+            if (opis == "")
+                Clients.Caller.alertFuncCl("Введите описание автомобиля");
+            else
+            {
+                if (stoim.ToString() == "" )
+                {
+                    Clients.Caller.alertFuncCl("Введите стоиомость автомобиля");
+                }
+                else
+                {
+
+                    if (stoim <= 0 || stoim >= 100000)
+                    {
+                        Clients.Caller.alertFuncCl("Введите адекватную стоиомость автомобиля");
+                    }
+                    else
+                    {
+                        //WebClient client = new WebClient();
+                        uri = uri.Replace("data:image/jpeg;base64,", "");
+                        //string fileString = client.DownloadString(new Uri(uri));
+                        model = model.Trim();
+                        var connection = new DBConnectionString();
+                        var models = connection.Модель.AsEnumerable().Select(x => Tuple.Create(x.Марка + " " + x.Модель1, x.id)).ToArray();
+                        var mod = models.Single(x => x.Item1 == model).Item2;
+                        connection.Автомобиль.Add(new Автомобиль() { id = Guid.NewGuid(), Доступность = true, Описание = opis, Стоимость = stoim, Фото = uri, idМодель = mod, idВладелец = Users.UserByCid(cid)._User.id });
+                        connection.SaveChanges();
+                        Clients.Caller.showMenupolzSdan();
+                    }
+                }
+            }
+
+            
             
         }
 
@@ -274,12 +315,12 @@ namespace SignalRMaket
             connection.SaveChanges();
             //  Clients.CallerState.showMenupolzSdan();
 
-            if(typ)
+            if (typ)
                 Clients.Caller.showMenupolzSdan();
             else
                 Clients.Caller.showCarsAdmin();
         }
-
+            
 
         public void DeltPolz(Guid userId)
         {
@@ -302,13 +343,13 @@ namespace SignalRMaket
                                 {
                                     var itemOtz = connection.Отзыв.Single(o => o.id == otz.id);
                                     connection.Отзыв.Remove(itemOtz);
-                                    
+
                                 }
                             }
                             var itemZakaz = connection.Заказ.Single(o => o.id == zak.id);
                             connection.Заказ.Remove(itemZakaz);
                         }
-                        
+
                     }
 
                     var itemCar = connection.Автомобиль.Single(o => o.id == car.id);
@@ -316,7 +357,7 @@ namespace SignalRMaket
 
                 }
 
-                
+
             }
             connection.Пользователь.Remove(user);
             connection.SaveChanges();
